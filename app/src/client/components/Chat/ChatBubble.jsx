@@ -1,11 +1,18 @@
 import clsx from 'clsx'
 import { Card } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Marked } from '@ts-stack/markdown'
-import SyncLoader from 'react-spinners/SyncLoader'
+import { Marked, Renderer } from '@ts-stack/markdown'
 
-const loader = <SyncLoader color='#bbb' size={7} speedMultiplier={0.7} />
 export const ChatBubble = ({ type, message }) => {
+  Marked.setOptions({
+    renderer: new Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+  })
   return (
     <div
       className={clsx(
@@ -16,27 +23,14 @@ export const ChatBubble = ({ type, message }) => {
         'mb-3'
       )}
     >
-      {message ? (
+      {message && (
         <Card
-          className={clsx('w-fit', 'max-w-[50%]', 'py-2 px-4', {
+          className={clsx('w-fit', 'max-w-[70%]', 'py-2 px-4', {
             'flex-start': type !== 'userMessage',
           })}
           variant='outline'
           dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
         />
-      ) : (
-        <Card
-          className={clsx('w-fit', 'py-2 px-4', 'flex-start')}
-          variant='outline'
-        >
-          {loader}
-        </Card>
-      )}
-      {type !== 'userMessage' && (
-        <Avatar>
-          <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
       )}
     </div>
   )

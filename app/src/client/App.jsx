@@ -1,5 +1,6 @@
 import { useAuth } from 'wasp/client/auth'
 import { updateCurrentUser } from 'wasp/client/operations'
+import './global.css'
 import './Main.css'
 import { useMemo, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'

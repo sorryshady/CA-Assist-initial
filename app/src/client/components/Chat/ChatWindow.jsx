@@ -18,6 +18,8 @@ import { updateCredit } from 'wasp/client/operations'
 import { useHistory } from 'react-router-dom'
 
 import { ChatBubble } from './ChatBubble'
+import { AiResponseBubble } from './AiResponseBubble'
+import { LoaderBubble } from './LoaderBubble'
 export const ChatWindow = ({
   tab,
   conversation,
@@ -29,12 +31,12 @@ export const ChatWindow = ({
 }) => {
   const messageRef = useRef('')
   const history = useHistory()
-  const [file, setFile] = useState()
-  const [errorMessage, setErrorMessage] = useState('')
-  const [fileData, setFileData] = useState({
-    name: '',
-    size: '',
-  })
+  // const [file, setFile] = useState()
+  // const [errorMessage, setErrorMessage] = useState('')
+  // const [fileData, setFileData] = useState({
+  //   name: '',
+  //   size: '',
+  // })
   const chatContainerRef = useRef(null)
   const scrollToBottom = () => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
@@ -54,49 +56,49 @@ export const ChatWindow = ({
       console.log(error.message)
     }
   }
-  const handleChange = (e) => {
-    const validTypes = [
-      'application/pdf',
-      'text/plain',
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    ]
+  // const handleChange = (e) => {
+  //   const validTypes = [
+  //     'application/pdf',
+  //     'text/plain',
+  //     'application/vnd.ms-excel',
+  //     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //     'application/msword',
+  //     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  //   ]
 
-    const file = e.target.files[0]
-    const fileSize = file.size
-    const fileName = file.name
-    const fileType = file.type
-    if (fileSize > 5 * 1024 * 1024) {
-      setErrorMessage('File size should be less than 5MB')
-      return
-    } else {
-      setErrorMessage('')
-    }
-    if (!validTypes.includes(fileType)) {
-      setErrorMessage('Invalid file type')
-      return
-    } else {
-      setErrorMessage('')
-    }
-    let size = 0
-    if (fileSize < 1024 * 1024) {
-      size = (fileSize / 1024).toFixed(1) + ' KB'
-    } else {
-      size = (fileSize / (1024 * 1024)).toFixed(1) + ' MB'
-    }
-    setFileData({
-      name: fileName,
-      size,
-    })
-    setFile(file)
-  }
+  //   const file = e.target.files[0]
+  //   const fileSize = file.size
+  //   const fileName = file.name
+  //   const fileType = file.type
+  //   if (fileSize > 5 * 1024 * 1024) {
+  //     setErrorMessage('File size should be less than 5MB')
+  //     return
+  //   } else {
+  //     setErrorMessage('')
+  //   }
+  //   if (!validTypes.includes(fileType)) {
+  //     setErrorMessage('Invalid file type')
+  //     return
+  //   } else {
+  //     setErrorMessage('')
+  //   }
+  //   let size = 0
+  //   if (fileSize < 1024 * 1024) {
+  //     size = (fileSize / 1024).toFixed(1) + ' KB'
+  //   } else {
+  //     size = (fileSize / (1024 * 1024)).toFixed(1) + ' MB'
+  //   }
+  //   setFileData({
+  //     name: fileName,
+  //     size,
+  //   })
+  //   setFile(file)
+  // }
   const sendMessageHandler = () => {
     const message = messageRef.current.value.trim()
     if (message === '') return
     handleChangeCredit(-1)
-    sendMessage({ type: 'userMessage', message })
+    sendMessage({ type: 'userMessage', message, timeStamp: Date.now() })
     messageRef.current.value = ''
   }
 
@@ -171,17 +173,22 @@ export const ChatWindow = ({
         className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5'
         ref={chatContainerRef}
       >
-        {/* {tokens.map((token, index) => (
-          <span key={index}>{token}</span>
-        ))} */}
-        {conversation.map(({ type, message }, index) => (
-          <ChatBubble type={type} message={message} key={index} />
-        ))}
+        {conversation.map(({ type, message, timeStamp }, index) => {
+          if (type === 'userMessage')
+            return <ChatBubble key={index} type={type} message={message} />
+          else if (type === 'apiMessage')
+            return (
+              <AiResponseBubble key={index} type={type} message={message} />
+            )
+        })}
         {/* {credits === 1 && complete && choiceOptions} */}
-        {loadingMessage && <ChatBubble type='aiMessage' message={''} />}
+        {/* {loadingMessage && <LoaderBubble />} */}
+        {tokens && tokens !== conversation[conversation.length - 1].message && (
+          <AiResponseBubble type='apiMessage' message={tokens} />
+        )}
       </div>
       <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
-        {fileData.name && (
+        {/* {fileData.name && (
           <Card className='flex flex-col gap-5 px-10 py-5 w-fit items-start justify-between absolute top-[-170px] left-5 '>
             <div>File: {fileData.name}</div>
             <div>Size: {fileData.size}</div>
@@ -192,7 +199,7 @@ export const ChatWindow = ({
         )}
         {errorMessage && (
           <p className='text-red-500 absolute top-[-10px]'>{errorMessage}</p>
-        )}
+        )} */}
         {tab !== 'ai' && (
           <Button className='relative overflow-hidden !cursor-pointer'>
             <span>+</span>
