@@ -19,6 +19,12 @@ app myProject {
     },
     onAuthFailedRedirectTo: "/login",
     onAuthSucceededRedirectTo: "/chat",
+  },
+  db: {
+    system: PostgreSQL,
+    seeds: [
+      import {devSeedUsers} from "@src/server/scripts/usersSeed"
+    ]
   }
 }
 
@@ -30,20 +36,20 @@ entity User {=psl
   lastName                  String?
   primaryLang               String?
   secondaryLang             String?
-  currentConv               String?
   email                     String?         @unique
   username                  String?         @unique
   createdAt                 DateTime        @default(now())
   lastActiveTimestamp       DateTime        @default(now())
-  isAdmin                   Boolean         @default(false)
-  stripeId                  String? 
-  checkoutSessionId         String?
-  hasPaid                   Boolean         @default(false)
-  subscriptionTier          String?
-  subscriptionStatus        String?
-  sendEmail                 Boolean         @default(false)
-  datePaid                  DateTime?
   credits                   Int             @default(3)
+  // currentConv               String?
+  // isAdmin                   Boolean         @default(false)
+  // stripeId                  String? 
+  // checkoutSessionId         String?
+  // hasPaid                   Boolean         @default(false)
+  // subscriptionTier          String?
+  // subscriptionStatus        String?
+  // sendEmail                 Boolean         @default(false)
+  // datePaid                  DateTime?
 psl=}
 
 
@@ -73,8 +79,23 @@ page ChatPage {
   authRequired: true,
   component: import {ChatPage} from "@src/client/app/ChatPage"
 }
+route PurchaseRoute {path: "/purchase", to: PurchasePage}
+page PurchasePage {
+  authRequired: true,
+  component: import {PurchasePage} from "@src/client/app/PurchasePage"
+}
 
 action updateCurrentUser {
   fn: import { updateCurrentUser } from "@src/server/actions",
+  entities: [User]
+}
+
+action updateCredit {
+  fn: import {updateCredit} from "@src/server/actions",
+  entities: [User]
+}
+
+action updateUserInfo {
+  fn: import {updateUserInfo} from "@src/server/actions",
   entities: [User]
 }

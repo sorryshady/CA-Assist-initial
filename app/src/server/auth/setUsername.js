@@ -5,6 +5,8 @@ export const usernamePasswordSignupFields = {
 export const getGoogleUserFields = {
   email: (data) => data.profile._json.email,
   username: (data) => data.profile.displayName,
+  firstName: (data) => data.profile._json.given_name,
+  lastName: (data) => data.profile._json.family_name,
 }
 
 export function getGoogleAuthConfig() {
