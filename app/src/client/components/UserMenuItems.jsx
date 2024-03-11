@@ -20,18 +20,18 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
         {path === '/' || path === '/admin' ? (
           <li>
             <Link
-              to='/demo-app'
+              to='/dashboard'
               className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500'
             >
               <MdOutlineSpaceDashboard size='1.1rem' />
-              AI Scheduler (Demo App)
+              User Dashboard
             </Link>
           </li>
         ) : null}
         <li>
           <Link
-            to='/account'
-            onClick={handleMobileMenuClick}
+            to='/user-info'
+            onClick={() => console.log('clicked')}
             className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500'
           >
             <svg

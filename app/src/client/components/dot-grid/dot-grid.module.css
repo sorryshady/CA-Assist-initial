@@ -31,3 +31,15 @@
   background: linear-gradient(180deg, rgb(17,17,17), rgb(15,23,42))!important;
   opacity: 1 !important;
 }
+@media (max-width: 768px){
+  .dotGrid{
+    position: absolute;
+    overflow: hidden;
+    z-index: 0;
+  }
+}
+@media (max-width: 425px) {
+  .dotGrid{
+    display: none;
+  }
+}

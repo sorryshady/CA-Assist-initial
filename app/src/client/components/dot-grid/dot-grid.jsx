@@ -1,8 +1,28 @@
+import { useEffect, useState } from 'react'
 import styles from './dot-grid.module.css'
 import anime from 'animejs'
 const DotGrid = () => {
-  const GRID_WIDTH = 25
-  const GRID_HEIGHT = 20
+  const [GRID_WIDTH, setGridWidth] = useState('')
+
+  const [GRID_HEIGHT, setGridHeight] = useState('')
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setGridWidth(20)
+        setGridHeight(15)
+      } else {
+        setGridWidth(25)
+        setGridHeight(20)
+      }
+    }
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const dots = []
 

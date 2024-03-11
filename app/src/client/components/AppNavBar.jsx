@@ -8,14 +8,7 @@ import { HiBars3 } from 'react-icons/hi2'
 import logo from '../static/logo.png'
 import DropdownUser from './DropdownUser'
 import { UserMenuItems } from '../components/UserMenuItems'
-
-// const navigation = [
-//   { name: 'AI Scheduler (Demo App)', href: '/demo-app' },
-//   { name: 'File Upload (AWS S3)', href: '/file-upload' },
-//   { name: 'Pricing', href: '/pricing' },
-//   { name: 'Documentation', href: 'https://wasp-lang.dev' },
-//   { name: 'Blog', href: 'https://wasp-lang.dev' },
-// ]
+import { navigation } from './contentSection'
 
 const NavLogo = () => <img className='h-8 w-8' src={logo} alt='Your SaaS App' />
 
@@ -24,16 +17,21 @@ export default function AppNavBar() {
 
   const { data: user, isLoading: isUserLoading } = useAuth()
   return (
-    <header className=' inset-x-0 top-0 z-50 shadow sticky bg-white bg-opacity-50 backdrop-blur-lg backdrop-filter dark:border dark:border-gray-100/10 dark:bg-boxdark-2'>
+    <header className='dark:bg-boxdark-2'>
       <nav
         className='flex items-center justify-between p-6 lg:px-8'
         aria-label='Global'
       >
-        <div className='flex lg:flex-1'>
-          <a href='/' className='-m-1.5 p-1.5'>
-            <img className='h-8 w-8' src={logo} alt='My SaaS App' />
+        <div className='flex items-center lg:flex-1'>
+          <a
+            href='/'
+            className='flex items-center -m-1.5 p-1.5 text-gray-900 duration-300 ease-in-out hover:text-[#272e3f]'
+          >
+            <NavLogo />
+            <span className='ml-2 text-sm font-semibold leading-6 dark:text-white'>
+              CA Assist
+            </span>
           </a>
-          CA Assist
         </div>
         <div className='flex lg:hidden'>
           <button
@@ -45,46 +43,33 @@ export default function AppNavBar() {
             <HiBars3 className='h-6 w-6' aria-hidden='true' />
           </button>
         </div>
-        {/* <div className='hidden lg:flex lg:gap-x-12'>
-          {navigation.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className='text-sm font-semibold leading-6 text-gray-900 duration-300 ease-in-out hover:text-yellow-500 dark:text-white'
-            >
-              {item.name}
-            </a>
-          ))}
-        </div> */}
-        <div className='hidden lg:flex lg:flex-1 gap-3 justify-end items-center'>
-          <ul className='flex justify-center items-center gap-2 sm:gap-4'>
-            {/* <DarkModeSwitcher /> */}
-          </ul>
 
-          {isUserLoading ? null : !user ? (
-            <a
-              href={!user ? '/login' : '/account'}
-              className='text-sm font-semibold leading-6 ml-4'
-            >
-              <div className='flex items-center duration-300 ease-in-out text-gray-900 hover:text-yellow-500 dark:text-white'>
-                Log in <BiLogIn size='1.1rem' className='ml-1 mt-[0.1rem]' />
-              </div>
-            </a>
-          ) : (
-            <div className='ml-4'>
+        <div className='hidden lg:flex lg:flex-1 lg:justify-end lg:align-end'>
+          {/* <!-- Dark Mode Toggler --> */}
+          <div className='flex items-center gap-3 2xsm:gap-7'>
+            <ul className='flex justify-center items-center gap-2 2xsm:gap-4'>
+              {/* <DarkModeSwitcher /> */}
+            </ul>
+            {isUserLoading ? null : !user ? (
+              <Link to='/login'>
+                <div className='flex justify-end items-center duration-300 ease-in-out text-gray-900 hover:text-[#272e3f] dark:text-white'>
+                  Client Login <BiLogIn size='1.1rem' className='ml-1' />
+                </div>
+              </Link>
+            ) : (
               <DropdownUser user={user} />
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </nav>
-      {/* <Dialog
+      <Dialog
         as='div'
         className='lg:hidden'
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
         <div className='fixed inset-0 z-50' />
-        <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white dark:text-white dark:bg-boxdark px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
+        <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 dark:bg-boxdark dark:text-white'>
           <div className='flex items-center justify-between'>
             <a href='/' className='-m-1.5 p-1.5'>
               <span className='sr-only'>CA Assist</span>
@@ -101,36 +86,43 @@ export default function AppNavBar() {
           </div>
           <div className='mt-6 flow-root'>
             <div className='-my-6 divide-y divide-gray-500/10'>
-              <div className='space-y-2 py-6'>
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 dark:text-white hover:dark:bg-boxdark-2'
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
-              <div className='py-6'>
+              {/* <div className='space-y-2 py-6'>
+              {navigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 dark:text-white dark:hover:bg-boxdark-2'
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div> */}
+              {user && (
+                <div className='py-3 flex flex-col gap-5 sm:px-6 mt-10'>
+                  <span className='block text-sm font-medium dark:text-white'>
+                    Welcome, {user.username}
+                  </span>
+                  <span className='text-sm font-medium dark:text-white'>
+                    Credits: {user.credits}
+                  </span>
+                </div>
+              )}
+              <div>
                 {isUserLoading ? null : !user ? (
                   <Link to='/login'>
-                    <div className='flex justify-end items-center duration-300 ease-in-out text-gray-900 hover:text-yellow-500 dark:text-white'>
-                      Log in <BiLogIn size='1.1rem' className='ml-1' />
+                    <div className='flex justify-center items-center duration-300 ease-in-out text-gray-900 hover:text-yellow-500 dark:text-white'>
+                      Client Login <BiLogIn size='1.1rem' className='ml-1' />
                     </div>
                   </Link>
                 ) : (
-                  <UserMenuItems
-                    user={user}
-                    setMobileMenuOpen={setMobileMenuOpen}
-                  />
+                  <UserMenuItems user={user} />
                 )}
               </div>
             </div>
           </div>
         </Dialog.Panel>
-      </Dialog> */}
+      </Dialog>
     </header>
   )
 }

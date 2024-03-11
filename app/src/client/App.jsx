@@ -4,17 +4,14 @@ import './Main.css'
 import { useMemo, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import AppNavBar from './components/AppNavBar'
+import { Toaster } from '@/components/ui/toaster'
 const App = ({ children }) => {
   const location = useLocation()
 
   const { data: user } = useAuth()
 
   const shouldDisplayAppNavBar = useMemo(() => {
-    return (
-      location.pathname !== '/' &&
-      location.pathname !== '/login' &&
-      location.pathname !== '/signup'
-    )
+    return location.pathname !== '/login' && location.pathname !== '/signup'
   }, [location])
   const isAdminDashboard = useMemo(() => {
     return location.pathname.startsWith('/admin')
@@ -47,10 +44,13 @@ const App = ({ children }) => {
         ) : (
           <>
             {shouldDisplayAppNavBar && <AppNavBar />}
-            <div className='mx-auto max-w-7xl sm:px-6 lg:px-8'>{children}</div>
+            <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl md:max-w-screen-2xl xl:max-w-screen-3xl'>
+              {children}
+            </div>
           </>
         )}
       </div>
+      <Toaster />
     </>
   )
 }

@@ -62,6 +62,17 @@ page SignupPage {
   component: import {SignupPage} from "@src/client/auth/SignupPage"
 }
 
+route UserInfoRoute {path: "/userinfo", to: UserInfoPage}
+page UserInfoPage {
+  authRequired: true,
+  component: import {UserInfoPage} from "@src/client/app/UserInfoPage"
+}
+
+route ChatRoute {path: "/chat", to: ChatPage}
+page ChatPage {
+  authRequired: true,
+  component: import {ChatPage} from "@src/client/app/ChatPage"
+}
 
 action updateCurrentUser {
   fn: import { updateCurrentUser } from "@src/server/actions",
