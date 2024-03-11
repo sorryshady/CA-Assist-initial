@@ -4,7 +4,7 @@ import { useSocket } from './useSocket'
 const CHATBOT_API = import.meta.env.REACT_APP_CHATBOT_API
 
 export const useChatApi = () => {
-  const { socketIOClientId } = useSocket()
+  const { socketIOClientId, tokens, setTokens } = useSocket()
   const storedConversations = getWithExpiry('aiChat') || [
     {
       type: 'apiMessage',
@@ -13,15 +13,17 @@ export const useChatApi = () => {
     },
   ]
   const [conversations, setConversations] = useState(storedConversations)
-  const [loadingMessage, setLoadingMessage] = useState(false)
-  const [tokens, setTokens] = useState('')
+  // const [tokens, setTokens] = useState(socketTokens || '')
 
   useEffect(() => {
     setWithExpiry('aiChat', conversations)
   }, [conversations])
 
+  // useEffect(() => {
+  //   setTokens(socketTokens || '')
+  // }, [socketTokens])
+
   const query = async (data) => {
-    setLoadingMessage(true)
     const response = await fetch(CHATBOT_API, {
       method: 'POST',
       headers: {
@@ -49,5 +51,5 @@ export const useChatApi = () => {
       socketIOClientId,
     })
   }
-  return { conversations, sendMessage, loadingMessage, tokens }
+  return { conversations, sendMessage, tokens }
 }

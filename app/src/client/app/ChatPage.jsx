@@ -193,12 +193,11 @@
 import React from 'react'
 import { ChatWindow } from '../components/Chat/ChatWindow'
 import { useChatApi } from '../hooks/useChatApi'
-
 export const ChatPage = ({ user }) => {
   const credits = user.credits
   const complete = user.completeAccount
 
-  const { conversations, sendMessage, loadingMessage, tokens } = useChatApi()
+  const { conversations, sendMessage, tokens } = useChatApi()
 
   return (
     <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
@@ -211,7 +210,6 @@ export const ChatPage = ({ user }) => {
             sendMessage={sendMessage}
             credits={credits}
             complete={complete}
-            loadingMessage={loadingMessage}
             tokens={tokens}
           />
         </div>
