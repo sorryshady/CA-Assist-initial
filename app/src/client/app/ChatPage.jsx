@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { io } from 'socket.io-client'
 import { ChatWindow } from '../components/Chat/ChatWindow'
+
+const CHATBOT_API = import.meta.env.REACT_APP_CHATBOT_API
+const SOCKET_URL = import.meta.env.REACT_APP_SOCKET_URL
 export const ChatPage = ({ user }) => {
   const userName = user.displayName || user.auth.identities[0].providerUserId
   const credits = user.credits
@@ -33,7 +36,7 @@ export const ChatPage = ({ user }) => {
   const [tokens, setTokens] = useState('')
 
   useEffect(() => {
-    const socket = io('http://20.235.0.247:3000')
+    const socket = io(SOCKET_URL)
     socket.on('connect', () => {
       setSocketIOClientId(socket.id)
     })
@@ -70,16 +73,13 @@ export const ChatPage = ({ user }) => {
 
   const query = async (data) => {
     setLoadingMessage(true)
-    const response = await fetch(
-      'http://20.235.0.247:3000/api/v1/prediction/890c890d-2489-472a-8472-0b372bcc0524',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      }
-    )
+    const response = await fetch(CHATBOT_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
     const result = await response.json()
     // addApiConversation('ai', {
     //   type: 'apiMessage',

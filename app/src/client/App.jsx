@@ -6,6 +6,7 @@ import { useMemo, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
+
 const App = ({ children }) => {
   const location = useLocation()
 
