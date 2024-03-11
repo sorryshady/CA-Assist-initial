@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { io } from 'socket.io-client'
 import { ChatWindow } from '../components/Chat/ChatWindow'
-
+import { setWithExpiry, getWithExpiry } from '@/client/utils/localstorage-expiry'
 const CHATBOT_API = import.meta.env.REACT_APP_CHATBOT_API
 const SOCKET_URL = import.meta.env.REACT_APP_SOCKET_URL
 export const ChatPage = ({ user }) => {
@@ -10,7 +10,7 @@ export const ChatPage = ({ user }) => {
   const credits = user.credits
   const complete = user.completeAccount
   const [loadingMessage, setLoadingMessage] = useState(false)
-  const storedConversations = JSON.parse(window.localStorage.getItem('aiChat'))
+  const storedConversations = getWithExpiry('aiChat')
 
   const [conversations, setConversations] = useState(
     storedConversations || [
@@ -68,7 +68,8 @@ export const ChatPage = ({ user }) => {
   }, [])
 
   useEffect(() => {
-    window.localStorage.setItem('aiChat', JSON.stringify(conversations))
+    // window.localStorage.setItem('aiChat', JSON.stringify(conversations))
+    setWithExpiry('aiChat', conversations)
   }, [conversations])
 
   const query = async (data) => {
