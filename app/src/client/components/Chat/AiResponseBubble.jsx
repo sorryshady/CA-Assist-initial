@@ -2,7 +2,8 @@ import clsx from 'clsx'
 import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Marked, Renderer } from '@ts-stack/markdown'
-import AiAvatar from '@/client/static/124599.jpeg'
+import AiAvatar from '@/client/static/aiAvatar.jpeg'
+import { ChatBubbleWrapper } from './ChatBubbleWrapper'
 export const AiResponseBubble = ({ type, message }) => {
   Marked.setOptions({
     renderer: new Renderer(),
@@ -15,15 +16,7 @@ export const AiResponseBubble = ({ type, message }) => {
     smartypants: false,
   })
   return (
-    <div
-      className={clsx(
-        'flex',
-        'flex-row-reverse',
-        'justify-end',
-        'gap-2',
-        'mb-6'
-      )}
-    >
+    <ChatBubbleWrapper type={type}>
       {message && (
         <>
           <Card
@@ -37,6 +30,6 @@ export const AiResponseBubble = ({ type, message }) => {
           </Avatar>
         </>
       )}
-    </div>
+    </ChatBubbleWrapper>
   )
 }

@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { Card } from '@/components/ui/card'
 import { Marked, Renderer } from '@ts-stack/markdown'
+import { ChatBubbleWrapper } from './ChatBubbleWrapper'
 
 export const ChatBubble = ({ type, message }) => {
   Marked.setOptions({
@@ -14,15 +15,7 @@ export const ChatBubble = ({ type, message }) => {
     smartypants: false,
   })
   return (
-    <div
-      className={clsx(
-        'flex',
-        { 'flex-row-reverse': type !== 'userMessage' },
-        'justify-end',
-        'gap-2',
-        'mb-6'
-      )}
-    >
+    <ChatBubbleWrapper type={type}>
       {message && (
         <Card
           className={clsx('w-fit', 'max-w-[50%]', 'py-2 px-4', {
@@ -32,6 +25,6 @@ export const ChatBubble = ({ type, message }) => {
           dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
         />
       )}
-    </div>
+    </ChatBubbleWrapper>
   )
 }
