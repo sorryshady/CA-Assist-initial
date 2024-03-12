@@ -9,8 +9,7 @@ export const ChatBubbleWrapper = ({ type, children }) => {
         'justify-end',
         'gap-2',
         'mb-6',
-        'relative',
-        'cursor-pointer'
+        'relative'
       )}
     >
       {children}
