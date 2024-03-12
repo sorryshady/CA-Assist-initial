@@ -5,6 +5,7 @@ import { Marked, Renderer } from '@ts-stack/markdown'
 import AiAvatar from '@/client/static/aiAvatar.jpeg'
 import { ChatBubbleWrapper } from './ChatBubbleWrapper'
 import { CiShare1 } from 'react-icons/ci'
+import { MdOutlineContentCopy } from 'react-icons/md'
 import { useToast } from '@/components/ui/use-toast'
 export const AiResponseBubble = ({ type, message }) => {
   const { toast } = useToast()
@@ -18,7 +19,7 @@ export const AiResponseBubble = ({ type, message }) => {
     smartLists: true,
     smartypants: false,
   })
-  const shareHandler = () => {
+  const copyHandler = () => {
     navigator.clipboard.writeText(message)
     toast({
       title: 'Copied',
@@ -41,12 +42,16 @@ export const AiResponseBubble = ({ type, message }) => {
                 variant='outline'
                 dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
               />
-              <div
-                className='text-sm cursor-pointer w-fit flex items-center gap-1 mt-1 hover:text-blue-500'
-                onClick={shareHandler}
-              >
-                <p>Share</p>
-                <CiShare1 className='inline-block' />
+              <div className='text-sm  w-fit flex gap-2 items-center mt-2 ml-2'>
+                <div className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'>
+                  <CiShare1 className='inline-block' />
+                </div>
+                <div
+                  className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'
+                  onClick={copyHandler}
+                >
+                  <MdOutlineContentCopy className='inline-block' />
+                </div>
               </div>
             </div>
             <Avatar>
