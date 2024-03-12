@@ -5,7 +5,7 @@ const CHATBOT_API = import.meta.env.REACT_APP_CHATBOT_API
 
 export const useChatApi = () => {
   const { socketIOClientId, tokens, setTokens } = useSocket()
-  const storedConversations = getWithExpiry('aiChat') || [
+  const storedConversations = getWithExpiry('aiChat').value || [
     {
       type: 'apiMessage',
       message: 'Hi, I am AI. Ask me anything!',
@@ -16,7 +16,7 @@ export const useChatApi = () => {
   // const [tokens, setTokens] = useState(socketTokens || '')
 
   useEffect(() => {
-    setWithExpiry('aiChat', conversations)
+    setWithExpiry('aiChat', conversations, socketIOClientId)
   }, [conversations])
 
   const query = async (data) => {

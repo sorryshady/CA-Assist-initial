@@ -1,7 +1,8 @@
-export const setWithExpiry = (key, value) => {
+export const setWithExpiry = (key, value, socketId) => {
   const now = new Date()
   const item = {
     value: value,
+    socketId: socketId,
     expiry:
       now.getTime() +
       import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
@@ -20,5 +21,5 @@ export const getWithExpiry = (key) => {
     localStorage.removeItem(key)
     return null
   }
-  return item.value
+  return item
 }
