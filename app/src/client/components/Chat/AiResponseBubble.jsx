@@ -20,7 +20,7 @@ export const AiResponseBubble = ({ type, message }) => {
       {message && (
         <>
           <Card
-            className={clsx('w-fit', 'max-w-[70%]', 'py-2 px-4', 'flex-start')}
+            className={clsx('w-fit', 'max-w-[65%]', 'py-2 px-4', 'flex-start')}
             variant='outline'
             dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
           />
