@@ -40,12 +40,12 @@ entity User {=psl
   username                  String?         @unique
   createdAt                 DateTime        @default(now())
   lastActiveTimestamp       DateTime        @default(now())
-  credits                   Int             @default(3)
+  credits                   Int             @default(2)
+  hasPaid                   Boolean         @default(false)
   // currentConv               String?
   // isAdmin                   Boolean         @default(false)
   // stripeId                  String? 
   // checkoutSessionId         String?
-  // hasPaid                   Boolean         @default(false)
   // subscriptionTier          String?
   // subscriptionStatus        String?
   // sendEmail                 Boolean         @default(false)

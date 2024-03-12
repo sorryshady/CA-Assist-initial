@@ -82,9 +82,9 @@ export const UserInfoPage = ({ user }) => {
         toast({
           title: 'Account completed.',
           description:
-            'Account has been completed. You will receive 2 free credits.',
+            'Account has been completed. You will receive 3 free credits.',
         })
-        await updateCredit({ credits: 2 })
+        await updateCredit({ credits: 3 })
       } else {
         toast({
           title: 'Account updated.',
