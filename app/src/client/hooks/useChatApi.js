@@ -19,10 +19,6 @@ export const useChatApi = () => {
     setWithExpiry('aiChat', conversations)
   }, [conversations])
 
-  // useEffect(() => {
-  //   setTokens(socketTokens || '')
-  // }, [socketTokens])
-
   const query = async (data) => {
     const response = await fetch(CHATBOT_API, {
       method: 'POST',
@@ -37,6 +33,7 @@ export const useChatApi = () => {
       message: result.text,
       timeStamp: Date.now(),
     })
+    // console.log(result)
     setTokens('')
   }
 

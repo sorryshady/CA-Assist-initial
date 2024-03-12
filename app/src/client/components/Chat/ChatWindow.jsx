@@ -231,6 +231,7 @@ import { ChatBubble } from './ChatBubble'
 import { AiResponseBubble } from './AiResponseBubble'
 import { updateCredit } from 'wasp/client/operations'
 import { useHistory } from 'react-router-dom'
+import { LoaderBubble } from './LoaderBubble'
 
 export const ChatWindow = ({
   conversation,
@@ -279,7 +280,7 @@ export const ChatWindow = ({
 
   useEffect(() => {
     scrollToBottom()
-  }, [conversation])
+  }, [conversation, tokens])
 
   return (
     <>
@@ -295,6 +296,10 @@ export const ChatWindow = ({
               <AiResponseBubble key={index} type={type} message={message} />
             )
         })}
+        {!tokens &&
+          conversation[conversation.length - 1].type !== 'apiMessage' && (
+            <LoaderBubble />
+          )}
         {tokens && tokens !== conversation[conversation.length - 1].message && (
           <AiResponseBubble type='apiMessage' message={tokens} />
         )}

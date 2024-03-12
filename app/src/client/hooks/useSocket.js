@@ -16,6 +16,7 @@ export const useSocket = () => {
       console.log('start')
     })
     socket.on('token', (token) => {
+      // console.log(token)
       setTokens((prevValue) => prevValue + token)
     })
     socket.on('end', () => {
@@ -27,5 +28,9 @@ export const useSocket = () => {
     }
   }, [])
 
-  return { socketIOClientId, tokens, setTokens }
+  return {
+    socketIOClientId,
+    tokens,
+    setTokens,
+  }
 }

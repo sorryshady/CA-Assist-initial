@@ -21,13 +21,13 @@ export const AiResponseBubble = ({ type, message }) => {
         'flex-row-reverse',
         'justify-end',
         'gap-2',
-        'mb-3'
+        'mb-6'
       )}
     >
       {message && (
         <>
           <Card
-            className={clsx('w-fit', 'max-w-[50%]', 'py-2 px-4', 'flex-start')}
+            className={clsx('w-fit', 'max-w-[70%]', 'py-2 px-4', 'flex-start')}
             variant='outline'
             dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
           />
