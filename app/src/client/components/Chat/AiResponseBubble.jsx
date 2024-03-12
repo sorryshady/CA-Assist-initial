@@ -7,6 +7,7 @@ import { ChatBubbleWrapper } from './ChatBubbleWrapper'
 import { CiShare1 } from 'react-icons/ci'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { useToast } from '@/components/ui/use-toast'
+import { Share } from './Share'
 export const AiResponseBubble = ({ type, message }) => {
   const { toast } = useToast()
   Marked.setOptions({
@@ -43,9 +44,10 @@ export const AiResponseBubble = ({ type, message }) => {
                 dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
               />
               <div className='text-sm  w-fit flex gap-2 items-center mt-2 ml-2'>
-                <div className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'>
+                {/* <div className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'>
                   <CiShare1 className='inline-block' />
-                </div>
+                </div> */}
+                <Share message={message} />
                 <div
                   className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'
                   onClick={copyHandler}
