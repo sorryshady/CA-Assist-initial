@@ -242,10 +242,12 @@ export const ChatWindow = ({
 }) => {
   const history = useHistory()
   const messageRef = useRef('')
-  const chatContainerRef = useRef(null)
+  const chatEndRef = useRef(null)
 
   const scrollToBottom = () => {
-    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const handleChangeCredit = async (credit) => {
@@ -284,10 +286,7 @@ export const ChatWindow = ({
 
   return (
     <>
-      <div
-        className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3'
-        ref={chatContainerRef}
-      >
+      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3'>
         {conversation.map(({ type, message }, index) => {
           if (type === 'userMessage')
             return <ChatBubble key={index} type={type} message={message} />
@@ -303,6 +302,7 @@ export const ChatWindow = ({
         {tokens && tokens !== conversation[conversation.length - 1].message && (
           <AiResponseBubble type='apiMessage' message={tokens} />
         )}
+        <div ref={chatEndRef} />
       </div>
       <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
         <Input
