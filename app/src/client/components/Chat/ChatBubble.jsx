@@ -18,7 +18,7 @@ export const ChatBubble = ({ type, message }) => {
     <ChatBubbleWrapper type={type}>
       {message && (
         <Card
-          className={clsx('w-fit', 'w-full', 'py-2 px-4', {
+          className={clsx('w-fit', 'max-w-full', 'py-2 px-4', {
             'flex-start': type !== 'userMessage',
           })}
           variant='outline'

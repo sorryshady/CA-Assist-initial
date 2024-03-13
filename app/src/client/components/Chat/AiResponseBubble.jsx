@@ -23,17 +23,11 @@ export const AiResponseBubble = ({ type, message }) => {
   const copyHandler = async () => {
     const htmlMessage = Marked.parse(message)
     console.log(typeof htmlMessage)
-    // const item = new clipboard.ClipboardItem({
-    //   'text/html': new Blob(
-    //     ['<i>Markup</i> <b>text</b>. Paste me into a rich text editor.'],
-    //     { type: 'text/html' }
-    //   ),
-    //   'text/plain': new Blob(
-    //     ['Fallback markup text. Paste me into a rich text editor.'],
-    //     { type: 'text/plain' }
-    //   ),
-    // })
-    // await clipboard.write([item])
+    const item = new clipboard.ClipboardItem({
+      'text/html': new Blob([htmlMessage], { type: 'text/html' }),
+      'text/plain': new Blob([message], { type: 'text/plain' }),
+    })
+    await clipboard.write([item])
     toast({
       title: 'Copied',
       description: 'Copied to clipboard',
@@ -46,7 +40,12 @@ export const AiResponseBubble = ({ type, message }) => {
           <>
             <div>
               <Card
-                className={clsx('w-fit', 'w-full', 'py-2 px-4', 'flex-start')}
+                className={clsx(
+                  'w-fit',
+                  'max-w-full',
+                  'py-2 px-4',
+                  'flex-start'
+                )}
                 variant='outline'
                 dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
               />

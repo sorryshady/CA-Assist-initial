@@ -285,7 +285,7 @@ export const ChatWindow = ({
   return (
     <>
       <div
-        className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5'
+        className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3'
         ref={chatContainerRef}
       >
         {conversation.map(({ type, message }, index) => {
