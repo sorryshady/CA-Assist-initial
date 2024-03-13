@@ -246,7 +246,7 @@ export const ChatWindow = ({
 
   const scrollToBottom = () => {
     if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: 'smooth' })
+      chatEndRef.current.scrollIntoView()
     }
   }
 
