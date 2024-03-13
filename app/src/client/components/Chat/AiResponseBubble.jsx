@@ -4,10 +4,10 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Marked, Renderer } from '@ts-stack/markdown'
 import AiAvatar from '@/client/static/aiAvatar.jpeg'
 import { ChatBubbleWrapper } from './ChatBubbleWrapper'
-import { CiShare1 } from 'react-icons/ci'
 import { MdOutlineContentCopy } from 'react-icons/md'
 import { useToast } from '@/components/ui/use-toast'
 import { Share } from './Share'
+import * as clipboard from 'clipboard-polyfill'
 export const AiResponseBubble = ({ type, message }) => {
   const { toast } = useToast()
   Marked.setOptions({
@@ -20,8 +20,20 @@ export const AiResponseBubble = ({ type, message }) => {
     smartLists: true,
     smartypants: false,
   })
-  const copyHandler = () => {
-    navigator.clipboard.writeText(message)
+  const copyHandler = async () => {
+    const htmlMessage = Marked.parse(message)
+    console.log(typeof htmlMessage)
+    // const item = new clipboard.ClipboardItem({
+    //   'text/html': new Blob(
+    //     ['<i>Markup</i> <b>text</b>. Paste me into a rich text editor.'],
+    //     { type: 'text/html' }
+    //   ),
+    //   'text/plain': new Blob(
+    //     ['Fallback markup text. Paste me into a rich text editor.'],
+    //     { type: 'text/plain' }
+    //   ),
+    // })
+    // await clipboard.write([item])
     toast({
       title: 'Copied',
       description: 'Copied to clipboard',
@@ -34,12 +46,7 @@ export const AiResponseBubble = ({ type, message }) => {
           <>
             <div>
               <Card
-                className={clsx(
-                  'w-fit',
-                  'max-w-[65%]',
-                  'py-2 px-4',
-                  'flex-start'
-                )}
+                className={clsx('w-fit', 'w-full', 'py-2 px-4', 'flex-start')}
                 variant='outline'
                 dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
               />
