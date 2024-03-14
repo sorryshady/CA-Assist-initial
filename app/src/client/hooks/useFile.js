@@ -36,8 +36,7 @@ export const useFile = () => {
     setFile(file)
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
     const url = URL + `/files/${fileData.name}`
     const formData = new FormData()
     formData.append('file', file)

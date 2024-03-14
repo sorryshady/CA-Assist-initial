@@ -276,6 +276,11 @@ export const ChatWindow = ({
     messageRef.current.value = ''
   }
 
+  const fileSubmit = () => {
+    handleChangeCredit(-1)
+    if (credits !== 0) handleSubmit()
+  }
+
   const onEnter = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -289,9 +294,12 @@ export const ChatWindow = ({
 
   const fileCard = (
     <Card className='flex flex-col gap-5 px-10 py-5 w-fit items-start justify-between absolute top-[-170px] left-5 '>
-      <div>File: {fileData.name}</div>
-      <div>Size: {fileData.size}</div>
-      <Button type='submit' className='w-full' onClick={handleSubmit}>
+      <div className='w-10 text-center m-auto'>{fileData.icon}</div>
+      <div className='flex gap-3'>
+        <div>File: {fileData.name}</div>
+        <div>Size: {fileData.size}</div>
+      </div>
+      <Button type='submit' className='w-full' onClick={fileSubmit}>
         Send
       </Button>
     </Card>

@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   AiOutlineFilePdf,
   AiOutlineFileWord,
@@ -7,26 +8,26 @@ import {
   AiOutlineFileZip,
   AiOutlineFileText,
 } from 'react-icons/ai'
+
 const iconMap = {
-  'application/pdf': <AiOutlineFilePdf />,
-  'application/msword': <AiOutlineFileWord />,
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': (
-    <AiOutlineFileWord />
-  ),
-  'application/vnd.ms-excel': <AiOutlineFileExcel />,
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': (
-    <AiOutlineFileExcel />
-  ),
-  'image/jpeg': <AiOutlineFileImage />,
-  'image/png': <AiOutlineFileImage />,
-  'image/gif': <AiOutlineFileImage />,
-  'image/bmp': <AiOutlineFileImage />,
-  'image/webp': <AiOutlineFileImage />,
-  'application/zip': <AiOutlineFileZip />,
-  'text/plain': <AiOutlineFileText />,
+  'application/pdf': AiOutlineFilePdf,
+  'application/msword': AiOutlineFileWord,
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+    AiOutlineFileWord,
+  'application/vnd.ms-excel': AiOutlineFileExcel,
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+    AiOutlineFileExcel,
+  'image/jpeg': AiOutlineFileImage,
+  'image/png': AiOutlineFileImage,
+  'image/gif': AiOutlineFileImage,
+  'image/bmp': AiOutlineFileImage,
+  'image/webp': AiOutlineFileImage,
+  'application/zip': AiOutlineFileZip,
+  'text/plain': AiOutlineFileText,
+  default: AiOutlineFileUnknown,
 }
 
 export const setIcon = (fileType) => {
-  const fileIcon = iconMap[fileType] || <AiOutlineFileUnknown />
-  return fileIcon
+  const IconComponent = iconMap[fileType] || iconMap['default']
+  return React.createElement(IconComponent, { size: 32 })
 }
