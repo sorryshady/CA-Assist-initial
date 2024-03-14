@@ -1,20 +1,18 @@
-export const setWithExpiry = (key, value, socketId = '') => {
+export const setWithExpiry = (key, value, connectionId = '') => {
   const now = new Date()
   let item
-  if (socketId) {
+  if (key === 'aiChat') {
     item = {
       value: value,
-      socketId: socketId,
+      socketId: connectionId,
       expiry:
         now.getTime() +
         import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
     }
-  } else {
+  } else if (key === 'caChat') {
     item = {
       value: value,
-      expiry:
-        now.getTime() +
-        import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
+      sessionId: connectionId,
     }
   }
   localStorage.setItem(key, JSON.stringify(item))
