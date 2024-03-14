@@ -227,11 +227,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Card } from '@/components/ui/card'
 import { ChatBubble } from './ChatBubble'
 import { ResponseBubble } from './ResponseBubble'
 import { updateCredit } from 'wasp/client/operations'
 import { useHistory } from 'react-router-dom'
 import { LoaderBubble } from './LoaderBubble'
+import { useFile } from '@/client/hooks/useFile'
 
 export const ChatWindow = ({
   chatType,
@@ -244,7 +246,7 @@ export const ChatWindow = ({
   const history = useHistory()
   const messageRef = useRef('')
   const chatEndRef = useRef(null)
-
+  const { file, errorMessage, fileData, handleChange, handleSubmit } = useFile()
   const scrollToBottom = () => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView()
@@ -285,6 +287,19 @@ export const ChatWindow = ({
     scrollToBottom()
   }, [conversation, tokens])
 
+  const fileCard = (
+    <Card className='flex flex-col gap-5 px-10 py-5 w-fit items-start justify-between absolute top-[-170px] left-5 '>
+      <div>File: {fileData.name}</div>
+      <div>Size: {fileData.size}</div>
+      <Button type='submit' className='w-full' onClick={handleSubmit}>
+        Send
+      </Button>
+    </Card>
+  )
+  const error = (
+    <p className='text-red-500 absolute top-[-10px]'>{errorMessage}</p>
+  )
+
   return (
     <>
       <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3'>
@@ -305,6 +320,8 @@ export const ChatWindow = ({
         <div ref={chatEndRef} />
       </div>
       <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
+        {fileData.name && fileCard}
+        {errorMessage && error}
         {chatType !== 'ai' && (
           <Button className='relative overflow-hidden !cursor-pointer'>
             <span>+</span>
@@ -312,7 +329,7 @@ export const ChatWindow = ({
               id='file'
               type='file'
               className='absolute top-0 left-0 opacity-0 w-full '
-              // onChange={handleChange}
+              onChange={handleChange}
             />
           </Button>
         )}
