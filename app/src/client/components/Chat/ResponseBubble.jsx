@@ -9,7 +9,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { Share } from './Share'
 import * as clipboard from 'clipboard-polyfill'
 import { MathJax } from 'better-react-mathjax'
-export const AiResponseBubble = ({ type, message }) => {
+export const ResponseBubble = ({ type, message }) => {
   const { toast } = useToast()
   Marked.setOptions({
     renderer: new Renderer(),
@@ -66,7 +66,9 @@ export const AiResponseBubble = ({ type, message }) => {
               </div>
               <Avatar>
                 <AvatarImage src={AiAvatar} alt='@shadcn' />
-                <AvatarFallback>AI</AvatarFallback>
+                <AvatarFallback>
+                  {type === 'apiMessage' ? 'AI' : 'CA'}
+                </AvatarFallback>
               </Avatar>
             </>
           )}

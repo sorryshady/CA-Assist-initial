@@ -228,7 +228,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatBubble } from './ChatBubble'
-import { AiResponseBubble } from './AiResponseBubble'
+import { ResponseBubble } from './ResponseBubble'
 import { updateCredit } from 'wasp/client/operations'
 import { useHistory } from 'react-router-dom'
 import { LoaderBubble } from './LoaderBubble'
@@ -292,9 +292,7 @@ export const ChatWindow = ({
           if (type === 'userMessage')
             return <ChatBubble key={index} type={type} message={message} />
           else if (type === 'apiMessage' || type === 'caMessage')
-            return (
-              <AiResponseBubble key={index} type={type} message={message} />
-            )
+            return <ResponseBubble key={index} type={type} message={message} />
         })}
         {!tokens &&
           conversation[conversation.length - 1].type !== 'apiMessage' &&
@@ -302,7 +300,7 @@ export const ChatWindow = ({
             <LoaderBubble />
           )}
         {tokens && tokens !== conversation[conversation.length - 1].message && (
-          <AiResponseBubble type='apiMessage' message={tokens} />
+          <ResponseBubble type='apiMessage' message={tokens} />
         )}
         <div ref={chatEndRef} />
       </div>

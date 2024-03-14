@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { setWithExpiry, getWithExpiry } from '../utils/localstorage-expiry'
-
+import { useAuth } from 'wasp/client/auth'
 export const useTelegramApi = () => {
+  const { data: user } = useAuth()
   const storedConversations = getWithExpiry('caChat')?.value || [
     {
       type: 'caMessage',
@@ -9,14 +10,13 @@ export const useTelegramApi = () => {
       timeStamp: Date.now(),
     },
   ]
-  console.log(storedConversations)
   const [caConversations, setCaConversations] = useState(storedConversations)
 
   useEffect(() => {
     setWithExpiry('caChat', caConversations)
   }, [caConversations])
 
-  const query = (async) => {
+  const query = () => {
     setTimeout(
       () =>
         addCaConversations({
