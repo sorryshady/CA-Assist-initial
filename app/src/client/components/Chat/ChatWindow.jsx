@@ -224,7 +224,7 @@
 //     </>
 //   )
 // }
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChatBubble } from './ChatBubble'
@@ -234,6 +234,7 @@ import { useHistory } from 'react-router-dom'
 import { LoaderBubble } from './LoaderBubble'
 
 export const ChatWindow = ({
+  chatType,
   conversation,
   sendMessage,
   credits,
@@ -290,13 +291,14 @@ export const ChatWindow = ({
         {conversation.map(({ type, message }, index) => {
           if (type === 'userMessage')
             return <ChatBubble key={index} type={type} message={message} />
-          else if (type === 'apiMessage')
+          else if (type === 'apiMessage' || type === 'caMessage')
             return (
               <AiResponseBubble key={index} type={type} message={message} />
             )
         })}
         {!tokens &&
-          conversation[conversation.length - 1].type !== 'apiMessage' && (
+          conversation[conversation.length - 1].type !== 'apiMessage' &&
+          conversation[conversation.length - 1].type !== 'caMessage' && (
             <LoaderBubble />
           )}
         {tokens && tokens !== conversation[conversation.length - 1].message && (
@@ -305,6 +307,17 @@ export const ChatWindow = ({
         <div ref={chatEndRef} />
       </div>
       <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
+        {chatType !== 'ai' && (
+          <Button className='relative overflow-hidden !cursor-pointer'>
+            <span>+</span>
+            <Input
+              id='file'
+              type='file'
+              className='absolute top-0 left-0 opacity-0 w-full '
+              // onChange={handleChange}
+            />
+          </Button>
+        )}
         <Input
           placeholder='Type a message...'
           type='text'

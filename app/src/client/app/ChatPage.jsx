@@ -190,30 +190,54 @@
 //     </>
 //   )
 // }
-import React from 'react'
+import React, { useState } from 'react'
 import { ChatWindow } from '../components/Chat/ChatWindow'
 import { useChatApi } from '../hooks/useChatApi'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { useTelegramApi } from '../hooks/useTelegramApi'
+import { MathJax } from 'better-react-mathjax'
 export const ChatPage = ({ user }) => {
   const credits = user.credits
   const complete = user.completeAccount
 
   const { conversations, sendMessage, tokens } = useChatApi()
-
+  const { caConversations, sendCaMessage } = useTelegramApi()
+  const [chatType, setChatType] = useState('ai')
+  const changeHandler = () => {
+    if (chatType === 'ai') {
+      setChatType('ca')
+    } else {
+      setChatType('ai')
+    }
+  }
   return (
-    <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
-      <div className='w-full p-5 flex-1 overflow-y-auto h-full'>
-        <div className='flex-1'>
-          <h1 className='text-3xl font-bold'>AI Chat</h1>
-          <ChatWindow
-            tab='ai'
-            conversation={conversations}
-            sendMessage={sendMessage}
-            credits={credits}
-            complete={complete}
-            tokens={tokens}
-          />
+
+      <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
+        <div className='w-full p-5 flex-1 overflow-y-auto h-full'>
+          <div className='flex-1'>
+            <header className='w-full flex justify-between'>
+              <h1 className='text-3xl font-bold'>
+                {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
+              </h1>
+              <div className='flex items-center space-x-2'>
+                <Switch id='ca-ai-chat' onCheckedChange={changeHandler} />
+                <Label htmlFor='ca-ai-chat'>
+                  {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
+                </Label>
+              </div>
+            </header>
+            <ChatWindow
+              chatType={chatType}
+              conversation={chatType === 'ai' ? conversations : caConversations}
+              sendMessage={chatType === 'ai' ? sendMessage : sendCaMessage}
+              credits={credits}
+              complete={complete}
+              tokens={tokens}
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
   )
 }

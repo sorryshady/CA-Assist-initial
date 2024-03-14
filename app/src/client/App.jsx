@@ -6,6 +6,7 @@ import { useMemo, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
+import { MathJaxContext } from 'better-react-mathjax'
 
 const App = ({ children }) => {
   const location = useLocation()
@@ -40,19 +41,21 @@ const App = ({ children }) => {
   }, [location])
   return (
     <>
-      <div className='min-h-screen dark:text-white dark:bg-boxdark-2'>
-        {isAdminDashboard ? (
-          <>{children}</>
-        ) : (
-          <>
-            {shouldDisplayAppNavBar && <AppNavBar />}
-            {/* <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl md:max-w-screen-2xl xl:max-w-screen-3xl'> */}
+      <MathJaxContext>
+        <div className='min-h-screen dark:text-white dark:bg-boxdark-2'>
+          {isAdminDashboard ? (
+            <>{children}</>
+          ) : (
+            <>
+              {shouldDisplayAppNavBar && <AppNavBar />}
+              {/* <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl md:max-w-screen-2xl xl:max-w-screen-3xl'> */}
 
-            <div className='mx-auto px-4 sm:px-6 lg:px-8'>{children}</div>
-          </>
-        )}
-      </div>
-      <Toaster />
+              <div className='mx-auto px-4 sm:px-6 lg:px-8'>{children}</div>
+            </>
+          )}
+        </div>
+        <Toaster />
+      </MathJaxContext>
     </>
   )
 }

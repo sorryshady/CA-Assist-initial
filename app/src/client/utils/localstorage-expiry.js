@@ -1,11 +1,21 @@
-export const setWithExpiry = (key, value, socketId) => {
+export const setWithExpiry = (key, value, socketId = '') => {
   const now = new Date()
-  const item = {
-    value: value,
-    socketId: socketId,
-    expiry:
-      now.getTime() +
-      import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
+  let item
+  if (socketId) {
+    item = {
+      value: value,
+      socketId: socketId,
+      expiry:
+        now.getTime() +
+        import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
+    }
+  } else {
+    item = {
+      value: value,
+      expiry:
+        now.getTime() +
+        import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
+    }
   }
   localStorage.setItem(key, JSON.stringify(item))
 }

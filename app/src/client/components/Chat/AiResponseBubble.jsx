@@ -8,6 +8,7 @@ import { MdOutlineContentCopy } from 'react-icons/md'
 import { useToast } from '@/components/ui/use-toast'
 import { Share } from './Share'
 import * as clipboard from 'clipboard-polyfill'
+import { MathJax } from 'better-react-mathjax'
 export const AiResponseBubble = ({ type, message }) => {
   const { toast } = useToast()
   Marked.setOptions({
@@ -35,40 +36,42 @@ export const AiResponseBubble = ({ type, message }) => {
   }
   return (
     <>
-      <ChatBubbleWrapper type={type}>
-        {message && (
-          <>
-            <div>
-              <Card
-                className={clsx(
-                  'w-fit',
-                  'max-w-full',
-                  'py-2 px-4',
-                  'flex-start'
-                )}
-                variant='outline'
-                dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
-              />
-              <div className='text-sm  w-fit flex gap-2 items-center mt-2 ml-2'>
-                {/* <div className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'>
+      <MathJax>
+        <ChatBubbleWrapper type={type}>
+          {message && (
+            <>
+              <div>
+                <Card
+                  className={clsx(
+                    'w-fit',
+                    'max-w-full',
+                    'py-2 px-4',
+                    'flex-start'
+                  )}
+                  variant='outline'
+                  dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
+                />
+                <div className='text-sm  w-fit flex gap-2 items-center mt-2 ml-2'>
+                  {/* <div className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'>
                   <CiShare1 className='inline-block' />
                 </div> */}
-                <Share message={message} />
-                <div
-                  className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'
-                  onClick={copyHandler}
-                >
-                  <MdOutlineContentCopy className='inline-block' />
+                  <Share message={message} />
+                  <div
+                    className='flex items-center gap-1  hover:text-blue-500 cursor-pointer'
+                    onClick={copyHandler}
+                  >
+                    <MdOutlineContentCopy className='inline-block' />
+                  </div>
                 </div>
               </div>
-            </div>
-            <Avatar>
-              <AvatarImage src={AiAvatar} alt='@shadcn' />
-              <AvatarFallback>AI</AvatarFallback>
-            </Avatar>
-          </>
-        )}
-      </ChatBubbleWrapper>
+              <Avatar>
+                <AvatarImage src={AiAvatar} alt='@shadcn' />
+                <AvatarFallback>AI</AvatarFallback>
+              </Avatar>
+            </>
+          )}
+        </ChatBubbleWrapper>
+      </MathJax>
     </>
   )
 }
