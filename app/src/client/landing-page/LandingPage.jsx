@@ -9,7 +9,7 @@ export const LandingPage = () => {
   const { toast } = useToast()
   const history = useHistory()
   if (user) {
-    toast({ title: 'Already logged in', description: 'Redirecting to home' })
+    toast({ title: 'Already logged in', description: 'Redirecting to chat' })
     history.push('/chat')
   }
 
