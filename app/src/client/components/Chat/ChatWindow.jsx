@@ -246,7 +246,7 @@ export const ChatWindow = ({
   const history = useHistory()
   const messageRef = useRef('')
   const chatEndRef = useRef(null)
-  const { file, errorMessage, fileData, handleChange, handleSubmit } = useFile()
+  const { errorMessage, fileData, handleChange, handleSubmit } = useFile()
   const scrollToBottom = () => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView()
@@ -277,8 +277,20 @@ export const ChatWindow = ({
   }
 
   const fileSubmit = () => {
+    const saveFile = {
+      name: fileData.name,
+      size: fileData.size,
+      type: fileData.type,
+    }
     handleChangeCredit(-1)
-    if (credits !== 0) handleSubmit()
+    if (credits !== 0) {
+      handleSubmit()
+      sendMessage({
+        type: 'userMessage',
+        fileData: saveFile,
+        timeStamp: Date.now(),
+      })
+    }
   }
 
   const onEnter = (e) => {
@@ -311,10 +323,14 @@ export const ChatWindow = ({
   return (
     <>
       <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3'>
-        {conversation.map(({ type, message }, index) => {
-          if (type === 'userMessage')
-            return <ChatBubble key={index} type={type} message={message} />
-          else if (type === 'apiMessage' || type === 'caMessage')
+        {conversation.map(({ type, message, fileData }, index) => {
+          if (type === 'userMessage') {
+            if (fileData?.name) {
+              return <ChatBubble key={index} type={type} fileData={fileData} />
+            } else {
+              return <ChatBubble key={index} type={type} message={message} />
+            }
+          } else if (type === 'apiMessage' || type === 'caMessage')
             return <ResponseBubble key={index} type={type} message={message} />
         })}
         {!tokens &&

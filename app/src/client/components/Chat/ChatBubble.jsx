@@ -2,8 +2,10 @@ import clsx from 'clsx'
 import { Card } from '@/components/ui/card'
 import { Marked, Renderer } from '@ts-stack/markdown'
 import { ChatBubbleWrapper } from './ChatBubbleWrapper'
+import { setIcon } from '@/client/utils/iconMap'
 
-export const ChatBubble = ({ type, message }) => {
+export const ChatBubble = ({ type, message, fileData }) => {
+  const icon = setIcon(fileData?.type)
   Marked.setOptions({
     renderer: new Renderer(),
     gfm: true,
@@ -16,7 +18,7 @@ export const ChatBubble = ({ type, message }) => {
   })
   return (
     <ChatBubbleWrapper type={type}>
-      {message && (
+      {message && !fileData?.name && (
         <Card
           className={clsx('w-fit', 'max-w-full', 'py-2 px-4', {
             'flex-start': type !== 'userMessage',
@@ -24,6 +26,25 @@ export const ChatBubble = ({ type, message }) => {
           variant='outline'
           dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
         />
+      )}
+      {fileData?.name && (
+        <Card
+          className={clsx(
+            'w-fit',
+            'max-w-full',
+            'py-2 px-4',
+            'flex',
+            'items-center',
+            'gap-4',
+            {
+              'flex-start': type !== 'userMessage',
+            }
+          )}
+          variant='outline'
+        >
+          {icon}
+          <p>{fileData?.name}</p>
+        </Card>
       )}
     </ChatBubbleWrapper>
   )

@@ -30,6 +30,7 @@ export const useFile = () => {
     }
     setFileData({
       name: fileName,
+      type: fileType,
       size,
       icon,
     })
