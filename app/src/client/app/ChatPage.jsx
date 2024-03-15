@@ -200,44 +200,48 @@ import { MathJax } from 'better-react-mathjax'
 export const ChatPage = ({ user }) => {
   const credits = user.credits
   const complete = user.completeAccount
-
+  const type = localStorage.getItem('chatType') || 'ai'
   const { conversations, sendMessage, tokens } = useChatApi()
   const { caConversations, sendCaMessage } = useTelegramApi()
-  const [chatType, setChatType] = useState('ai')
+  const [chatType, setChatType] = useState(type)
   const changeHandler = () => {
     if (chatType === 'ai') {
       setChatType('ca')
+      localStorage.setItem('chatType', 'ca')
     } else {
       setChatType('ai')
+      localStorage.setItem('chatType', 'ai')
     }
   }
   return (
-
-      <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
-        <div className='w-full p-5 flex-1 overflow-y-auto h-full'>
-          <div className='flex-1'>
-            <header className='w-full flex justify-between'>
-              <h1 className='text-3xl font-bold'>
+    <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
+      <div className='w-full p-5 flex-1 overflow-y-auto h-full'>
+        <div className='flex-1'>
+          <header className='w-full flex justify-between'>
+            <h1 className='text-3xl font-bold'>
+              {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
+            </h1>
+            <div className='flex items-center space-x-2'>
+              <Switch
+                id='ca-ai-chat'
+                onCheckedChange={changeHandler}
+                checked={chatType === 'ca'}
+              />
+              <Label htmlFor='ca-ai-chat'>
                 {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
-              </h1>
-              <div className='flex items-center space-x-2'>
-                <Switch id='ca-ai-chat' onCheckedChange={changeHandler} />
-                <Label htmlFor='ca-ai-chat'>
-                  {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
-                </Label>
-              </div>
-            </header>
-            <ChatWindow
-              chatType={chatType}
-              conversation={chatType === 'ai' ? conversations : caConversations}
-              sendMessage={chatType === 'ai' ? sendMessage : sendCaMessage}
-              credits={credits}
-              complete={complete}
-              tokens={tokens}
-            />
-          </div>
+              </Label>
+            </div>
+          </header>
+          <ChatWindow
+            chatType={chatType}
+            conversation={chatType === 'ai' ? conversations : caConversations}
+            sendMessage={chatType === 'ai' ? sendMessage : sendCaMessage}
+            credits={credits}
+            complete={complete}
+            tokens={tokens}
+          />
         </div>
-      </section>
-
+      </div>
+    </section>
   )
 }

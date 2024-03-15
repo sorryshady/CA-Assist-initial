@@ -29,21 +29,16 @@ export const ChatBubble = ({ type, message, fileData }) => {
       )}
       {fileData?.name && (
         <Card
-          className={clsx(
-            'w-fit',
-            'max-w-full',
-            'py-2 px-4',
-            'flex',
-            'items-center',
-            'gap-4',
-            {
-              'flex-start': type !== 'userMessage',
-            }
-          )}
+          className={clsx('w-fit', 'max-w-full', 'p-1', {
+            'flex-start': type !== 'userMessage',
+          })}
           variant='outline'
         >
-          {icon}
-          <p>{fileData?.name}</p>
+          <p className='text-xs text-end mb-1 text-blue-400'>File Attachment</p>
+          <div className='flex gap-3 items-center bg-slate-100 py-2 px-4'>
+            {icon}
+            <p>{fileData?.name}</p>
+          </div>
         </Card>
       )}
     </ChatBubbleWrapper>
