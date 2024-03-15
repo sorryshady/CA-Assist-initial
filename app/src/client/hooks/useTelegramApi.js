@@ -30,7 +30,7 @@ export const useTelegramApi = () => {
       timeStamp: Date.now(),
     },
   ]
-  const chat = getWithExpiry('caChat')?.chatId || null
+  const chat = getWithExpiry('caChaId') || null
   const [caConversations, setCaConversations] = useState(storedConversations)
   const [chatId, setChatId] = useState(chat)
 
