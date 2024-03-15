@@ -20,21 +20,25 @@ export const useChatApi = () => {
   }, [conversations])
 
   const query = async (data) => {
-    const response = await fetch(CHATBOT_API, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-    const result = await response.json()
-    addApiConversation({
-      type: 'apiMessage',
-      message: result.text,
-      timeStamp: Date.now(),
-    })
-    // console.log(result)
-    setTokens('')
+    try {
+      const response = await fetch(CHATBOT_API, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      const result = await response.json()
+      addApiConversation({
+        type: 'apiMessage',
+        message: result.text,
+        timeStamp: Date.now(),
+      })
+      // console.log(result)
+      setTokens('')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const addApiConversation = (message) => {
