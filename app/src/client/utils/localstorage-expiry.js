@@ -12,7 +12,7 @@ export const setWithExpiry = (key, value, connectionId = '') => {
   } else if (key === 'caChat') {
     item = {
       value: value,
-      sessionId: connectionId,
+      chatId: connectionId,
     }
   }
   localStorage.setItem(key, JSON.stringify(item))
