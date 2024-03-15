@@ -6,12 +6,12 @@ import DotGrid from '../components/dot-grid/dot-grid'
 import { useToast } from '@/components/ui/use-toast'
 export const LandingPage = () => {
   const { data: user } = useAuth()
-  const { toast } = useToast()
-  const history = useHistory()
-  if (user) {
-    toast({ title: 'Already logged in', description: 'Redirecting to chat' })
-    history.push('/chat')
-  }
+  // const { toast } = useToast()
+  // const history = useHistory()
+  // if (user) {
+  //   toast({ title: 'Already logged in', description: 'Redirecting to chat' })
+  //   history.push('/chat')
+  // }
 
   return (
     <main className='w-full h-[90svh] flex items-center justify-center overflow-hidden'>
@@ -25,7 +25,11 @@ export const LandingPage = () => {
         </p>
         <div className='flex gap-10 '>
           <Button className='w-full' asChild>
-            <Link to='/signup'>Get Started</Link>
+            {!user ? (
+              <Link to='/signup'>Get Started</Link>
+            ) : (
+              <Link to='/chat'>Continue to Chat</Link>
+            )}
           </Button>
           <Button className='w-full' variant='outline' asChild>
             <Link to='/info'>Learn More</Link>

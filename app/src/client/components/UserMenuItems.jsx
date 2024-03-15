@@ -17,22 +17,22 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
           path === '/admin' ? 'px-6' : 'sm:px-6'
         }`}
       >
-        {path === '/' || path === '/admin' ? (
-          <li>
-            <Link
-              to='/dashboard'
-              className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500'
-            >
-              <MdOutlineSpaceDashboard size='1.1rem' />
-              User Dashboard
-            </Link>
-          </li>
-        ) : null}
+        {/* {path === '/' || path === '/admin' ? ( */}
+        <li>
+          <Link
+            to='/dashboard'
+            className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-blue-400'
+          >
+            <MdOutlineSpaceDashboard size='1.1rem' />
+            User Dashboard
+          </Link>
+        </li>
+        {/* ) : null} */}
         <li>
           <Link
             to='/userinfo'
             onClick={() => console.log('clicked')}
-            className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500'
+            className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-blue-400'
           >
             <svg
               className='fill-current'
@@ -61,11 +61,11 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
             path === '/admin' ? 'px-6' : 'sm:px-6'
           }`}
         >
-          <li className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500'>
+          <li className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-blue-400'>
             <Link
               to='/admin'
               onClick={handleMobileMenuClick}
-              className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500'
+              className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-blue-400'
             >
               <TfiDashboard size='1.1rem' />
               Admin Dashboard
@@ -75,7 +75,7 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
       )}
       <button
         onClick={() => logout()}
-        className={`flex items-center gap-3.5 py-4 text-sm font-medium duration-300 ease-in-out hover:text-yellow-500 ${
+        className={`flex items-center gap-3.5 py-4 text-sm font-medium duration-300 ease-in-out hover:text-blue-400 ${
           path === '/admin' ? 'px-6' : 'sm:px-6'
         }`}
       >

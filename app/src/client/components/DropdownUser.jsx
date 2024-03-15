@@ -42,7 +42,7 @@ const DropdownUser = ({ user }) => {
       <button
         ref={trigger}
         onClick={toggleDropdown}
-        className='flex items-center gap-4 duration-300 ease-in-out text-gray-900 hover:text-yellow-500'
+        className='flex items-center gap-4 duration-300 ease-in-out text-gray-900 hover:text-blue-400'
       >
         <span className='hidden text-right lg:block'>
           <span className='block text-sm font-medium dark:text-white'>

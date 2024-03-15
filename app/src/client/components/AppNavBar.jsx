@@ -28,7 +28,7 @@ export default function AppNavBar() {
             className='flex items-center -m-1.5 p-1.5 text-gray-900 duration-300 ease-in-out hover:text-[#272e3f]'
           >
             <NavLogo />
-            <span className='ml-2 text-sm font-semibold leading-6 dark:text-white'>
+            <span className='ml-2 text-sm font-semibold leading-6 dark:text-white hover:text-blue-400'>
               CA Assist
             </span>
           </a>
@@ -111,7 +111,7 @@ export default function AppNavBar() {
               <div>
                 {isUserLoading ? null : !user ? (
                   <Link to='/login'>
-                    <div className='flex justify-center items-center duration-300 ease-in-out text-gray-900 hover:text-yellow-500 dark:text-white'>
+                    <div className='flex justify-center items-center duration-300 ease-in-out text-gray-900 hover:text-blue-400 dark:text-white'>
                       Client Login <BiLogIn size='1.1rem' className='ml-1' />
                     </div>
                   </Link>
