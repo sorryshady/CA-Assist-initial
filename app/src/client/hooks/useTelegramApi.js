@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import { setWithExpiry, getWithExpiry } from '../utils/localstorage-expiry'
 import { useAuth } from 'wasp/client/auth'
+import { useCaChat } from './useCaChat'
 const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
 export const useTelegramApi = () => {
   const { data } = useAuth()
+  const { message } = useCaChat()
+  // useCaChat()
   const chatType = localStorage.getItem('chatType')
+  // console.log(message)
   // const user = {
   //   id: data?.auth?.identities[0].providerUserId,
   //   userDetails: {
