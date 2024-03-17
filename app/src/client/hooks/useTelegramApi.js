@@ -19,7 +19,7 @@ export const useTelegramApi = () => {
     firstName: data?.firstName,
     lastName: data?.lastName,
     panNumber: data?.panNumber,
-    primaryLanguage: data?.primaryLang,
+    preferredLanguage: data?.primaryLang,
     secondaryLanguage: data?.secondaryLang,
   }
 
@@ -50,7 +50,7 @@ export const useTelegramApi = () => {
           body: JSON.stringify(user),
         })
         const result = await respone.json()
-        setChatId(result.chatID)
+        setChatId(result.chatId)
       } catch (err) {
         console.log(err)
       }

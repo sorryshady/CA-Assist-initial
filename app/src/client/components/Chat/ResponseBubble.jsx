@@ -23,7 +23,7 @@ export const ResponseBubble = ({ type, message }) => {
   })
   const copyHandler = async () => {
     const htmlMessage = Marked.parse(message)
-    console.log(typeof htmlMessage)
+    // console.log(typeof htmlMessage)
     const item = new clipboard.ClipboardItem({
       'text/html': new Blob([htmlMessage], { type: 'text/html' }),
       'text/plain': new Blob([message], { type: 'text/plain' }),
