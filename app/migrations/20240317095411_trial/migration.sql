@@ -11,7 +11,8 @@ CREATE TABLE "User" (
     "username" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "lastActiveTimestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "credits" INTEGER NOT NULL DEFAULT 3,
+    "credits" INTEGER NOT NULL DEFAULT 2,
+    "hasPaid" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

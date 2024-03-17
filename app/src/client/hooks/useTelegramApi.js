@@ -38,9 +38,9 @@ export const useTelegramApi = () => {
     setWithExpiry('caChat', caConversations, chatId)
   }, [caConversations])
 
-  const query = async (message) => {
-    if (!chatId) {
-      const URL = `http://localhost:${PORT}/connect`
+  useEffect(() => {
+    const URL = `http://localhost:${PORT}/api/connect`
+    const fetchData = async () => {
       try {
         const respone = await fetch(URL, {
           method: 'POST',
@@ -54,13 +54,18 @@ export const useTelegramApi = () => {
       } catch (err) {
         console.log(err)
       }
-    } else {
+    }
+    fetchData()
+  }, [])
+
+  const query = async (message) => {
+    if (chatId) {
       const messageBody = {
         chat_id: chatId,
         type: 'message',
         message,
       }
-      const URL = `http://localhost:${PORT}/chat`
+      const URL = `http://localhost:${PORT}/api/chat`
       try {
         const response = await fetch(URL, {
           method: 'POST',

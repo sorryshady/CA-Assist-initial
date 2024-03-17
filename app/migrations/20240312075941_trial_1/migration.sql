@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "hasPaid" BOOLEAN NOT NULL DEFAULT false,
-ALTER COLUMN "credits" SET DEFAULT 2;
