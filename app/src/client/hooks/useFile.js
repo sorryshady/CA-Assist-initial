@@ -1,8 +1,9 @@
 import { useToast } from '@/components/ui/use-toast'
 import { useState } from 'react'
 import { setIcon } from '../utils/iconMap'
-const URL = import.meta.env.REACT_APP_FILE_UPLOAD_URL
+const URL = 'http://localhost:3000/api/'
 export const useFile = () => {
+  const chatId = localStorage.getItem('caChatId')
   const [file, setFile] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const [fileData, setFileData] = useState({
@@ -38,10 +39,11 @@ export const useFile = () => {
   }
 
   const handleSubmit = async () => {
-    const url = URL + `/files/${fileData.name}`
+    const url = URL + 'chat'
     const formData = new FormData()
     formData.append('file', file)
-
+    formData.append('type', 'file')
+    formData.append('chat_id', chatId)
     try {
       const response = await fetch(url, {
         method: 'POST',
