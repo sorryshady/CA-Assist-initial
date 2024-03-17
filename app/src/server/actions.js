@@ -34,3 +34,12 @@ export const updateUserInfo = async (args, context) => {
     data: args,
   })
 }
+export const updateSubscriberStatus = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(401, 'Unauthorized')
+  }
+  return context.entities.User.update({
+    where: { id: context.user.id },
+    data: { subscriptionStatus: args.subscriptionStatus },
+  })
+}

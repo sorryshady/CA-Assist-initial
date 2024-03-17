@@ -13,6 +13,7 @@ CREATE TABLE "User" (
     "lastActiveTimestamp" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "credits" INTEGER NOT NULL DEFAULT 2,
     "hasPaid" BOOLEAN NOT NULL DEFAULT false,
+    "subscriptionStatus" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

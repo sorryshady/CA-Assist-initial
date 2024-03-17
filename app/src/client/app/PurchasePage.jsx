@@ -1,11 +1,18 @@
 import React from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { updateCredit } from 'wasp/client/operations'
+import { updateCredit, updateSubscriberStatus } from 'wasp/client/operations'
 export const PurchasePage = () => {
   const handleChangeCredit = async (credits) => {
     try {
       await updateCredit({ credits })
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  const handleSubscribe = async () => {
+    try {
+      await updateSubscriberStatus({ subscriptionStatus: true })
     } catch (error) {
       console.log(error.message)
     }
@@ -21,10 +28,18 @@ export const PurchasePage = () => {
         chatting with our AI chatbot or connect with real financial advisors
         today.
       </p>
-      <Card className='p-5 flex flex-col gap-5 items-center max-w-[200px]  mt-10 mx-auto'>
-        <div>Purchase Credits to continue chat.</div>
-        <Button onClick={() => handleChangeCredit(10)}>Get more credits</Button>
-      </Card>
+      <div className='flex '>
+        <Card className='p-5 flex flex-col gap-5 items-center max-w-[200px]  mt-10 mx-auto'>
+          <div>Purchase Credits to continue chat.</div>
+          <Button onClick={() => handleChangeCredit(10)}>
+            Get more credits
+          </Button>
+        </Card>
+        <Card className='p-5 flex flex-col gap-5 items-center max-w-[200px]  mt-10 mx-auto'>
+          <div>Purchase Premium Plan.</div>
+          <Button onClick={handleSubscribe}>Subscribe</Button>
+        </Card>
+      </div>
       <Button className='mt-5 mx-auto' onClick={() => window.history.back()}>
         Back
       </Button>

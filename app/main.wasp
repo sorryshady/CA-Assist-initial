@@ -42,12 +42,12 @@ entity User {=psl
   lastActiveTimestamp       DateTime        @default(now())
   credits                   Int             @default(2)
   hasPaid                   Boolean         @default(false)
+  subscriptionStatus        Boolean         @default(false)
   // currentConv               String?
   // isAdmin                   Boolean         @default(false)
   // stripeId                  String? 
   // checkoutSessionId         String?
   // subscriptionTier          String?
-  // subscriptionStatus        String?
   // sendEmail                 Boolean         @default(false)
   // datePaid                  DateTime?
 psl=}
@@ -97,5 +97,10 @@ action updateCredit {
 
 action updateUserInfo {
   fn: import {updateUserInfo} from "@src/server/actions",
+  entities: [User]
+}
+
+action updateSubscriberStatus {
+  fn: import {updateSubscriberStatus} from "@src/server/actions",
   entities: [User]
 }

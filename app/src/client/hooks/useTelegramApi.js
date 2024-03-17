@@ -4,6 +4,7 @@ import { useAuth } from 'wasp/client/auth'
 const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
 export const useTelegramApi = () => {
   const { data } = useAuth()
+  const chatType = localStorage.getItem('chatType')
   // const user = {
   //   id: data?.auth?.identities[0].providerUserId,
   //   userDetails: {
@@ -55,8 +56,8 @@ export const useTelegramApi = () => {
         console.log(err)
       }
     }
-    fetchData()
-  }, [])
+    if (chatType === 'ca') fetchData()
+  }, [chatType])
 
   const query = async (message) => {
     if (chatId) {
