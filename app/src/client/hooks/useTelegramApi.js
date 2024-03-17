@@ -35,9 +35,7 @@ export const useTelegramApi = () => {
   const [caConversations, setCaConversations] = useState(storedConversations)
 
   useEffect(() => {
-    if (!chat) {
-      setWithExpiry('caChat', caConversations)
-    }
+    setWithExpiry('caChat', caConversations)
   }, [caConversations])
 
   useEffect(() => {
@@ -62,7 +60,7 @@ export const useTelegramApi = () => {
   }
 
   const query = async (message) => {
-    if (chat) {
+    if (chat && message.message) {
       const messageBody = {
         chat_id: chat,
         type: 'message',
