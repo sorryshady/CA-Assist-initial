@@ -200,6 +200,7 @@ import { MathJax } from 'better-react-mathjax'
 export const ChatPage = ({ user }) => {
   const credits = user.credits
   const complete = user.completeAccount
+  const subscribed = user.subscriptionStatus
   const type = localStorage.getItem('chatType') || 'ai'
   const { conversations, sendMessage, tokens } = useChatApi()
   const { caConversations, sendCaMessage } = useTelegramApi()
@@ -226,6 +227,7 @@ export const ChatPage = ({ user }) => {
                 id='ca-ai-chat'
                 onCheckedChange={changeHandler}
                 checked={chatType === 'ca'}
+                disabled={!subscribed}
               />
               <Label htmlFor='ca-ai-chat'>
                 {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}

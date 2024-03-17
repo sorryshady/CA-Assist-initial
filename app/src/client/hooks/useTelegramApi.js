@@ -31,40 +31,42 @@ export const useTelegramApi = () => {
       timeStamp: Date.now(),
     },
   ]
-  const chat = getWithExpiry('caChaId') || null
+  const chat = localStorage.getItem('caChatId')
   const [caConversations, setCaConversations] = useState(storedConversations)
-  const [chatId, setChatId] = useState(chat)
 
   useEffect(() => {
-    setWithExpiry('caChat', caConversations, chatId)
+    if (!chat) {
+      setWithExpiry('caChat', caConversations)
+    }
   }, [caConversations])
 
   useEffect(() => {
-    const URL = `http://localhost:${PORT}/api/connect`
-    const fetchData = async () => {
-      try {
-        const respone = await fetch(URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(user),
-        })
-        const result = await respone.json()
-        setChatId(result.chatId)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    if (chatType === 'ca') fetchData()
+    if (chatType === 'ca' && !chat) fetchData()
   }, [chatType])
 
+  const CONNECT_URL = `http://localhost:${PORT}/api/connect`
+  const fetchData = async () => {
+    try {
+      const respone = await fetch(CONNECT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+      const result = await respone.json()
+      localStorage.setItem('caChatId', result.chatId)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const query = async (message) => {
-    if (chatId) {
+    if (chat) {
       const messageBody = {
-        chat_id: chatId,
+        chat_id: chat,
         type: 'message',
-        message,
+        message: message.message,
       }
       const URL = `http://localhost:${PORT}/api/chat`
       try {

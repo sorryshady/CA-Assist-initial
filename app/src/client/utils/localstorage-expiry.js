@@ -1,4 +1,4 @@
-export const setWithExpiry = (key, value, connectionId = '') => {
+export const setWithExpiry = (key, value, connectionId = null) => {
   const now = new Date()
   let item
   if (key === 'aiChat') {
@@ -16,7 +16,6 @@ export const setWithExpiry = (key, value, connectionId = '') => {
         now.getTime() +
         import.meta.env.REACT_APP_LOCAL_EXPIRY_MINUTES * 60 * 1000,
     }
-    localStorage.setItem('caChatId', JSON.stringify(connectionId))
   }
   localStorage.setItem(key, JSON.stringify(item))
 }
