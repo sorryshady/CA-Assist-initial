@@ -1,41 +1,53 @@
 import { useState, useEffect } from 'react'
 import { io } from 'socket.io-client'
+import { useTelegramApi } from './useTelegramApi'
+// import WebSocket from 'ws'
 
 const chatId = localStorage.getItem('caChatId')
-// const CA_SOCKET_URL = `ws://localhost:3000/ws?chat_id=${chatId}`
 const WS_BASE_URL = 'ws://localhost:3000/ws'
+const wsUrl = `${WS_BASE_URL}?chat_id=${chatId}`
 export const useCaChat = () => {
   const [message, setMessage] = useState('')
   useEffect(() => {
-    // Construct the WebSocket URL with the chat_id parameter
-    const wsUrl = `${WS_BASE_URL}?chat_id=${chatId}`
-
-    // Create a new WebSocket connection
     const socket = new WebSocket(wsUrl)
 
-    // Event listener for when the WebSocket connection is open
     socket.onopen = () => {
-      console.log('WebSocket connection opened')
+      console.log('Socket connection established')
     }
-
-    // Event listener for receiving messages from the WebSocket server
-    socket.addEventListener('message', (event) => {
-      console.log('Message from server ', event.data)
-    })
-
-    // Event listener for WebSocket errors
-    socket.onerror = (error) => {
-      console.error('WebSocket error:', error)
+    socket.onmessage = (event) => {
+      const response = JSON.parse(event.data)
+      if (response.type === 'message') {
+        const messageBody = {
+          type: 'caMessage',
+          message: response.content,
+          timeStamp: Date.now(),
+        }
+        setMessage(messageBody)
+      } else if (response.type === 'file') {
+        const fileURL = response.content
+        const lastIndex = fileURL.lastIndexOf('/')
+        const name = fileURL.substring(lastIndex + 1)
+        const lastDot = name.lastIndexOf('.')
+        const type = name.substring(lastDot + 1)
+        console.log(name, type)
+        const saveFile = {
+          name,
+          type,
+        }
+        const messageBody = {
+          type: 'caMessage',
+          fileData: saveFile,
+          timeStamp: Date.now(),
+        }
+        setMessage(messageBody)
+      }
     }
-
-    // Event listener for when the WebSocket connection is closed
     socket.onclose = () => {
-      console.log('WebSocket connection closed')
+      console.log('Socket connection closed')
     }
 
-    // Clean up function to close the WebSocket connection when component unmounts
-    return () => {
-      socket.close()
+    socket.onerror = (error) => {
+      console.log('Socket connection error: ', error)
     }
   }, [chatId])
 

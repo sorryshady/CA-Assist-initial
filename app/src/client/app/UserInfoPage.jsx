@@ -105,7 +105,7 @@ export const UserInfoPage = ({ user }) => {
             <CardTitle>Account Details</CardTitle>
             <CardDescription>
               {!user?.completeAccount ? (
-                <>Let&apos;s complete your account.</>
+                <>Complete your account to continue.</>
               ) : (
                 <>Change user details.</>
               )}

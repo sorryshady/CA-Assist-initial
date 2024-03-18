@@ -335,9 +335,7 @@ export const ChatWindow = ({
         })}
         {!tokens &&
           conversation[conversation.length - 1].type !== 'apiMessage' &&
-          conversation[conversation.length - 1].type !== 'caMessage' && (
-            <LoaderBubble />
-          )}
+          chatType === 'ai' && <LoaderBubble />}
         {tokens && tokens !== conversation[conversation.length - 1].message && (
           <ResponseBubble type='apiMessage' message={tokens} />
         )}

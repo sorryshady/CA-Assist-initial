@@ -24,8 +24,22 @@ const iconMap = {
   'image/webp': AiOutlineFileImage,
   'application/zip': AiOutlineFileZip,
   'text/plain': AiOutlineFileText,
+  '.pdf': AiOutlineFilePdf,
+  '.doc': AiOutlineFileWord,
+  '.docx': AiOutlineFileWord,
+  '.xls': AiOutlineFileExcel,
+  '.xlsx': AiOutlineFileExcel,
+  '.jpg': AiOutlineFileImage,
+  '.jpeg': AiOutlineFileImage,
+  '.png': AiOutlineFileImage,
+  '.gif': AiOutlineFileImage,
+  '.bmp': AiOutlineFileImage,
+  '.webp': AiOutlineFileImage,
+  '.zip': AiOutlineFileZip,
+  '.txt': AiOutlineFileText,
   default: AiOutlineFileUnknown,
 }
+
 
 export const setIcon = (fileType) => {
   const IconComponent = iconMap[fileType] || iconMap['default']
