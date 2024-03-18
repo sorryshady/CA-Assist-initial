@@ -248,7 +248,7 @@ export const ChatWindow = ({
   const messageRef = useRef('')
   const chatEndRef = useRef(null)
   const { errorMessage, fileData, handleChange, handleSubmit } = useFile()
-  const { message: caMessage } = useCaChat()
+  // const { message: caMessage } = useCaChat()
   const scrollToBottom = () => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView()

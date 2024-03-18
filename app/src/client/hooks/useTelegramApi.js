@@ -60,6 +60,7 @@ export const useTelegramApi = () => {
      })
      const result = await respone.json()
      localStorage.setItem('caChatId', result.chatId)
+     localStorage.setItem('connected', false)
    } catch (err) {
      console.log(err)
    }
