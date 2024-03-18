@@ -88,7 +88,8 @@ export const useTelegramApi = () => {
  }
 
  const addCaConversations = (message) => {
-   setCaConversations((prevConversations) => [...prevConversations, message])
+  if (message.message || message.fileData?.name)
+    setCaConversations((prevConversations) => [...prevConversations, message])
  }
 
  const sendCaMessage = (message) => {

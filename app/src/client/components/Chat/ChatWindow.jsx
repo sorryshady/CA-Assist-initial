@@ -234,6 +234,7 @@ import { updateCredit } from 'wasp/client/operations'
 import { useHistory } from 'react-router-dom'
 import { LoaderBubble } from './LoaderBubble'
 import { useFile } from '@/client/hooks/useFile'
+import { useCaChat } from '@/client/hooks/useCaChat'
 
 export const ChatWindow = ({
   chatType,
@@ -247,6 +248,7 @@ export const ChatWindow = ({
   const messageRef = useRef('')
   const chatEndRef = useRef(null)
   const { errorMessage, fileData, handleChange, handleSubmit } = useFile()
+  const { message: caMessage } = useCaChat()
   const scrollToBottom = () => {
     if (chatEndRef.current) {
       chatEndRef.current.scrollIntoView()
@@ -330,8 +332,17 @@ export const ChatWindow = ({
             } else {
               return <ChatBubble key={index} type={type} message={message} />
             }
-          } else if (type === 'apiMessage' || type === 'caMessage')
-            return <ResponseBubble key={index} type={type} message={message} />
+          } else if (type === 'apiMessage' || type === 'caMessage') {
+            if (fileData?.name) {
+              return (
+                <ResponseBubble key={index} type={type} fileData={fileData} />
+              )
+            } else {
+              return (
+                <ResponseBubble key={index} type={type} message={message} />
+              )
+            }
+          }
         })}
         {!tokens &&
           conversation[conversation.length - 1].type !== 'apiMessage' &&

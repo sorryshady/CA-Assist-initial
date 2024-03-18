@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import { io } from 'socket.io-client'
-import { useTelegramApi } from './useTelegramApi'
 // import WebSocket from 'ws'
 
 const chatId = localStorage.getItem('caChatId')
@@ -22,17 +20,19 @@ export const useCaChat = () => {
           message: response.content,
           timeStamp: Date.now(),
         }
-        setMessage(messageBody)
+        if (response.content === '') return
+        else setMessage(messageBody)
       } else if (response.type === 'file') {
         const fileURL = response.content
         const lastIndex = fileURL.lastIndexOf('/')
         const name = fileURL.substring(lastIndex + 1)
         const lastDot = name.lastIndexOf('.')
-        const type = name.substring(lastDot + 1)
+        const type = name.substring(lastDot)
         console.log(name, type)
         const saveFile = {
           name,
           type,
+          url: fileURL,
         }
         const messageBody = {
           type: 'caMessage',
