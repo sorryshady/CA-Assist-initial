@@ -1,18 +1,13 @@
 import { useState, useEffect } from 'react'
-
+import { useToast } from '@/components/ui/use-toast'
+import { Description } from '@radix-ui/react-dialog'
 const connectedState = localStorage.getItem('connected')
 export const useCaChat = () => {
+  const { toast } = useToast()
   const [message, setMessage] = useState('')
   const [connected, setConnected] = useState(connectedState === 'true')
 
-  const chatType = localStorage.getItem('chatType')
-
   useEffect(() => {
-    // if (chatType !== 'ca') {
-    //   // If chatType is not 'ca', return early without setting up WebSocket
-    //   return
-    // }
-
     let socket = null
 
     const createSocket = () => {
@@ -26,6 +21,7 @@ export const useCaChat = () => {
 
         socket.onopen = () => {
           console.log('Socket connection established')
+          toast({ title: 'Succesfully connected with a Chartered Accountant.' })
           localStorage.setItem('connected', true)
           setConnected(true)
         }
@@ -75,17 +71,20 @@ export const useCaChat = () => {
           socket = null // Reset socket to null so it can be recreated on next interval
         }
       }
-
       // Call createSocket initially
       createSocket()
     }
     // Set interval to recreate socket every 10 seconds
     const interval = setInterval(() => {
       createSocket()
-    }, 10000)
+    }, 5000)
 
     // Cleanup function to clear interval
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+      if (socket) socket.close()
+      console.log('closing socket')
+    }
   }, []) // No dependencies, so this effect runs only once
 
   return { message }
