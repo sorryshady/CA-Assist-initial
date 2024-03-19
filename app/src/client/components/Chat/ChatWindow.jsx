@@ -273,7 +273,7 @@ export const ChatWindow = ({
   const sendMessageHandler = () => {
     const message = messageRef.current.value.trim()
     if (message === '') return
-    handleChangeCredit(-1)
+    if (chatType === 'ai') handleChangeCredit(-1)
     sendMessage({ type: 'userMessage', message, timeStamp: Date.now() })
     messageRef.current.value = ''
   }
@@ -284,15 +284,15 @@ export const ChatWindow = ({
       size: fileData.size,
       type: fileData.type,
     }
-    handleChangeCredit(-1)
-    if (credits !== 0) {
-      handleSubmit()
-      sendMessage({
-        type: 'userMessage',
-        fileData: saveFile,
-        timeStamp: Date.now(),
-      })
-    }
+    // handleChangeCredit(-1)
+    // if (credits !== 0) {
+    handleSubmit()
+    sendMessage({
+      type: 'userMessage',
+      fileData: saveFile,
+      timeStamp: Date.now(),
+    })
+    // }
   }
 
   const onEnter = (e) => {

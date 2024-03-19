@@ -4,6 +4,8 @@ import { useSocket } from './useSocket'
 const CHATBOT_API = import.meta.env.REACT_APP_CHATBOT_API
 
 export const useChatApi = () => {
+  const chatType = localStorage.getItem('chatType')
+  if (!chatType) localStorage.setItem('chatType', 'ai')
   const { socketIOClientId, tokens, setTokens } = useSocket()
   const storedConversations = getWithExpiry('aiChat')?.value || [
     {
