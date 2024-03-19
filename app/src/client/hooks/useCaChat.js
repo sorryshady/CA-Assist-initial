@@ -80,11 +80,8 @@ export const useCaChat = () => {
     }, 5000)
 
     // Cleanup function to clear interval
-    return () => {
-      clearInterval(interval)
-      if (socket) socket.close()
-      console.log('closing socket')
-    }
+    return () => clearInterval(interval)
+
   }, []) // No dependencies, so this effect runs only once
 
   return { message }
