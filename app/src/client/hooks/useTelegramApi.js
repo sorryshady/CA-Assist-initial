@@ -31,7 +31,8 @@ export const useTelegramApi = () => {
   const storedConversations = getWithExpiry('caChat')?.value || [
     {
       type: 'caMessage',
-      message: 'Start Chatting with a CA Expert',
+      message:
+        'Connecting you to available chartered accountants. Please wait a moment.',
       timeStamp: Date.now(),
     },
   ]
