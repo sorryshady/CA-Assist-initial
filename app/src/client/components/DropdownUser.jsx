@@ -44,13 +44,15 @@ const DropdownUser = ({ user }) => {
         onClick={toggleDropdown}
         className='flex items-center gap-4 duration-300 ease-in-out text-gray-900 hover:text-blue-400'
       >
-        <span className='hidden text-right lg:block'>
-          <span className='block text-sm font-medium dark:text-white'>
-            Welcome, {user.username}
-          </span>
+        <span className='block text-sm font-medium dark:text-white'>
+          Welcome, {user.username}
         </span>
+
         <span className='text-sm font-medium dark:text-white'>
           Credits: {user.credits}
+        </span>
+        <span className='text-sm font-medium dark:text-white '>
+          {user.subscriptionStatus ? 'Premium User' : 'Free User'}
         </span>
         <CgProfile size='1.1rem' className='ml-1 mt-[0.1rem] dark:text-white' />
         <svg

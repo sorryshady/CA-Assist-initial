@@ -27,7 +27,7 @@ export const useCaChat = () => {
               toast({
                 title: 'Succesfully connected with a Chartered Accountant.',
               })
-          }, 1000)
+          }, 500)
           localStorage.setItem('connected', true)
           setConnected(true)
         }

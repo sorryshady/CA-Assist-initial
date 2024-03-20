@@ -68,7 +68,7 @@ page SignupPage {
   component: import {SignupPage} from "@src/client/auth/SignupPage"
 }
 
-route UserInfoRoute {path: "/userinfo", to: UserInfoPage}
+route UserInfoRoute {path: "/dashboard", to: UserInfoPage}
 page UserInfoPage {
   authRequired: true,
   component: import {UserInfoPage} from "@src/client/app/UserInfoPage"

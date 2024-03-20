@@ -29,7 +29,7 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
           </Link>
         </li>
         {/* ) : null} */}
-        <li>
+        {/* <li>
           <Link
             to='/userinfo'
             onClick={() => console.log('clicked')}
@@ -54,9 +54,9 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
             </svg>
             Account Settings
           </Link>
-        </li>
+        </li> */}
       </ul>
-      {!!user && user.isAdmin && (
+      {/* {!!user && user.isAdmin && (
         <ul
           className={`flex flex-col gap-5 border-b border-stroke py-4 dark:border-strokedark ${
             path === '/admin' ? 'px-6' : 'sm:px-6'
@@ -73,7 +73,7 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
             </Link>
           </li>
         </ul>
-      )}
+      )} */}
       <LogoutModal>
         <button
           className={`flex items-center gap-3.5 py-4 text-sm font-medium duration-300 ease-in-out hover:text-blue-400 ${

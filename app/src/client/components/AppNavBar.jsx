@@ -106,6 +106,9 @@ export default function AppNavBar() {
                   <span className='text-sm font-medium dark:text-white'>
                     Credits: {user.credits}
                   </span>
+                  <span className='text-sm font-medium dark:text-white'>
+                    {user.subscriptionStatus ? 'Premium User' : 'Free User'}
+                  </span>
                 </div>
               )}
               <div>
