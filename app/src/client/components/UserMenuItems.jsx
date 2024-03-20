@@ -20,7 +20,7 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
         }`}
       >
         {/* {path === '/' || path === '/admin' ? ( */}
-        {
+        {user.completeAccount && (
           <li>
             <Link
               to='/purchase'
@@ -30,7 +30,7 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
               Purchase
             </Link>
           </li>
-        }
+        )}
         <li>
           <Link
             to='/dashboard'
