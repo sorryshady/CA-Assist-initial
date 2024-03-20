@@ -12,7 +12,7 @@ export const useFile = () => {
     name: '',
     size: '',
   })
-
+  const [sending, setSending] = useState(false)
   const { toast } = useToast()
 
   const handleChange = (e) => {
@@ -65,6 +65,7 @@ export const useFile = () => {
         name: '',
         size: '',
       })
+      setSending(true)
       const response = await fetch(url, {
         method: 'POST',
         body: formData,
@@ -78,7 +79,7 @@ export const useFile = () => {
         })
         throw new Error(errorMsg || 'Failed to upload file')
       }
-
+      setSending(false)
       toast({ title: 'Success', description: 'File sent successfully' })
       setFile(null)
     } catch (error) {
@@ -93,5 +94,6 @@ export const useFile = () => {
     fileData,
     handleChange,
     handleSubmit,
+    sending,
   }
 }

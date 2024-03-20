@@ -247,7 +247,8 @@ export const ChatWindow = ({
   const history = useHistory()
   const messageRef = useRef('')
   const chatEndRef = useRef(null)
-  const { errorMessage, fileData, handleChange, handleSubmit } = useFile()
+  const { errorMessage, fileData, handleChange, handleSubmit, sending } =
+    useFile()
   // const { message: caMessage } = useCaChat()
   const scrollToBottom = () => {
     if (chatEndRef.current) {
@@ -344,6 +345,11 @@ export const ChatWindow = ({
             }
           }
         })}
+        {sending && (
+          <div className='text-end text-xs mt-[-20px] mr-2 text-slate-500'>
+            Sending File
+          </div>
+        )}
         {!tokens &&
           conversation[conversation.length - 1].type !== 'apiMessage' &&
           chatType === 'ai' && <LoaderBubble />}
