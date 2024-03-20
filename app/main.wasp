@@ -30,7 +30,7 @@ app myProject {
 
 entity User {=psl
   id                        Int             @id @default(autoincrement())
-  panNumber                 String?
+  panNumber                 String?         @unique
   completeAccount           Boolean         @default(false)
   firstName                 String?
   lastName                  String?

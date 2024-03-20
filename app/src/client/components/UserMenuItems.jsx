@@ -2,6 +2,7 @@ import { Link } from 'wasp/client/router'
 
 import { MdOutlineSpaceDashboard } from 'react-icons/md'
 import { TfiDashboard } from 'react-icons/tfi'
+import { LiaMoneyBillWaveSolid } from 'react-icons/lia'
 import LogoutModal from './LogoutModal'
 
 export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
@@ -19,6 +20,17 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
         }`}
       >
         {/* {path === '/' || path === '/admin' ? ( */}
+        {
+          <li>
+            <Link
+              to='/purchase'
+              className='flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-blue-400'
+            >
+              <LiaMoneyBillWaveSolid size='1.1rem' />
+              Purchase
+            </Link>
+          </li>
+        }
         <li>
           <Link
             to='/dashboard'

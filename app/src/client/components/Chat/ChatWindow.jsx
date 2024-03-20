@@ -261,7 +261,7 @@ export const ChatWindow = ({
       if (complete) {
         history.push('/purchase')
       } else {
-        history.push('/userInfo')
+        history.push('/dashboard')
       }
     }
     try {
@@ -325,7 +325,7 @@ export const ChatWindow = ({
 
   return (
     <>
-      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3'>
+      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3 no-scrollbar'>
         {conversation.map(({ type, message, fileData }, index) => {
           if (type === 'userMessage') {
             if (fileData?.name) {
@@ -369,6 +369,7 @@ export const ChatWindow = ({
               type='file'
               className='absolute top-0 left-0 opacity-0 w-full '
               onChange={handleChange}
+              onClick={(e) => (e.target.value = null)}
             />
           </Button>
         )}

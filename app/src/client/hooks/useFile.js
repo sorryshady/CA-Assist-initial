@@ -5,13 +5,16 @@ import { setIcon } from '../utils/iconMap'
 const URL = 'http://localhost:3000/api/'
 
 export const useFile = () => {
+  const initialFileData = {
+    name: '',
+    type: '',
+    size: '',
+    icon: '',
+  }
   const chatId = localStorage.getItem('caChatId')
   const [file, setFile] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
-  const [fileData, setFileData] = useState({
-    name: '',
-    size: '',
-  })
+  const [fileData, setFileData] = useState(initialFileData)
   const [sending, setSending] = useState(false)
   const { toast } = useToast()
 
@@ -61,10 +64,7 @@ export const useFile = () => {
     formData.append('chat_id', chatId)
 
     try {
-      setFileData({
-        name: '',
-        size: '',
-      })
+      setFileData(initialFileData)
       setSending(true)
       const response = await fetch(url, {
         method: 'POST',
@@ -80,8 +80,8 @@ export const useFile = () => {
         throw new Error(errorMsg || 'Failed to upload file')
       }
       setSending(false)
-      toast({ title: 'Success', description: 'File sent successfully' })
       setFile(null)
+      toast({ title: 'Success', description: 'File sent successfully' })
     } catch (error) {
       toast({ title: 'Error', description: error.message })
       console.error('Error:', error.message)

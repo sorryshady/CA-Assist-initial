@@ -197,6 +197,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useTelegramApi } from '../hooks/useTelegramApi'
 import { MathJax } from 'better-react-mathjax'
+import { Card } from '@/components/ui/card'
 export const ChatPage = ({ user }) => {
   const credits = user.credits
   const complete = user.completeAccount
@@ -205,6 +206,7 @@ export const ChatPage = ({ user }) => {
   const { conversations, sendMessage, tokens } = useChatApi()
   const { caConversations, sendCaMessage } = useTelegramApi()
   const [chatType, setChatType] = useState(type)
+  const [hover, setHover] = useState(false)
   const changeHandler = () => {
     if (chatType === 'ai') {
       setChatType('ca')
@@ -214,6 +216,12 @@ export const ChatPage = ({ user }) => {
       localStorage.setItem('chatType', 'ai')
     }
   }
+
+  const showMessage = (
+    <Card className='p-2 text-sm text-slate-500 absolute right-[100%] w-fit text-nowrap'>
+      You need a premium account to use this feature
+    </Card>
+  )
   return (
     <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
       <div className='w-full p-5 flex-1 overflow-y-auto h-full'>
@@ -222,7 +230,12 @@ export const ChatPage = ({ user }) => {
             <h1 className='text-3xl font-bold'>
               {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
             </h1>
-            <div className='flex items-center space-x-2'>
+            <div
+              className='flex items-center space-x-2 relative'
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+            >
+              {!subscribed && hover && showMessage}
               <Switch
                 id='ca-ai-chat'
                 onCheckedChange={changeHandler}
