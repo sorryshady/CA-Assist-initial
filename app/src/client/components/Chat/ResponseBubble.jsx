@@ -92,7 +92,7 @@ export const ResponseBubble = ({ type, message, fileData }) => {
                   download={fileData?.name}
                   className='flex items-center gap-3 justify-center my-1 text-blue-400'
                 >
-                  <p>Download</p>
+                  <p className='text-sm'>Download</p>
                   <HiDownload />
                 </a>
               </Card>
