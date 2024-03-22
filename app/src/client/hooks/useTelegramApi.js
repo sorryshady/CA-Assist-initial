@@ -61,6 +61,14 @@ export const useTelegramApi = () => {
         body: JSON.stringify(user),
       })
       const result = await respone.json()
+      if (result.code === 404) {
+        toast({
+          title: 'Error',
+          description: result.message,
+        })
+        return
+      }
+
       localStorage.setItem('caChatId', result.chatId)
       localStorage.setItem('connected', false)
     } catch (err) {
