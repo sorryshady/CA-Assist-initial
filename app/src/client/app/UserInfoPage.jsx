@@ -55,6 +55,9 @@ const formSchema = z.object({
   panNumber: z.string().regex(/^[A-Za-z]{5}\d{4}[A-Za-z]$/, {
     message: 'Invalid PAN number.',
   }),
+  phoneNumber: z.string().regex(/^\d{10}$/, {
+    message: 'Invalid phone number. It should be a 10-digit number.',
+  }),
 })
 export const UserInfoPage = ({ user }) => {
   const history = useHistory()
@@ -66,10 +69,11 @@ export const UserInfoPage = ({ user }) => {
       firstName: user?.firstName ?? '',
       lastName: user?.lastName ?? '',
       username: user?.username ?? '',
+      panNumber: user?.panNumber ?? '',
+      phoneNumber: user?.phoneNumber ?? '',
       email: user?.email ?? '',
       primaryLang: user?.primaryLang ?? '',
       secondaryLang: user?.secondaryLang ?? '',
-      panNumber: user?.panNumber ?? '',
     },
   })
   const isLoading = form.formState.isSubmitting
@@ -147,38 +151,78 @@ export const UserInfoPage = ({ user }) => {
                     )}
                   />
                 </div>
-                <FormField
-                  disabled={isLoading}
-                  control={form.control}
-                  name='username'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input type='text' placeholder='John Doe' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  disabled={isLoading}
-                  control={form.control}
-                  name='email'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type='email'
-                          placeholder='johndoe@example.com'
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className='flex md:flex-row gap-4'>
+                  <FormField
+                    disabled={isLoading}
+                    control={form.control}
+                    name='panNumber'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <FormLabel>PAN Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder='AAAAA8888A' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    disabled={isLoading}
+                    control={form.control}
+                    name='username'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input
+                            type='text'
+                            placeholder='John Doe'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className='flex md:flex-row gap-4'>
+                  <FormField
+                    disabled={isLoading}
+                    control={form.control}
+                    name='phoneNumber'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <FormLabel>Phone Number</FormLabel>
+                        <FormControl>
+                          <Input
+                            type='phoneNumber'
+                            placeholder='1234567890'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    disabled={isLoading}
+                    control={form.control}
+                    name='email'
+                    render={({ field }) => (
+                      <FormItem className='flex-1'>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type='email'
+                            placeholder='johndoe@example.com'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
                 <div className='flex md:flex-row gap-4'>
                   <FormField
                     disabled={isLoading}
@@ -257,20 +301,7 @@ export const UserInfoPage = ({ user }) => {
                     )}
                   />
                 </div>
-                <FormField
-                  disabled={isLoading}
-                  control={form.control}
-                  name='panNumber'
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>PAN Number</FormLabel>
-                      <FormControl>
-                        <Input placeholder='AAAAA8888A' {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
                 <div className='flex justify-center pt-5'>
                   <Button type='submit' disabled={isLoading}>
                     {user?.completeAccount
