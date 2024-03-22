@@ -190,42 +190,8 @@
 //     </>
 //   )
 // }
-import React, { useState } from 'react'
-import { ChatWindow } from '../components/Chat/ChatWindow'
-import { useChatApi } from '../hooks/useChatApi'
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
-import { useTelegramApi } from '../hooks/useTelegramApi'
-import { MathJax } from 'better-react-mathjax'
-import { Card } from '@/components/ui/card'
-export const ChatPage = ({ user }) => {
-  const credits = user.credits
-  const complete = user.completeAccount
-  const subscribed = user.subscriptionStatus
-  const type = localStorage.getItem('chatType') || 'ai'
-  const { conversations, sendMessage, tokens } = useChatApi()
-  const { caConversations, sendCaMessage } = useTelegramApi()
-  const [chatType, setChatType] = useState(type)
-  const [hover, setHover] = useState(false)
-  const changeHandler = () => {
-    if (chatType === 'ai') {
-      setChatType('ca')
-      localStorage.setItem('chatType', 'ca')
-    } else {
-      setChatType('ai')
-      localStorage.setItem('chatType', 'ai')
-    }
-  }
-
-  const showMessage = (
-    <Card className='p-2 text-sm text-slate-500 absolute right-[100%] w-fit text-nowrap'>
-      You need a premium account to use this feature
-    </Card>
-  )
-  return (
-    <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
-      <div className='w-full p-5 flex-1 overflow-y-auto h-full'>
-        <div className='flex-1'>
+      //  {
+         /* <div className='flex-1'>
           <header className='w-full flex justify-between'>
             <h1 className='text-3xl font-bold'>
               {chatType === 'ai' ? 'AI Chat' : 'CA Chat'}
@@ -255,7 +221,92 @@ export const ChatPage = ({ user }) => {
             complete={complete}
             tokens={tokens}
           />
-        </div>
+        </div> */
+      //  }
+import React, { useState } from 'react'
+import { ChatWindow } from '../components/Chat/ChatWindow'
+import { useChatApi } from '../hooks/useChatApi'
+import { useHistory } from 'react-router-dom'
+import { useTelegramApi } from '../hooks/useTelegramApi'
+import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
+export const ChatPage = ({ user }) => {
+  const history = useHistory()
+  const credits = user.credits
+  const complete = user.completeAccount
+  const subscribed = user.subscriptionStatus
+  const type = localStorage.getItem('chatType') || 'ai'
+  const { conversations, sendMessage, tokens } = useChatApi()
+  const { caConversations, sendCaMessage } = useTelegramApi()
+  const [chatType, setChatType] = useState(type)
+  const purchaseRedirect = () => {
+    history.push('/purchase')
+  }
+  // const changeHandler = () => {
+  //   if (chatType === 'ai') {
+  //     setChatType('ca')
+  //     localStorage.setItem('chatType', 'ca')
+  //   } else {
+  //     setChatType('ai')
+  //     localStorage.setItem('chatType', 'ai')
+  //   }
+  // }
+
+  // const showMessage = (
+  //   <Card className='p-2 text-sm text-slate-500 absolute right-[100%] w-fit text-nowrap'>
+  //     You need a premium account to use this feature
+  //   </Card>
+  // )
+  return (
+    <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
+      <div className='w-full flex-1 overflow-y-auto h-full'>
+        <Tabs
+          defaultValue={chatType}
+          className='w-full'
+          onValueChange={(value) => {
+            setChatType(value)
+            if (value === 'ca' && subscribed) {
+              localStorage.setItem('chatType', value)
+            }
+          }}
+        >
+          <TabsList className='grid w-full grid-cols-2'>
+            <TabsTrigger value='ai'>AI Chat</TabsTrigger>
+            <TabsTrigger value='ca'>CA Chat</TabsTrigger>
+          </TabsList>
+          <TabsContent value='ai'>
+            <ChatWindow
+              chatType={chatType}
+              conversation={conversations}
+              sendMessage={sendMessage}
+              credits={credits}
+              complete={complete}
+              tokens={tokens}
+            />
+          </TabsContent>
+          <TabsContent value='ca'>
+            {!subscribed ? (
+              <>
+                <div className='w-full text-center flex flex-col items-center justify-center gap-5 mt-[10svh]'>
+                  <p>You should be a premium user to access this feature.</p>
+                  {complete && (
+                    <Button onClick={purchaseRedirect}>Purchase Premium</Button>
+                  )}
+                </div>
+              </>
+            ) : (
+              <ChatWindow
+                chatType={chatType}
+                conversation={caConversations}
+                sendMessage={sendCaMessage}
+                credits={credits}
+                complete={complete}
+                tokens={tokens}
+              />
+            )}
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   )
