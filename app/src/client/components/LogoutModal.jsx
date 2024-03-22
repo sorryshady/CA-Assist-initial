@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
-const LogoutModal = ({ children }) => {
+const LogoutModal = ({ user, children }) => {
   const logoutHandler = async () => {
     const chatId = localStorage.getItem('caChatId')
     const URL = `http://localhost:${PORT}/api/disconnect`
@@ -31,16 +31,28 @@ const LogoutModal = ({ children }) => {
 
     logout()
   }
+  const description = user.subscriptionStatus ? (
+    <AlertDialogDescription>
+      This action cannot be undone. This will permanently clear your chat
+      history and will disconnect you from current Chartered Accountant.
+    </AlertDialogDescription>
+  ) : (
+    <AlertDialogDescription>
+      This action cannot be undone. This will permanently clear your chat
+      history.
+    </AlertDialogDescription>
+  )
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
+          {/* <AlertDialogDescription>
             This action cannot be undone. This will permanently clear your chat
             history and will disconnect you from current Chartered Accountant.
-          </AlertDialogDescription>
+          </AlertDialogDescription> */}
+          {description}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>

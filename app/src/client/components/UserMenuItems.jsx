@@ -86,7 +86,7 @@ export const UserMenuItems = ({ user, setMobileMenuOpen }) => {
           </li>
         </ul>
       )} */}
-      <LogoutModal>
+      <LogoutModal user={user}>
         <button
           className={`flex items-center gap-3.5 py-4 text-sm font-medium duration-300 ease-in-out hover:text-blue-400 ${
             path === '/admin' ? 'px-6' : 'sm:px-6'

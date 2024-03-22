@@ -268,6 +268,8 @@ export const ChatPage = ({ user }) => {
             setChatType(value)
             if (value === 'ca' && subscribed) {
               localStorage.setItem('chatType', value)
+            } else {
+              localStorage.setItem('chatType', 'ai')
             }
           }}
         >
@@ -288,7 +290,7 @@ export const ChatPage = ({ user }) => {
           <TabsContent value='ca'>
             {!subscribed ? (
               <>
-                <div className='w-full text-center flex flex-col items-center justify-center gap-5 mt-[10svh]'>
+                <div className='w-full h-[60svh] text-center flex flex-col items-center justify-center gap-5 mt-[10svh]'>
                   <p>You should be a premium user to access this feature.</p>
                   {complete && (
                     <Button onClick={purchaseRedirect}>Purchase Premium</Button>
