@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card'
 import React from 'react'
 import { FaPlay, FaPause, FaStop } from 'react-icons/fa'
 import { MdDelete, MdSend } from 'react-icons/md'
+import AudioPlayer from './AudioPlayer'
 const Recording = ({
   recording,
   stop,
@@ -17,36 +18,39 @@ const Recording = ({
 }) => {
   const { formatTime } = useRecording()
   return (
-    <Card className='w-full absolute top-[-75px] left-5 p-5 max-w-[50%] flex justify-between items-center'>
-      <div className='flex gap-3'>
-        {(recording || paused) && (
-          <Button onClick={pausePlay}>
-            {paused ? <FaPlay /> : <FaPause />}
-          </Button>
-        )}
-        {recording && (
-          <Button onClick={stop}>
-            <FaStop />
-          </Button>
-        )}
-      </div>
-      {recording && <p>{formatTime(elapsedTime)}</p>}
-      {(audioBlob || audioUrl) && (
+    <Card className='w-fit absolute top-[-75px] left-5 p-5 max-w-[50%] flex justify-between items-center'>
+      {(recording || paused) && (
         <div className='flex gap-3'>
-          {audioUrl && (
-            <Button onClick={send}>
-              <MdSend />
+          {(recording || paused) && (
+            <Button onClick={pausePlay}>
+              {paused ? <FaPlay /> : <FaPause />}
             </Button>
           )}
-          {audioBlob && (
-            <Button
-              className='w-fit p-3'
-              variant='destructive'
-              onClick={deleteAudio}
-            >
-              <MdDelete size={20} />
+          {recording && (
+            <Button onClick={stop}>
+              <FaStop />
             </Button>
           )}
+        </div>
+      )}
+      {recording && (
+        <p className='text-lg ml-[5vw]'>{formatTime(elapsedTime)}</p>
+      )}
+      {(audioBlob || audioUrl) && (
+        <div className='flex justify-between items-center'>
+          <AudioPlayer audioFile={audioUrl} />
+          <div className='flex gap-3 ml-10'>
+            {audioUrl && (
+              <Button onClick={send}>
+                <MdSend size={18} />
+              </Button>
+            )}
+            {audioBlob && (
+              <Button variant='destructive' onClick={deleteAudio}>
+                <MdDelete size={20} />
+              </Button>
+            )}
+          </div>
         </div>
       )}
     </Card>

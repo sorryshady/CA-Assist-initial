@@ -71,6 +71,8 @@ export const useRecording = () => {
   const handleSendAudio = () => {
     console.log('Sending audio:', audioUrl, audioBlob)
     setClose(false)
+    setAudioBlob(null)
+    setAudioUrl(null)
   }
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60)

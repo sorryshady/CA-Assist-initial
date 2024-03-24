@@ -56,6 +56,7 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.0",
     "wasp": "file:.wasp/out/sdk/wasp",
+    "wavesurfer.js": "^7.7.5",
     "ws": "^8.16.0",
     "zod": "^3.22.4"
   },
