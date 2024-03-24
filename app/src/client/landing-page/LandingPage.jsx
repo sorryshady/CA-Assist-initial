@@ -1,11 +1,11 @@
 import React from 'react'
 import { useAuth } from 'wasp/client/auth'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import DotGrid from '../components/dot-grid/dot-grid'
-import { useToast } from '@/components/ui/use-toast'
 export const LandingPage = () => {
   const { data: user } = useAuth()
+
   // const { toast } = useToast()
   // const history = useHistory()
   // if (user) {

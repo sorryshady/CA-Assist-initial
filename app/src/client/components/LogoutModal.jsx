@@ -16,42 +16,41 @@ const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
 const LogoutModal = ({ user, children }) => {
   const logoutHandler = async () => {
     const chatId = localStorage.getItem('caChatId')
-    const URL = `http://localhost:${PORT}/api/disconnect`
-    const body = {
-      chat_id: chatId,
+    if (chatId) {
+      const URL = `http://localhost:${PORT}/api/disconnect`
+      const body = {
+        chat_id: chatId,
+      }
+      const response = await fetch(URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
     }
-    const response = await fetch(URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
     localStorage.clear()
 
     logout()
   }
-  const description = user.subscriptionStatus ? (
-    <AlertDialogDescription>
-      This action cannot be undone. This will permanently clear your chat
-      history and will disconnect you from current Chartered Accountant.
-    </AlertDialogDescription>
-  ) : (
-    <AlertDialogDescription>
-      This action cannot be undone. This will permanently clear your chat
-      history.
-    </AlertDialogDescription>
-  )
+  const description =
+    user.subscriptionStatus && localStorage.getItem('caChatId') ? (
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently clear your chat
+        history and will disconnect you from current Chartered Accountant.
+      </AlertDialogDescription>
+    ) : (
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently clear your chat
+        history.
+      </AlertDialogDescription>
+    )
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          {/* <AlertDialogDescription>
-            This action cannot be undone. This will permanently clear your chat
-            history and will disconnect you from current Chartered Accountant.
-          </AlertDialogDescription> */}
           {description}
         </AlertDialogHeader>
         <AlertDialogFooter>
