@@ -315,7 +315,7 @@ export const ChatWindow = ({
       voiceFileId: id,
       timeStamp: Date.now(),
     }
-    console.log(messageBody)
+    // console.log(messageBody)
     sendMessage(messageBody)
   }
 

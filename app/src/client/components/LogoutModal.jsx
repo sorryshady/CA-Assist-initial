@@ -12,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { db } from '../db/db'
 const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
 const LogoutModal = ({ user, children }) => {
   const logoutHandler = async () => {
@@ -30,7 +31,7 @@ const LogoutModal = ({ user, children }) => {
       })
     }
     localStorage.clear()
-
+    await db.delete()
     logout()
   }
   const description =

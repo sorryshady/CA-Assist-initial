@@ -74,7 +74,10 @@ export const useRecording = () => {
   const handleSendAudio = async () => {
     console.log('sending')
     try {
-      const id = await db.audioMessages.add({ message: audioBlob })
+      const id = await db.audioMessages.add({
+        message: audioBlob,
+        timestamp: Date.now(),
+      })     
       console.log('Audio message added with ID:', id)
       setClose(false)
       setAudioBlob(null)

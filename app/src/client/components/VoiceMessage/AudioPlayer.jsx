@@ -18,10 +18,13 @@ const wavesurferOptions = (ref) => ({
 })
 const AudioPlayer = ({ audioFile = null, audioId = null }) => {
   const [url, setUrl] = useState(null)
+  let fallbackContent
   const fetchAudioFile = async () => {
     const file = await db.audioMessages.get(audioId)
-    const url = URL.createObjectURL(file.message)
-    setUrl(url)
+    if (file) {
+      const url = URL.createObjectURL(file.message)
+      setUrl(url)
+    } 
   }
   useEffect(() => {
     if (audioId) {
@@ -40,24 +43,28 @@ const AudioPlayer = ({ audioFile = null, audioId = null }) => {
   const [currentTime, setCurrentTime] = useState(0)
 
   useEffect(() => {
-    const options = wavesurferOptions(waveformRef.current)
-    wavesurfer.current = WaveSurfer.create(options)
-    if (audioFile || url) wavesurfer.current.load(audioFile || url)
-    wavesurfer.current.on('ready', () => {
-      setDuration(wavesurfer.current.getDuration())
-    })
-    wavesurfer.current.on('audioprocess', () => {
-      setCurrentTime(wavesurfer.current.getCurrentTime())
-    })
-    wavesurfer.current.on('finish', () => {
-      setPlaying(false)
-    })
+    if (audioFile || url) {
+      const options = wavesurferOptions(waveformRef.current)
+      wavesurfer.current = WaveSurfer.create(options)
+      wavesurfer.current.load(audioFile || url)
+      wavesurfer.current.on('ready', () => {
+        setDuration(wavesurfer.current.getDuration())
+      })
+      wavesurfer.current.on('audioprocess', () => {
+        setCurrentTime(wavesurfer.current.getCurrentTime())
+      })
+      wavesurfer.current.on('finish', () => {
+        setPlaying(false)
+      })
+    }
 
     return () => {
-      wavesurfer.current.un('audioprocess')
-      wavesurfer.current.un('ready')
-      wavesurfer.current.un('finish')
-      wavesurfer.current.destroy()
+      if (wavesurfer.current) {
+        wavesurfer.current.un('audioprocess')
+        wavesurfer.current.un('ready')
+        wavesurfer.current.un('finish')
+        wavesurfer.current.destroy()
+      }
     }
   }, [audioFile, audioId, url])
 
@@ -65,18 +72,27 @@ const AudioPlayer = ({ audioFile = null, audioId = null }) => {
     setPlaying(!playing)
     wavesurfer.current.playPause()
   }
+  // if (!audioFile && !url) return fallbackContent
   return (
     <div className='flex gap-3 items-center '>
-      <Button onClick={handlePlay}>{playing ? <FaPause /> : <FaPlay />}</Button>
-      <>
-        <div>{formatTime(currentTime)}</div>
-        <div
-          id='waveform'
-          ref={waveformRef}
-          className='w-full flex flex-col'
-        ></div>
-        <div>{formatTime(duration)}</div>
-      </>
+      {(audioFile || url) && (
+        <>
+          <Button onClick={handlePlay}>
+            {playing ? <FaPause /> : <FaPlay />}
+          </Button>
+
+          <div>{formatTime(currentTime)}</div>
+          <div
+            id='waveform'
+            ref={waveformRef}
+            className='w-full flex flex-col'
+          ></div>
+          <div>{formatTime(duration)}</div>
+        </>
+      )}
+      {!audioFile && !url && (
+        <p className='text-sm text-red-400'>Audio File has expired.</p>
+      )}
     </div>
   )
 }
