@@ -52,6 +52,8 @@ export const useRecording = () => {
   const handleStopRecording = () => {
     if (recorder.current && recorder.current.state !== 'inactive') {
       recorder.current.stop()
+      const stream = recorder.current.stream
+      stream.getTracks().forEach((track) => track.stop())
     }
     setRecording(false)
     setPaused(false)
