@@ -3,10 +3,11 @@ import WaveSurfer from 'wavesurfer.js'
 import { FaPlay, FaPause } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import './AudioPlayer.css'
+import { db } from '@/client/db/db'
 const wavesurferOptions = (ref) => ({
   container: ref,
-  waveColor: '#ccc',
-  progressColor: '#333',
+  waveColor: '#333',
+  progressColor: '#60a5fa',
   cursorColor: 'transparent',
   responsive: true,
   height: 40,
@@ -15,7 +16,18 @@ const wavesurferOptions = (ref) => ({
   barWidth: 1,
   barGap: 2,
 })
-const AudioPlayer = ({ audioFile }) => {
+const AudioPlayer = ({ audioFile = null, audioId = null }) => {
+  const [url, setUrl] = useState(null)
+  const fetchAudioFile = async () => {
+    const file = await db.audioMessages.get(audioId)
+    const url = URL.createObjectURL(file.message)
+    setUrl(url)
+  }
+  useEffect(() => {
+    if (audioId) {
+      fetchAudioFile()
+    }
+  }, [])
   const formatTime = (seconds) => {
     let date = new Date(0)
     date.setSeconds(seconds)
@@ -30,7 +42,7 @@ const AudioPlayer = ({ audioFile }) => {
   useEffect(() => {
     const options = wavesurferOptions(waveformRef.current)
     wavesurfer.current = WaveSurfer.create(options)
-    wavesurfer.current.load(audioFile)
+    if (audioFile || url) wavesurfer.current.load(audioFile || url)
     wavesurfer.current.on('ready', () => {
       setDuration(wavesurfer.current.getDuration())
     })
@@ -47,7 +59,7 @@ const AudioPlayer = ({ audioFile }) => {
       wavesurfer.current.un('finish')
       wavesurfer.current.destroy()
     }
-  }, [audioFile])
+  }, [audioFile, audioId, url])
 
   const handlePlay = () => {
     setPlaying(!playing)
@@ -56,13 +68,15 @@ const AudioPlayer = ({ audioFile }) => {
   return (
     <div className='flex gap-3 items-center '>
       <Button onClick={handlePlay}>{playing ? <FaPause /> : <FaPlay />}</Button>
-      <div>{formatTime(currentTime)}</div>
-      <div
-        id='waveform'
-        ref={waveformRef}
-        className='w-full flex flex-col'
-      ></div>
-      <div>{formatTime(duration)}</div>
+      <>
+        <div>{formatTime(currentTime)}</div>
+        <div
+          id='waveform'
+          ref={waveformRef}
+          className='w-full flex flex-col'
+        ></div>
+        <div>{formatTime(duration)}</div>
+      </>
     </div>
   )
 }

@@ -14,8 +14,13 @@ const Recording = ({
   deleteAudio,
   audioBlob,
   audioUrl,
+  // audioFile,
   send,
 }) => {
+  let url = null
+  // if (audioFile) {
+  //   url = audioFile.current ? URL.createObjectURL(audioFile.current) : null
+  // }
   const { formatTime } = useRecording()
   return (
     <Card className='w-fit absolute top-[-75px] left-5 p-5 max-w-[50%] flex justify-between items-center'>
@@ -38,7 +43,7 @@ const Recording = ({
       )}
       {(audioBlob || audioUrl) && (
         <div className='flex justify-between items-center'>
-          <AudioPlayer audioFile={audioUrl} />
+          <AudioPlayer audioFile={url || audioUrl} />
           <div className='flex gap-3 ml-10'>
             {audioUrl && (
               <Button onClick={send}>

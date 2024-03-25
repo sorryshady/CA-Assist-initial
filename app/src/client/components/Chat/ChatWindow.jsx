@@ -306,7 +306,17 @@ export const ChatWindow = ({
       fileData: saveFile,
       timeStamp: Date.now(),
     })
-    // }
+  }
+
+  const sendAudio = async () => {
+    const id = await handleSendAudio()
+    const messageBody = {
+      type: 'userMessage',
+      voiceFileId: id,
+      timeStamp: Date.now(),
+    }
+    console.log(messageBody)
+    sendMessage(messageBody)
   }
 
   const onEnter = (e) => {
@@ -339,10 +349,14 @@ export const ChatWindow = ({
   return (
     <>
       <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3 no-scrollbar'>
-        {conversation.map(({ type, message, fileData }, index) => {
+        {conversation.map(({ type, message, fileData, voiceFileId }, index) => {
           if (type === 'userMessage') {
             if (fileData?.name) {
               return <ChatBubble key={index} type={type} fileData={fileData} />
+            } else if (voiceFileId) {
+              return (
+                <ChatBubble key={index} type={type} voiceFileId={voiceFileId} />
+              )
             } else {
               return <ChatBubble key={index} type={type} message={message} />
             }
@@ -383,7 +397,7 @@ export const ChatWindow = ({
             deleteAudio={deleteHandler}
             audioBlob={audioBlob}
             audioUrl={audioUrl}
-            send={handleSendAudio}
+            send={sendAudio}
           />
         )}
         {errorMessage && error}

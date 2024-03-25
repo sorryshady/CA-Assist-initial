@@ -96,7 +96,6 @@
 // }
 import { useState, useEffect, useRef } from 'react'
 import { useToast } from '@/components/ui/use-toast'
-import { Description } from '@radix-ui/react-dialog'
 
 export const useCaChat = () => {
   const { toast } = useToast()

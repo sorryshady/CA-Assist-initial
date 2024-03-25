@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-
+import { db } from '../db/db'
 export const useRecording = () => {
   const [recording, setRecording] = useState(false)
   const [audioBlob, setAudioBlob] = useState(null)
@@ -8,6 +8,7 @@ export const useRecording = () => {
   const [paused, setPaused] = useState(false)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [close, setClose] = useState(false)
+  const [audioId, setAudioId] = useState(null)
 
   useEffect(() => {
     let timer
@@ -70,11 +71,19 @@ export const useRecording = () => {
       setPaused(!paused)
     }
   }
-  const handleSendAudio = () => {
-    console.log('Sending audio:', audioUrl, audioBlob)
-    setClose(false)
-    setAudioBlob(null)
-    setAudioUrl(null)
+  const handleSendAudio = async () => {
+    console.log('sending')
+    try {
+      const id = await db.audioMessages.add({ message: audioBlob })
+      console.log('Audio message added with ID:', id)
+      setClose(false)
+      setAudioBlob(null)
+      setAudioUrl(null)
+      return id
+    } catch (error) {
+      console.error('Failed to add audio message:', error)
+      return null
+    }
   }
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60)
@@ -99,7 +108,7 @@ export const useRecording = () => {
     formatTime,
     deleteHandler,
     close,
-    setClose,
     paused,
+    handleSendAudio,
   }
 }

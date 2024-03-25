@@ -53,14 +53,14 @@ export const useTelegramApi = () => {
   const CONNECT_URL = `http://localhost:${PORT}/api/connect`
   const fetchData = async () => {
     try {
-      const respone = await fetch(CONNECT_URL, {
+      const response = await fetch(CONNECT_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(user),
       })
-      const result = await respone.json()
+      const result = await response.json()
       if (result.code === 404) {
         toast({
           title: 'Error',
@@ -103,7 +103,7 @@ export const useTelegramApi = () => {
   }
 
   const addCaConversations = (message) => {
-    if (message.message || message.fileData?.name)
+    if (message.message || message.fileData?.name || message.voiceFileId)
       setCaConversations((prevConversations) => [...prevConversations, message])
   }
 
