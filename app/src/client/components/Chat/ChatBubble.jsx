@@ -20,7 +20,7 @@ export const ChatBubble = ({ type, message, fileData, voiceFileId }) => {
 
   return (
     <ChatBubbleWrapper type={type}>
-      {message && !fileData?.name && !voiceUrl && (
+      {message && !fileData?.name && !voiceFileId && (
         <Card
           className={clsx('w-fit', 'max-w-full', 'py-2 px-4', {
             'flex-start': type !== 'userMessage',

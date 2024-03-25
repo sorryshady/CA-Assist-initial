@@ -11,7 +11,8 @@ import * as clipboard from 'clipboard-polyfill'
 import { MathJax } from 'better-react-mathjax'
 import { setIcon } from '@/client/utils/iconMap'
 import { HiDownload } from 'react-icons/hi'
-export const ResponseBubble = ({ type, message, fileData }) => {
+import AudioPlayer from '../VoiceMessage/AudioPlayer'
+export const ResponseBubble = ({ type, message, fileData, voiceFileId }) => {
   const icon = setIcon(fileData?.type)
   const { toast } = useToast()
   Marked.setOptions({
@@ -41,7 +42,7 @@ export const ResponseBubble = ({ type, message, fileData }) => {
     <>
       <MathJax>
         <ChatBubbleWrapper type={type}>
-          {message && !fileData?.name && (
+          {message && !fileData?.name && !voiceFileId && (
             <>
               <div>
                 <Card
@@ -95,6 +96,29 @@ export const ResponseBubble = ({ type, message, fileData }) => {
                   <p className='text-sm'>Download</p>
                   <HiDownload />
                 </a>
+              </Card>
+              <Avatar>
+                <AvatarImage src={AiAvatar} alt='@shadcn' />
+                <AvatarFallback>
+                  {type === 'apiMessage' ? 'AI' : 'CA'}
+                </AvatarFallback>
+              </Avatar>
+            </>
+          )}
+          {voiceFileId && (
+            <>
+              <Card
+                className={clsx('w-fit', 'max-w-full', 'p-1', {
+                  'flex-start': type !== 'userMessage',
+                })}
+                variant='outline'
+              >
+                <p className='text-xs text-start mb-1 text-blue-400'>
+                  Voice Note
+                </p>
+                <div className='flex gap-3 items-center bg-slate-100 py-2 px-4'>
+                  <AudioPlayer audioId={voiceFileId} />
+                </div>
               </Card>
               <Avatar>
                 <AvatarImage src={AiAvatar} alt='@shadcn' />

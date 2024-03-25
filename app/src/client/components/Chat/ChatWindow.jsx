@@ -365,6 +365,11 @@ export const ChatWindow = ({
               return (
                 <ResponseBubble key={index} type={type} fileData={fileData} />
               )
+            }
+            else if (voiceFileId) {
+              return (
+                <ResponseBubble key={index} type={type} voiceFileId={voiceFileId} />
+              )
             } else {
               return (
                 <ResponseBubble key={index} type={type} message={message} />
