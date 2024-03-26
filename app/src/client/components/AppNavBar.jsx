@@ -50,7 +50,7 @@ export default function AppNavBar() {
             <ul className='flex justify-center items-center gap-2 2xsm:gap-4'>
               {/* <DarkModeSwitcher /> */}
             </ul>
-            {isUserLoading ? null : !user ? (
+            {!user ? (
               <Link to='/login'>
                 <div className='flex justify-end items-center duration-300 ease-in-out text-gray-900 hover:text-[#272e3f] dark:text-white'>
                   Client Login <BiLogIn size='1.1rem' className='ml-1' />
@@ -101,7 +101,7 @@ export default function AppNavBar() {
               {user && (
                 <div className='py-3 flex flex-col gap-5 sm:px-6 mt-10'>
                   <span className='block text-sm font-medium dark:text-white'>
-                    Welcome, {user.username}
+                    Welcome, {user.username || 'User'}
                   </span>
                   <span className='text-sm font-medium dark:text-white'>
                     Credits: {user.credits}
@@ -112,9 +112,9 @@ export default function AppNavBar() {
                 </div>
               )}
               <div>
-                {isUserLoading ? null : !user ? (
+                {!user ? (
                   <Link to='/login'>
-                    <div className='flex justify-center items-center duration-300 ease-in-out text-gray-900 hover:text-blue-400 dark:text-white'>
+                    <div className='flex justify-center items-center duration-300 ease-in-out text-gray-900 hover:text-blue-400 dark:text-white mt-10'>
                       Client Login <BiLogIn size='1.1rem' className='ml-1' />
                     </div>
                   </Link>

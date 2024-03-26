@@ -11,7 +11,7 @@ export const LoginPage = () => {
   const history = useHistory()
   if (user) {
     toast({ title: 'Already logged in', description: 'Redirecting to chat' })
-    history.push('/')
+    history.push('/chat')
   }
   return (
     <Card className='max-w-[800px] p-5 m-auto mt-[20svh]'>

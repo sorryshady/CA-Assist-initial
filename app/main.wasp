@@ -9,8 +9,23 @@ app myProject {
   auth: {
     userEntity: User,
     methods: {
-      usernameAndPassword: {
-        userSignupFields: import {usernamePasswordSignupFields} from "@src/server/auth/setUsername"
+      // usernameAndPassword: {
+      //   userSignupFields: import {usernamePasswordSignupFields} from "@src/server/auth/setUsername"
+      // },
+      email: {
+        userSignupFields: import {emailPasswordSignupFields} from "@src/server/auth/setUsername",
+        fromField: {
+          name: "CA Assist",
+          email: "ca_assist@test.com",
+        },
+        emailVerification: {
+          clientRoute: EmailVerificationRoute,
+          getEmailContentFn: import { getVerificationEmailContent } from "@src/server/auth/email",
+        },
+        passwordReset: {
+          clientRoute: PasswordResetRoute,
+          getEmailContentFn: import { getPasswordResetEmailContent } from "@src/server/auth/email",
+        }
       },
       google: { 
         configFn: import { getGoogleAuthConfig } from "@src/server/auth/setUsername.js",
@@ -25,6 +40,9 @@ app myProject {
     seeds: [
       import {devSeedUsers} from "@src/server/scripts/usersSeed"
     ]
+  },
+  emailSender: {
+    provider: Dummy
   }
 }
 
@@ -67,6 +85,21 @@ page LoginPage {
 route SignupRoute { path: "/signup", to: SignupPage }
 page SignupPage {
   component: import {SignupPage} from "@src/client/auth/SignupPage"
+}
+
+route RequestPasswordResetRoute { path: "/request-password-reset", to: RequestPasswordResetPage }
+page RequestPasswordResetPage {
+  component: import { RequestPasswordReset } from "@src/client/auth/RequestPasswordReset",
+}
+
+route PasswordResetRoute { path: "/password-reset", to: PasswordResetPage }
+page PasswordResetPage {
+  component: import { PasswordReset } from "@src/client/auth/PasswordReset",
+}
+
+route EmailVerificationRoute { path: "/email-verification", to: EmailVerificationPage }
+page EmailVerificationPage {
+  component: import { EmailVerification } from "@src/client/auth/EmailVerification",
 }
 
 route UserInfoRoute {path: "/dashboard", to: UserInfoPage}

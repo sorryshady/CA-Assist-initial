@@ -45,7 +45,7 @@ const DropdownUser = ({ user }) => {
         className='flex items-center gap-4 duration-300 ease-in-out text-gray-900 hover:text-blue-400'
       >
         <span className='block text-sm font-medium dark:text-white'>
-          Welcome, {user.username}
+          Welcome, {user.username || 'User'}
         </span>
 
         <span className='text-sm font-medium dark:text-white'>

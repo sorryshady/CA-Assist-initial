@@ -2,6 +2,9 @@ export const usernamePasswordSignupFields = {
   username: (data) => data.username,
 }
 
+export const emailPasswordSignupFields = {
+  email: (data) => data.email,
+}
 export const getGoogleUserFields = {
   email: (data) => data.profile._json.email,
   username: (data) => data.profile.displayName,
