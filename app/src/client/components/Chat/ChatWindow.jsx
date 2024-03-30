@@ -349,34 +349,45 @@ export const ChatWindow = ({
   return (
     <>
       <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3 no-scrollbar'>
-        {conversation.map(({ type, message, fileData, voiceFileId }, index) => {
-          if (type === 'userMessage') {
-            if (fileData?.name) {
-              return <ChatBubble key={index} type={type} fileData={fileData} />
-            } else if (voiceFileId) {
-              return (
-                <ChatBubble key={index} type={type} voiceFileId={voiceFileId} />
-              )
-            } else {
-              return <ChatBubble key={index} type={type} message={message} />
-            }
-          } else if (type === 'apiMessage' || type === 'caMessage') {
-            if (fileData?.name) {
-              return (
-                <ResponseBubble key={index} type={type} fileData={fileData} />
-              )
-            }
-            else if (voiceFileId) {
-              return (
-                <ResponseBubble key={index} type={type} voiceFileId={voiceFileId} />
-              )
-            } else {
-              return (
-                <ResponseBubble key={index} type={type} message={message} />
-              )
+        {conversation.map(
+          ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
+            if (type === 'userMessage') {
+              if (fileData?.name) {
+                return (
+                  <ChatBubble key={index} type={type} fileData={fileData} />
+                )
+              } else if (voiceFileId) {
+                return (
+                  <ChatBubble
+                    key={index}
+                    type={type}
+                    voiceFileId={voiceFileId}
+                  />
+                )
+              } else {
+                return <ChatBubble key={index} type={type} message={message} />
+              }
+            } else if (type === 'apiMessage' || type === 'caMessage') {
+              if (fileData?.name) {
+                return (
+                  <ResponseBubble key={index} type={type} fileData={fileData} />
+                )
+              } else if (voiceFileUrl) {
+                return (
+                  <ResponseBubble
+                    key={index}
+                    type={type}
+                    audioFileUrl={voiceFileUrl}
+                  />
+                )
+              } else {
+                return (
+                  <ResponseBubble key={index} type={type} message={message} />
+                )
+              }
             }
           }
-        })}
+        )}
         {sending && (
           <div className='text-end text-xs mt-[-20px] mr-2 text-slate-500'>
             Sending File

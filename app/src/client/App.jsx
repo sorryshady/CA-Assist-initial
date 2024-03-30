@@ -6,7 +6,6 @@ import { useMemo, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
-import { MathJaxContext } from 'better-react-mathjax'
 
 const App = ({ children }) => {
   const location = useLocation()
@@ -41,7 +40,7 @@ const App = ({ children }) => {
   }, [location])
   return (
     <>
-      <MathJaxContext>
+   
         <div className='min-h-screen dark:text-white dark:bg-boxdark-2'>
           {isAdminDashboard ? (
             <>{children}</>
@@ -55,7 +54,7 @@ const App = ({ children }) => {
           )}
         </div>
         <Toaster />
-      </MathJaxContext>
+     
     </>
   )
 }
