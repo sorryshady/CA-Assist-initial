@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { db } from '../db/db'
+const ENDPOINT = 'http://localhost:3000/api/'
 export const useRecording = () => {
   const [recording, setRecording] = useState(false)
   const [audioBlob, setAudioBlob] = useState(null)
@@ -8,7 +9,7 @@ export const useRecording = () => {
   const [paused, setPaused] = useState(false)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [close, setClose] = useState(false)
-  const [audioId, setAudioId] = useState(null)
+  const chatId = localStorage.getItem('caChatId')
 
   useEffect(() => {
     let timer
@@ -72,12 +73,20 @@ export const useRecording = () => {
     }
   }
   const handleSendAudio = async () => {
-    console.log('sending')
+    const url = ENDPOINT + 'chat'
+    const formData = new FormData()
+    formData.append('file', audioBlob)
+    formData.append('type', 'voice')
+    formData.append('chat_id', chatId)
     try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      })
       const id = await db.audioMessages.add({
         message: audioBlob,
         timestamp: Date.now(),
-      })     
+      })
       console.log('Audio message added with ID:', id)
       setClose(false)
       setAudioBlob(null)

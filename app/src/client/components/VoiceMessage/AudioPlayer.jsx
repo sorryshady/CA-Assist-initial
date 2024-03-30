@@ -227,6 +227,7 @@ const AudioPlayer = ({
             id='waveform'
             ref={waveformRef}
             className='w-full flex flex-col'
+            style={{ zIndex: 0 }}
           ></div>
           <div>{formatTime(duration)}</div>
         </>
