@@ -103,7 +103,12 @@ export const useTelegramApi = () => {
   }
 
   const addCaConversations = (message) => {
-    if (message.message || message.fileData?.name || message.voiceFileId)
+    if (
+      message.message ||
+      message.fileData?.name ||
+      message.voiceFileId ||
+      message.voiceFileUrl
+    )
       setCaConversations((prevConversations) => [...prevConversations, message])
   }
 

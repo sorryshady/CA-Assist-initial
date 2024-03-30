@@ -155,7 +155,15 @@ export const useCaChat = () => {
               timeStamp: Date.now(),
             }
             setMessage(messageBody)
-          }
+          } else if (response.type === 'voice') {
+            const url = response.content
+            const messageBody = {
+              type: 'caMessage',
+              voiceFileUrl: url,
+              timeStamp: Date.now(),
+            }
+            setMessage(messageBody)
+          } 
         }
 
         socket.onclose = () => {
