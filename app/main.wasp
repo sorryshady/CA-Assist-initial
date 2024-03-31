@@ -62,6 +62,7 @@ entity User {=psl
   hasPaid                   Boolean         @default(false)
   subscriptionStatus        Boolean         @default(false)   
   phoneNumber               String?         
+  logins                    UserLogin[]  
   // currentConv               String?
   // isAdmin                   Boolean         @default(false)
   // stripeId                  String? 
@@ -69,6 +70,17 @@ entity User {=psl
   // subscriptionTier          String?
   // sendEmail                 Boolean         @default(false)
   // datePaid                  DateTime?
+psl=}
+
+entity UserLogin {=psl  
+  id                        Int             @id @default(autoincrement())
+  user                      User            @relation(fields: [userId], references: [id])
+  userId                    Int             // Foreign key to User
+  ip                        String
+  country                   String
+  regionName                String
+  city                      String
+  createdAt                 DateTime        @default(now())
 psl=}
 
 
