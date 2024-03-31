@@ -25,10 +25,17 @@ export const useRecording = () => {
   }, [recording, paused])
 
   const handleStartRecording = () => {
+    const options = { mimeType: 'audio/ogg; codecs=opus' }
+    const workerOptions = {
+      OggOpusEncoderWasmPath:
+        'https://cdn.jsdelivr.net/npm/opus-media-recorder@latest/OggOpusEncoder.wasm',
+      WebMOpusEncoderWasmPath:
+        'https://cdn.jsdelivr.net/npm/opus-media-recorder@latest/WebMOpusEncoder.wasm',
+    }
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
-        recorder.current = new MediaRecorder(stream)
+        recorder.current = new MediaRecorder(stream, options, workerOptions)
         const chunks = []
 
         recorder.current.ondataavailable = (event) => {
@@ -75,7 +82,10 @@ export const useRecording = () => {
   const handleSendAudio = async () => {
     const url = ENDPOINT + 'chat'
     const formData = new FormData()
-    formData.append('file', audioBlob)
+    const fileData = new File([audioBlob], 'audio.ogg', {
+      type: 'audio/ogg; codecs=opus',
+    })
+    formData.append('file', fileData)
     formData.append('type', 'voice')
     formData.append('chat_id', chatId)
     try {
