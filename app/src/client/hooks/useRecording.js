@@ -88,6 +88,7 @@ export const useRecording = () => {
     formData.append('file', fileData)
     formData.append('type', 'voice')
     formData.append('chat_id', chatId)
+    setClose(false)
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -98,7 +99,6 @@ export const useRecording = () => {
         timestamp: Date.now(),
       })
       console.log('Audio message added with ID:', id)
-      setClose(false)
       setAudioBlob(null)
       setAudioUrl(null)
       return id

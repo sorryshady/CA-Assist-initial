@@ -390,7 +390,7 @@ export const ChatWindow = ({
         )}
         {sending && (
           <div className='text-end text-xs mt-[-20px] mr-2 text-slate-500'>
-            Sending File
+            Sending...
           </div>
         )}
         {!tokens &&
