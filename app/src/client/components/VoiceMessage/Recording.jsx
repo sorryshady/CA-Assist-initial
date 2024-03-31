@@ -23,7 +23,7 @@ const Recording = ({
   // }
   const { formatTime } = useRecording()
   return (
-    <Card className='w-fit absolute top-[-75px] left-5 p-5 max-w-[50%] flex justify-between items-center z-[1000]'>
+    <Card className='w-fit absolute top-[-75px] left-5 p-5 flex justify-between items-center z-[1000]'>
       {(recording || paused) && (
         <div className='flex gap-3'>
           {(recording || paused) && (
