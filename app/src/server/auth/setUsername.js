@@ -10,6 +10,7 @@ export const getGoogleUserFields = {
   username: (data) => data.profile.displayName,
   firstName: (data) => data.profile._json.given_name,
   lastName: (data) => data.profile._json.family_name,
+  googleLogin: () => true,
 }
 
 export function getGoogleAuthConfig() {

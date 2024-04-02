@@ -60,6 +60,7 @@ const formSchema = z.object({
   }),
 })
 export const UserInfoPage = ({ user }) => {
+  console.log(user)
   const history = useHistory()
   const { toast } = useToast()
   const form = useForm({
@@ -119,7 +120,7 @@ export const UserInfoPage = ({ user }) => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(handleSubmit)}
-                className='space-y-4'
+                className='space-y-5'
               >
                 <div className='flex md:flex-row gap-4'>
                   <FormField
@@ -301,7 +302,9 @@ export const UserInfoPage = ({ user }) => {
                     )}
                   />
                 </div>
-
+                <Button onClick={() => history.push('/request-password-reset')}>
+                  Reset Password
+                </Button>
                 <div className='flex justify-center pt-5'>
                   <Button type='submit' disabled={isLoading}>
                     {user?.completeAccount

@@ -63,6 +63,7 @@ entity User {=psl
   subscriptionStatus        Boolean         @default(false)   
   phoneNumber               String?         
   logins                    UserLogin[]  
+  googleLogin               Boolean         @default(false)
   // currentConv               String?
   // isAdmin                   Boolean         @default(false)
   // stripeId                  String? 

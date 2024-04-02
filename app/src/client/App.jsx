@@ -20,7 +20,7 @@ const App = ({ children }) => {
       const details = await fetch('http://localhost:3000/api/ip-stats', {
         method: 'GET',
       })
-      const data = await details.json()
+      let data = await details.json()
       const record = await getUserLoginRecord()
       if (record?.userAgent === userString && record?.ip === data?.ip) {
         return

@@ -14,8 +14,24 @@ CREATE TABLE "User" (
     "credits" INTEGER NOT NULL DEFAULT 2,
     "hasPaid" BOOLEAN NOT NULL DEFAULT false,
     "subscriptionStatus" BOOLEAN NOT NULL DEFAULT false,
+    "phoneNumber" TEXT,
+    "googleLogin" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserLogin" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "userAgent" TEXT NOT NULL,
+    "ip" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "regionName" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "UserLogin_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -46,6 +62,9 @@ CREATE TABLE "Session" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_panNumber_key" ON "User"("panNumber");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
@@ -59,6 +78,9 @@ CREATE UNIQUE INDEX "Session_id_key" ON "Session"("id");
 
 -- CreateIndex
 CREATE INDEX "Session_userId_idx" ON "Session"("userId");
+
+-- AddForeignKey
+ALTER TABLE "UserLogin" ADD CONSTRAINT "UserLogin_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Auth" ADD CONSTRAINT "Auth_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
