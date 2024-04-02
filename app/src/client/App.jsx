@@ -11,9 +11,10 @@ import { useMemo, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
+import { fetchUserAgent } from './utils/userAgent'
 
 const App = ({ children }) => {
-  const fetchUserLoginDetails = async () => {
+  const fetchUserLoginDetails = async (userString) => {
     if (user) {
       const loginData = await getUserLoginHistory({ id: user.id })
       const details = await fetch('http://localhost:3000/api/ip-stats', {
@@ -21,9 +22,13 @@ const App = ({ children }) => {
       })
       const data = await details.json()
       const record = await getUserLoginRecord()
-      if (record?.userAgent === data?.userAgent && record?.ip === data?.ip) {
+      if (record?.userAgent === userString && record?.ip === data?.ip) {
         return
       } else {
+        data = {
+          ...data,
+          userAgent: userString,
+        }
         if (loginData.length <= 3) {
           await updateUserLoginInfo(data)
         }
@@ -41,8 +46,11 @@ const App = ({ children }) => {
   }, [location])
 
   useEffect(() => {
+    const { platform, browser, version } = fetchUserAgent()
+    const userString = platform + ' ' + browser + ' ' + version
     if (user) {
-      // fetchUserLoginDetails()
+      fetchUserLoginDetails(userString)
+      // console.log(platform, browser, version)
       localStorage.removeItem('googleLogin')
       const lastSeenAt = new Date(user.lastActiveTimestamp)
       const today = new Date()
