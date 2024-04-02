@@ -21,6 +21,7 @@ const App = ({ children }) => {
 
   useEffect(() => {
     if (user) {
+      localStorage.removeItem('googleLogin')
       const lastSeenAt = new Date(user.lastActiveTimestamp)
       const today = new Date()
       if (today.getTime() - lastSeenAt.getTime() > 5 * 60 * 1000) {
