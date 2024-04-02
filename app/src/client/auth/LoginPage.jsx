@@ -18,7 +18,6 @@ export const LoginPage = () => {
     googleLogin.addEventListener('click', handleGoogleLogin)
     // console.log(localStorage.getItem('googleLogin') === true, user)
     if (localStorage.getItem('googleLogin') === 'true' && !user) {
-      console.log('conditions passed')
       toast({
         title: 'Google login failed',
         description:

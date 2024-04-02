@@ -13,13 +13,10 @@ import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
 
 const App = ({ children }) => {
-  // useEffect(() => {
-  //   fetchUserLoginDetails()
-  // }, [])
   const fetchUserLoginDetails = async () => {
     if (user) {
       const loginData = await getUserLoginHistory({ id: user.id })
-      const details = await fetch('http://localhost:3000/api/get-info', {
+      const details = await fetch('http://localhost:3000/api/ip-stats', {
         method: 'GET',
       })
       const data = await details.json()
@@ -45,7 +42,7 @@ const App = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      fetchUserLoginDetails()
+      // fetchUserLoginDetails()
       localStorage.removeItem('googleLogin')
       const lastSeenAt = new Date(user.lastActiveTimestamp)
       const today = new Date()
@@ -73,7 +70,6 @@ const App = ({ children }) => {
           <>
             {shouldDisplayAppNavBar && <AppNavBar />}
             {/* <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl md:max-w-screen-2xl xl:max-w-screen-3xl'> */}
-
             <div className='mx-auto px-4 sm:px-6 lg:px-8'>{children}</div>
           </>
         )}
