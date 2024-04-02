@@ -151,3 +151,18 @@ action updateSubscriberStatus {
   fn: import {updateSubscriberStatus} from "@src/server/actions",
   entities: [User]
 }
+
+action updateUserLoginInfo {
+  fn: import {updateUserLoginInfo} from "@src/server/actions",
+  entities: [UserLogin]
+}
+
+query getUserLoginRecord {
+  fn: import {getUserLoginRecord} from "@src/server/queries",
+  entities: [UserLogin]
+}
+
+query getUserLoginHistory {
+  fn: import {getUserLoginHistory} from "@src/server/queries",
+  entities: [UserLogin]
+}

@@ -1,5 +1,10 @@
 import { useAuth } from 'wasp/client/auth'
-import { updateCurrentUser } from 'wasp/client/operations'
+import {
+  updateCurrentUser,
+  getUserLoginHistory,
+  updateUserLoginInfo,
+  getUserLoginRecord,
+} from 'wasp/client/operations'
 import './global.css'
 import './Main.css'
 import { useMemo, useEffect } from 'react'
@@ -8,8 +13,27 @@ import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
 
 const App = ({ children }) => {
+  // useEffect(() => {
+  //   fetchUserLoginDetails()
+  // }, [])
+  const fetchUserLoginDetails = async () => {
+    if (user) {
+      const loginData = await getUserLoginHistory({ id: user.id })
+      const details = await fetch('http://localhost:3000/api/get-info', {
+        method: 'GET',
+      })
+      const data = await details.json()
+      const record = await getUserLoginRecord()
+      if (record?.userAgent === data?.userAgent && record?.ip === data?.ip) {
+        return
+      } else {
+        if (loginData.length <= 3) {
+          await updateUserLoginInfo(data)
+        }
+      }
+    }
+  }
   const location = useLocation()
-
   const { data: user } = useAuth()
 
   const shouldDisplayAppNavBar = useMemo(() => {
@@ -21,6 +45,7 @@ const App = ({ children }) => {
 
   useEffect(() => {
     if (user) {
+      fetchUserLoginDetails()
       localStorage.removeItem('googleLogin')
       const lastSeenAt = new Date(user.lastActiveTimestamp)
       const today = new Date()
@@ -41,21 +66,19 @@ const App = ({ children }) => {
   }, [location])
   return (
     <>
-   
-        <div className='min-h-screen dark:text-white dark:bg-boxdark-2'>
-          {isAdminDashboard ? (
-            <>{children}</>
-          ) : (
-            <>
-              {shouldDisplayAppNavBar && <AppNavBar />}
-              {/* <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl md:max-w-screen-2xl xl:max-w-screen-3xl'> */}
+      <div className='min-h-screen dark:text-white dark:bg-boxdark-2'>
+        {isAdminDashboard ? (
+          <>{children}</>
+        ) : (
+          <>
+            {shouldDisplayAppNavBar && <AppNavBar />}
+            {/* <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl md:max-w-screen-2xl xl:max-w-screen-3xl'> */}
 
-              <div className='mx-auto px-4 sm:px-6 lg:px-8'>{children}</div>
-            </>
-          )}
-        </div>
-        <Toaster />
-     
+            <div className='mx-auto px-4 sm:px-6 lg:px-8'>{children}</div>
+          </>
+        )}
+      </div>
+      <Toaster />
     </>
   )
 }

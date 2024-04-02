@@ -3,7 +3,11 @@ import { ChatWindow } from '../components/Chat/ChatWindow'
 import { useChatApi } from '../hooks/useChatApi'
 import { useHistory } from 'react-router-dom'
 import { useTelegramApi } from '../hooks/useTelegramApi'
-import { Card } from '@/components/ui/card'
+import {
+  getUserLoginHistory,
+  updateUserLoginInfo,
+  getUserLoginRecord,
+} from 'wasp/client/operations'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 export const ChatPage = ({ user }) => {
@@ -18,6 +22,27 @@ export const ChatPage = ({ user }) => {
   const purchaseRedirect = () => {
     history.push('/purchase')
   }
+  // useEffect(() => {
+  //   fetchUserLoginDetails()
+  // }, [])
+  // const fetchUserLoginDetails = async () => {
+  //   if (user) {
+  //     const loginData = await getUserLoginHistory({ id: user.id })
+  //     const details = await fetch('http://localhost:3000/api/get-info', {
+  //       method: 'GET',
+  //     })
+  //     const data = await details.json()
+
+  //     const record = await getUserLoginRecord()
+  //     if (record?.userAgent === data?.userAgent && record?.ip === data?.ip) {
+  //       return
+  //     } else {
+  //       if (loginData.length < 3) {
+  //         updateUserLoginInfo(data)
+  //       }
+  //     }
+  //   }
+  // }
   return (
     <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
       <div className='w-full flex-1 overflow-y-auto h-full'>

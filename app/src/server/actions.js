@@ -1,3 +1,4 @@
+import { data } from 'autoprefixer'
 import { HttpError } from 'wasp/server'
 
 export const updateCurrentUser = async (user, context) => {
@@ -42,4 +43,28 @@ export const updateSubscriberStatus = async (args, context) => {
     where: { id: context.user.id },
     data: { subscriptionStatus: args.subscriptionStatus },
   })
+}
+
+export const updateUserLoginInfo = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(401, 'Unauthorized')
+  }
+
+  // Check if the count of UserLogin records is less than 3
+  const count = await context.entities.UserLogin.count()
+  console.log(count)
+  if (count < 3) {
+    // Proceed with creating a new UserLogin record
+    return context.entities.UserLogin.create({
+      data: { ...args, user: { connect: { id: context.user.id } } },
+    })
+  } else {
+    const oldestLogin = await context.entities.UserLogin.findFirst({
+      orderBy: { createdAt: 'asc' },
+    })
+    await context.entities.UserLogin.delete({ where: { id: oldestLogin.id } })
+    return context.entities.UserLogin.create({
+      data: { ...args, user: { connect: { id: context.user.id } } },
+    })
+  }
 }
