@@ -60,7 +60,6 @@ const formSchema = z.object({
   }),
 })
 export const UserInfoPage = ({ user }) => {
-  console.log(user)
   const history = useHistory()
   const { toast } = useToast()
   const form = useForm({
@@ -302,10 +301,15 @@ export const UserInfoPage = ({ user }) => {
                     )}
                   />
                 </div>
-                <Button onClick={() => history.push('/request-password-reset')}>
-                  Reset Password
-                </Button>
-                <div className='flex justify-center pt-5'>
+
+                <div className='flex justify-center pt-5 gap-5'>
+                  {!user.googleLogin && user?.completeAccount && (
+                    <Button
+                      onClick={() => history.push('/request-password-reset')}
+                    >
+                      Reset Password
+                    </Button>
+                  )}
                   <Button type='submit' disabled={isLoading}>
                     {user?.completeAccount
                       ? 'Update Account'
