@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useToast } from '@/components/ui/use-toast'
 import {
@@ -21,8 +21,13 @@ import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { updateUserInfo, updateCredit } from 'wasp/client/operations'
+import {
+  updateUserInfo,
+  updateCredit,
+  getUserLoginRecord,
+} from 'wasp/client/operations'
 import { z } from 'zod'
+import LastLogin from '../components/LastLogin'
 
 const languages = [
   { id: 'english', label: 'English' },
@@ -61,6 +66,7 @@ const formSchema = z.object({
 })
 export const UserInfoPage = ({ user }) => {
   const history = useHistory()
+  const [data, setData] = useState()
   const { toast } = useToast()
   const form = useForm({
     mode: 'onChange',
@@ -101,10 +107,33 @@ export const UserInfoPage = ({ user }) => {
       console.log(error.message)
     }
   }
+  const fetchUserAgent = async () => {
+    const response = await getUserLoginRecord()
+    if (response?.userAgent) {
+      const sendData = {
+        userAgent: response?.userAgent,
+        ip: response?.ip,
+        regionName: response?.regionName,
+        country: response?.country,
+      }
+      setData(sendData)
+    } else {
+      console.log('in here damn')
+      setData({
+        userAgent: 'Windows Chrome 1.0.0',
+        ip: '127.0.0.1',
+        regionName: 'Kochi',
+        country: 'India',
+      })
+    }
+  }
+  useEffect(() => {
+    fetchUserAgent()
+  }, [])
   return (
     <>
-      <section className='flex flex-col justify-center items-center min-h-[90svh]'>
-        <Card className='w-[800px] m-auto'>
+      <section className='flex flex-col justify-center items-center min-h-[90svh] gap-5'>
+        <Card className='w-[800px] mx-auto'>
           <CardHeader className='space-y-5 text-center'>
             <CardTitle>Account Details</CardTitle>
             <CardDescription>
@@ -320,6 +349,7 @@ export const UserInfoPage = ({ user }) => {
             </Form>
           </CardContent>
         </Card>
+        {data && <LastLogin data={data} />}
       </section>
     </>
   )
