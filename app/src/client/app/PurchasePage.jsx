@@ -19,6 +19,7 @@ export const PurchasePage = ({ user }) => {
   const handleSubscribe = async () => {
     try {
       await updateSubscriberStatus({ subscriptionStatus: true })
+      await updateCredit({ credits: 20 })
       toast({
         title: 'Subscription successful',
         description: 'You are now a premium member',

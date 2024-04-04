@@ -3,11 +3,6 @@ import { ChatWindow } from '../components/Chat/ChatWindow'
 import { useChatApi } from '../hooks/useChatApi'
 import { useHistory } from 'react-router-dom'
 import { useTelegramApi } from '../hooks/useTelegramApi'
-import {
-  getUserLoginHistory,
-  updateUserLoginInfo,
-  getUserLoginRecord,
-} from 'wasp/client/operations'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 export const ChatPage = ({ user }) => {
