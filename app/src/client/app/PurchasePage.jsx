@@ -74,7 +74,11 @@ export const PurchasePage = ({ user }) => {
             <div>30 credits</div>
           </div>
           {/* <Button className='mt-5' onClick={() => handleChangeCredit(10)}> */}
-          <Button className='mt-5' onClick={() => handleBuy('CREDITS')}>
+          <Button
+            className='mt-5'
+            onClick={() => handleBuy('CREDITS')}
+            disabled={isStripePaymentLoading}
+          >
             Purchase
           </Button>
         </Card>
@@ -93,7 +97,7 @@ export const PurchasePage = ({ user }) => {
           )}
           <Button
             onClick={() => handleBuy('SUBSCRIPTION')}
-            disabled={user.subscriptionStatus}
+            disabled={isStripePaymentLoading}
           >
             {user.subscriptionStatus ? 'Already subscribed' : 'Subscribe'}
           </Button>

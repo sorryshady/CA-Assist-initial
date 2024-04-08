@@ -1,14 +1,13 @@
-const { emailSender } = require('wasp/server/email')
-const express = require('express')
+import { emailSender } from 'wasp/server/email'
 // const { TierIds } = require('../../shared/constants.js')
-const Stripe = require('stripe')
-
+import express from 'express'
+import Stripe from 'stripe'
 // make sure the api version matches the version in the Stripe dashboard
 const stripe = new Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2023-10-16', // TODO find out where this is in the Stripe dashboard and document
 })
 
-const stripeWebhook = async (request, response, context) => {
+export const stripeWebhook = async (request, response, context) => {
   const sig = request.headers['stripe-signature']
   let event
 
@@ -18,6 +17,10 @@ const stripeWebhook = async (request, response, context) => {
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     )
+    console.table({
+      sig: 'stripe webhook signature verified',
+      type: event.type,
+    })
   } catch (err) {
     console.log(err.message)
     return response.status(400).send(`Webhook Error: ${err.message}`)
@@ -44,6 +47,9 @@ const stripeWebhook = async (request, response, context) => {
         await context.entities.User.updateMany({
           where: {
             stripeId: userStripeId,
+          },
+          data: {
+            credits: 20,
           },
           // data: {
           //   hasPaid: true,
@@ -76,10 +82,10 @@ const stripeWebhook = async (request, response, context) => {
         where: {
           stripeId: userStripeId,
         },
-        data: {
-          hasPaid: true,
-          datePaid: periodStart,
-        },
+        // data: {
+        //   hasPaid: true,
+        //   datePaid: periodStart,
+        // },
       })
     } else if (event.type === 'customer.subscription.updated') {
       const subscription = event.data.object
@@ -162,10 +168,9 @@ const stripeWebhook = async (request, response, context) => {
 }
 
 // This allows us to override Wasp's defaults and parse the raw body of the request from Stripe to verify the signature
-const stripeMiddlewareFn = (middlewareConfig) => {
+export const stripeMiddlewareFn = (middlewareConfig) => {
+  console.log('middleware')
   middlewareConfig.delete('express.json')
   middlewareConfig.set('express.raw', express.raw({ type: 'application/json' }))
   return middlewareConfig
 }
-
-module.exports = { stripeWebhook, stripeMiddlewareFn }

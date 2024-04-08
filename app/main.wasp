@@ -177,3 +177,11 @@ query getUserLoginHistory {
   fn: import {getUserLoginHistory} from "@src/server/queries",
   entities: [UserLogin]
 }
+
+
+api stripeWebhook {
+  fn: import { stripeWebhook } from "@src/server/webhooks/stripe.js",
+  entities: [User],
+  middlewareConfigFn: import { stripeMiddlewareFn } from "@src/server/webhooks/stripe.js",
+  httpRoute: (POST, "/stripe-webhook")
+}

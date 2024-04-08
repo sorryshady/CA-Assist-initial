@@ -1,5 +1,8 @@
 {
   "name": "myproject",
+  "scripts": {
+    "stripe:listen": "stripe listen --forward-to localhost:3001/stripe-webhook"
+  },
   "dependencies": {
     "@faker-js/faker": "8.3.1",
     "@headlessui/react": "^1.7.18",
