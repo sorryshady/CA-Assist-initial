@@ -26,6 +26,7 @@ const stripeWebhook = async (request, response, context) => {
   let userStripeId = null
 
   try {
+    console.log(event.type)
     if (event.type === 'checkout.session.completed') {
       console.log('Checkout session completed')
       const session = event.data.object

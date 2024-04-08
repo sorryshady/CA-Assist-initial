@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
-import { updateCredit, updateSubscriberStatus } from 'wasp/client/operations'
+import {
+  updateCredit,
+  updateSubscriberStatus,
+  stripePayment,
+} from 'wasp/client/operations'
+
+const STRIPE_CUSTOMER_PORTAL =
+  'https://billing.stripe.com/p/login/test_aEUg2bgQQ4B6fcc000'
 export const PurchasePage = ({ user }) => {
+  const [isStripePaymentLoading, setIsStripePaymentLoading] = useState(false)
   const { toast } = useToast()
   const handleChangeCredit = async (credits) => {
     try {
@@ -26,6 +34,20 @@ export const PurchasePage = ({ user }) => {
       })
     } catch (error) {
       console.log(error.message)
+    }
+  }
+
+  const handleBuy = async (tier) => {
+    try {
+      setIsStripePaymentLoading(tier)
+      let stripeResults = await stripePayment(tier)
+      if (stripeResults?.sessionUrl) {
+        window.open(stripeResults.sessionUrl, '_self')
+      }
+    } catch (error) {
+      console.error(error?.message ?? 'Something went wrong.')
+    } finally {
+      setIsStripePaymentLoading(false)
     }
   }
   return (
@@ -51,7 +73,8 @@ export const PurchasePage = ({ user }) => {
             <div className='h-[1px] w-full bg-gray-300' />
             <div>30 credits</div>
           </div>
-          <Button className='mt-5' onClick={() => handleChangeCredit(10)}>
+          {/* <Button className='mt-5' onClick={() => handleChangeCredit(10)}> */}
+          <Button className='mt-5' onClick={() => handleBuy('CREDITS')}>
             Purchase
           </Button>
         </Card>
@@ -62,7 +85,16 @@ export const PurchasePage = ({ user }) => {
             <div>20 free credits</div>
             <div>Unlimited access to chartered accountants.</div>
           </div>
-          <Button onClick={handleSubscribe} disabled={user.subscriptionStatus}>
+          {/* <Button onClick={handleSubscribe} disabled={user.subscriptionStatus}> */}
+          {user.subscriptionStatus && (
+            <a href={STRIPE_CUSTOMER_PORTAL} className='text-blue-500'>
+              Manage Subscription
+            </a>
+          )}
+          <Button
+            onClick={() => handleBuy('SUBSCRIPTION')}
+            disabled={user.subscriptionStatus}
+          >
             {user.subscriptionStatus ? 'Already subscribed' : 'Subscribe'}
           </Button>
         </Card>

@@ -132,6 +132,11 @@ page PurchasePage {
   authRequired: true,
   component: import {PurchasePage} from "@src/client/app/PurchasePage"
 }
+route CheckoutPage {path: "/checkout", to:CheckoutPage}
+page CheckoutPage {
+  authRequired: true,
+  component: import {CheckoutPage} from "@src/client/app/CheckoutPage"
+}
 
 action updateCurrentUser {
   fn: import { updateCurrentUser } from "@src/server/actions",

@@ -1,7 +1,9 @@
 import { data } from 'autoprefixer'
 import { HttpError } from 'wasp/server'
-import Stripe from 'stripe'
-import { fetchStripeCustomer } from './payments/stripeUtils'
+import {
+  fetchStripeCustomer,
+  createStripeCheckoutSession,
+} from './payments/stripeUtils'
 export const updateCurrentUser = async (user, context) => {
   if (!user) {
     throw new HttpError(401, 'Unauthorized')
@@ -70,7 +72,7 @@ export const updateUserLoginInfo = async (args, context) => {
   }
 }
 
-export const stripePayments = async (tier, context) => {
+export const stripePayment = async (tier, context) => {
   if (!context.user) {
     throw new HttpError(401, 'Unauthorized')
   }
@@ -79,9 +81,9 @@ export const stripePayments = async (tier, context) => {
     throw new HttpError(403, 'Email is required to continue.')
   }
   let priceId
-  if ((tier = 'CREDITS')) {
+  if (tier == 'CREDITS') {
     priceId = process.env.CREDIT_PRICE_ID
-  } else if ((tier = 'SUBSCRIPTION')) {
+  } else if (tier == 'SUBSCRIPTION') {
     priceId = process.env.SUBSCRIPTION_PRICE_ID
   } else {
     throw new HttpError(400, 'Invalid tier')

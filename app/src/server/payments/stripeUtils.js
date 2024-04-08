@@ -1,4 +1,4 @@
-const Stripe = require('stripe')
+import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_KEY, {
   apiVersion: '2022-11-15',
@@ -39,10 +39,11 @@ export async function createStripeCheckoutSession({
     mode: tier === 'CREDITS' ? 'payment' : 'subscription',
     success_url: `${DOMAIN}/checkout?success=true`,
     cancel_url: `${DOMAIN}/checkout?canceled=true`,
-    automatic_tax: { enabled: true },
+    // automatic_tax: { enabled: true },
     customer_update: {
-      address: 'auto',
+      address: 'auto', // Set to 'none' if transaction is in INR
     },
+    billing_address_collection: 'required',
     customer: customerId,
   })
 }
