@@ -1,6 +1,7 @@
 import { data } from 'autoprefixer'
 import { HttpError } from 'wasp/server'
-
+import Stripe from 'stripe'
+import { fetchStripeCustomer } from './payments/stripeUtils'
 export const updateCurrentUser = async (user, context) => {
   if (!user) {
     throw new HttpError(401, 'Unauthorized')
@@ -66,5 +67,44 @@ export const updateUserLoginInfo = async (args, context) => {
     return context.entities.UserLogin.create({
       data: { ...args, user: { connect: { id: context.user.id } } },
     })
+  }
+}
+
+export const stripePayments = async (tier, context) => {
+  if (!context.user) {
+    throw new HttpError(401, 'Unauthorized')
+  }
+  const userEmail = context.user.email
+  if (!userEmail) {
+    throw new HttpError(403, 'Email is required to continue.')
+  }
+  let priceId
+  if ((tier = 'CREDITS')) {
+    priceId = process.env.CREDIT_PRICE_ID
+  } else if ((tier = 'SUBSCRIPTION')) {
+    priceId = process.env.SUBSCRIPTION_PRICE_ID
+  } else {
+    throw new HttpError(400, 'Invalid tier')
+  }
+  let customer
+  let session
+  try {
+    customer = await fetchStripeCustomer(userEmail)
+    session = await createStripeCheckoutSession({
+      priceId,
+      customerId: customer.id,
+      tier,
+    })
+  } catch (err) {
+    throw new HttpError(500, err.message)
+  }
+  await context.entities.User.update({
+    where: { id: context.user.id },
+    data: { stripeId: customer.id },
+  })
+
+  return {
+    sessionUrl: session.url,
+    sessionId: session.id,
   }
 }

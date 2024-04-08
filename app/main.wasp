@@ -64,9 +64,9 @@ entity User {=psl
   phoneNumber               String?         
   logins                    UserLogin[]  
   googleLogin               Boolean         @default(false)
+  stripeId                  String? 
   // currentConv               String?
   // isAdmin                   Boolean         @default(false)
-  // stripeId                  String? 
   // checkoutSessionId         String?
   // subscriptionTier          String?
   // sendEmail                 Boolean         @default(false)
@@ -156,6 +156,11 @@ action updateSubscriberStatus {
 action updateUserLoginInfo {
   fn: import {updateUserLoginInfo} from "@src/server/actions",
   entities: [UserLogin]
+}
+
+action stripePayment {
+  fn: import {stripePayment} from "@src/server/actions",
+  entities: [User]
 }
 
 query getUserLoginRecord {
