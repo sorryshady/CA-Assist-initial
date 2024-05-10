@@ -16,6 +16,7 @@ CREATE TABLE "User" (
     "subscriptionStatus" BOOLEAN NOT NULL DEFAULT false,
     "phoneNumber" TEXT,
     "googleLogin" BOOLEAN NOT NULL DEFAULT false,
+    "stripeId" TEXT,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
