@@ -54,7 +54,7 @@ export const PurchasePage = ({ user }) => {
   }
   return (
     <section className=' min-h-[90svh] flex flex-col'>
-      <h1 className='text-3xl font-bold text-center mt-[10svh]'>
+      <h1 className='text-3xl font-bold text-center mt-[5svh]'>
         Pricing Plans
       </h1>
       <p className='text-lg  my-5 max-w-[1000px] m-auto text-center'>
@@ -103,7 +103,7 @@ export const PurchasePage = ({ user }) => {
           </Button>
         </Card>
       </div> */}
-      <div className='mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-10 lg:gap-x-8 sm:mt-20 lg:max-w-[1000px] lg:grid-cols-2 '>
+      <div className='mx-auto  grid max-w-md grid-cols-1 gap-y-10 lg:gap-x-8  lg:max-w-[1000px] lg:grid-cols-2 '>
         {tiers.map((tier) => (
           <Card
             key={tier.name}
@@ -150,9 +150,9 @@ export const PurchasePage = ({ user }) => {
               <Button
                 className='mt-5'
                 onClick={() => handleBuy('SUBSCRIPTION')}
-                disabled={isStripePaymentLoading}
+                disabled={isStripePaymentLoading || user.subscriptionStatus}
               >
-                Purchase
+                {user.subscriptionStatus ? 'Premium User' : 'Purchase'}
               </Button>
             )}
           </Card>

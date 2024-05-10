@@ -1,10 +1,16 @@
 export const tiers = [
   {
-    name: 'Basic',
+    name: 'Regular',
     tier: 'CREDITS',
     price: '₹ 99',
-    description: 'Get Started',
-    features: ['Access AI Chat', '10 credits for AI Chat', 'Basic Support'],
+    description: 'AI Powered Tax Assist',
+    features: [
+      'Grab 10 credits to communicate with our AI',
+      'AI exclusively trained on Indian Tax System',
+      '24/7 availability',
+      'Identify potential deductions based on income and profession',
+      'Explore legal strategies to reduce your tax burden',
+    ],
   },
   {
     name: 'Premium',
@@ -12,11 +18,13 @@ export const tiers = [
     price: '₹ 499',
     description: 'All rounder plan',
     features: [
-      'Access AI Chat',
-      '20 credits for AI Chat',
-      'Access CA Chat',
-      'Premium Support',
-      'Access to ITR Filing, GST Filing and more..',
+      'Your Dedicated Language-matched CA',
+      'Personalized Assistance',
+      'Secure File Sharing',
+      'Secure Voice Messaging',
+      'Tax Filing made easy',
+      'GST Compliance Management',
+      'Company Incorporation & Beyond.'
     ],
   },
 ]
