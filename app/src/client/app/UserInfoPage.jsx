@@ -133,7 +133,7 @@ export const UserInfoPage = ({ user }) => {
   return (
     <>
       <section className='flex flex-col justify-center items-center min-h-[90svh] gap-5'>
-        <Card className='w-[800px] mx-auto'>
+        <Card className='w-full max-w-[95%] sm:max-w-[90%] md:w-[800px] mx-auto p-4 sm:p-6 md:p-8'>
           <CardHeader className='space-y-5 text-center'>
             <CardTitle>Account Details</CardTitle>
             <CardDescription>
