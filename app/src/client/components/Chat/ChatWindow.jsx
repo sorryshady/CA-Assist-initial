@@ -198,7 +198,7 @@ return (
       <div ref={chatEndRef} />
     </div>
     {chatType === 'ai' || (chatType === 'ca' && connectedStatus) ? (
-      <footer className='w-full flex justify-between px-4 py-4 md:px-5 md:py-5 gap-2 md:gap-3 lg:gap-5 fixed bottom-0 left-0 '>
+      <footer className='w-full flex justify-between px-4 py-4 md:px-5 md:py-5 gap-2 md:gap-3 fixed bottom-0 left-0 '>
         {fileData.name && fileCard}
         {close && (
           <Recording
