@@ -53,76 +53,34 @@ export const PurchasePage = ({ user }) => {
     }
   }
   return (
-    <section className=' min-h-[90svh] flex flex-col'>
-      <h1 className='text-3xl font-bold text-center mt-[5svh]'>
-        Pricing Plans
-      </h1>
-      <p className='text-lg  my-5 max-w-[1000px] m-auto text-center'>
+    <section className='min-h-[90svh] flex flex-col p-4 sm:p-6 md:p-8'>
+      <h1 className='text-3xl font-bold text-center '>Pricing Plans</h1>
+      <p className='text-base sm:text-lg my-5 max-w-[1000px] mx-auto text-center'>
         Get expert financial advice at your fingertips with our flexible pricing
         plans. Choose the plan that suits your needs and budget, and start
         chatting with our AI chatbot or connect with real financial advisors
         today.
       </p>
-      {/* <div className='flex '>
-        <Card className='p-5 flex flex-col items-center min-w-[350px]  mt-10 mx-auto'>
-          <h1 className='text-xl font-bold mb-1'>Purchase Credits </h1>
-          <div className='text-xs text-red-500'>* used for AI chat only.</div>
-          <div className='flex flex-col gap-5 items-center justify-center'>
-            <h2 className='text-lg font-bold mt-3'>Credit options</h2>
-            <div>10 credits</div>
-            <div className='h-[1px] w-full bg-gray-300' />
-            <div>20 credits</div>
-            <div className='h-[1px] w-full bg-gray-300' />
-            <div>30 credits</div>
-          </div>
-          <Button
-            className='mt-5'
-            onClick={() => handleBuy('CREDITS')}
-            disabled={isStripePaymentLoading}
-          >
-            Purchase
-          </Button>
-        </Card>
-        <Card className='p-5 flex flex-col gap-5 items-center min-w-[350px]  mt-10 mx-auto justify-between'>
-          <h1 className='text-xl font-bold'>Premium Plan.</h1>
-          <div className='flex flex-col gap-5 items-center justify-center'>
-            <h2 className='text-lg font-bold'>Features</h2>
-            <div>20 free credits</div>
-            <div>Unlimited access to chartered accountants.</div>
-          </div>
-          {user.subscriptionStatus && (
-            <a href={STRIPE_CUSTOMER_PORTAL} className='text-blue-500'>
-              Manage Subscription
-            </a>
-          )}
-          <Button
-            onClick={() => handleBuy('SUBSCRIPTION')}
-            disabled={isStripePaymentLoading}
-          >
-            {user.subscriptionStatus ? 'Already subscribed' : 'Subscribe'}
-          </Button>
-        </Card>
-      </div> */}
-      <div className='mx-auto  grid max-w-md grid-cols-1 gap-y-10 lg:gap-x-8  lg:max-w-[1000px] lg:grid-cols-2 '>
+      <div className='mx-auto grid grid-cols-1 gap-8 lg:max-w-[1000px] lg:grid-cols-2'>
         {tiers.map((tier) => (
           <Card
             key={tier.name}
-            className='p-5 flex flex-col  min-w-[350px]  mt-10 justify-between'
+            className='p-5 flex flex-col min-w-[90%] sm:min-w-[350px] lg:mt-10 justify-between'
           >
             <div>
               <div className='flex items-center justify-center gap-x-4 text-center'>
-                <h3 className='text-gray-900 text-lg font-semibold leading-8 dark:text-white '>
+                <h3 className='text-gray-900 text-lg font-semibold leading-8 dark:text-white'>
                   {tier.name}
                 </h3>
               </div>
               <p className='mt-4 text-sm leading-6 text-gray-600 dark:text-white text-center'>
                 {tier.description}
               </p>
-              <p className='mt-6 flex items-baseline gap-x-1 dark:text-white justify-center '>
-                <p className='text-4xl font-bold  tracking-tight text-gray-900 dark:text-white'>
+              <div className='mt-6 flex items-baseline gap-x-1 dark:text-white justify-center'>
+                <p className='text-4xl font-bold tracking-tight text-gray-900 dark:text-white'>
                   {tier.price}
                 </p>
-              </p>
+              </div>
             </div>
             <ul
               role='list'
@@ -159,7 +117,7 @@ export const PurchasePage = ({ user }) => {
         ))}
       </div>
       <Button
-        className='mt-[8svh] mx-auto '
+        className='mt-[8svh]  mx-auto'
         onClick={() => window.history.back()}
       >
         Back
