@@ -7,7 +7,7 @@ import {
 } from 'wasp/client/operations'
 import './global.css'
 import './Main.css'
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
@@ -18,14 +18,14 @@ const App = ({ children }) => {
   const fetchUserLoginDetails = async (userString) => {
     if (user) {
       const loginData = await getUserLoginHistory({ id: user.id })
+      const record = await getUserLoginRecord()
+      const timeDiffHours =
+        (new Date() - new Date(record?.createdAt)) / (1000 * 60 * 60)
       const details = await fetch(ENDPOINT + 'ip-stats', {
         method: 'GET',
       })
       let data = await details.json()
-      const record = await getUserLoginRecord()
       if (record?.userAgent === userString && record?.ip === data?.ip) {
-        const timeDiffHours =
-          (new Date() - new Date(record?.createdAt)) / (1000 * 60 * 60)
         if (timeDiffHours < 1) {
           // If time difference is less than 1 hour, do nothing
           return
@@ -52,12 +52,16 @@ const App = ({ children }) => {
   const isAdminDashboard = useMemo(() => {
     return location.pathname.startsWith('/admin')
   }, [location])
+  const lastUserAgentRef = useRef(null)
 
   useEffect(() => {
     const { platform, browser, version } = fetchUserAgent()
     const userString = platform + ' ' + browser + ' ' + version
     if (user) {
-      fetchUserLoginDetails(userString)
+      if (lastUserAgentRef.current !== userString) {
+        fetchUserLoginDetails(userString)
+        lastUserAgentRef.current = userString
+      }
       // console.log(platform, browser, version)
       localStorage.removeItem('googleLogin')
       const lastSeenAt = new Date(user.lastActiveTimestamp)
