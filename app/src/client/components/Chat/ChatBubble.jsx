@@ -22,9 +22,16 @@ export const ChatBubble = ({ type, message, fileData, voiceFileId }) => {
     <ChatBubbleWrapper type={type}>
       {message && !fileData?.name && !voiceFileId && (
         <Card
-          className={clsx('w-fit', 'max-w-full', 'py-2 px-4', {
-            'flex-start': type !== 'userMessage',
-          })}
+          className={clsx(
+            'w-fit',
+            'max-w-full',
+            'text-sm',
+            'md:text-base',
+            'py-2 px-4',
+            {
+              'flex-start': type !== 'userMessage',
+            }
+          )}
           variant='outline'
           dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
         />

@@ -127,10 +127,14 @@ export const ChatWindow = ({
     <Card className='flex flex-col gap-5 px-5 py-3 md:px-10 md:py-5 w-fit items-start justify-between absolute  top-[-160px] md:top-[-170px] left-4 md:left-5 '>
       <div className='w-10 text-center m-auto'>{fileData.icon}</div>
       <div className='flex gap-3'>
-        <div>File: {fileData.name}</div>
-        <div>Size: {fileData.size}</div>
+        <div className='text-sm md:text-base'>File: {fileData.name}</div>
+        <div className='text-sm md:text-base'>Size: {fileData.size}</div>
       </div>
-      <Button type='submit' className='w-full' onClick={fileSubmit}>
+      <Button
+        type='submit'
+        className='w-full text-sm md:text-base'
+        onClick={fileSubmit}
+      >
         Send
       </Button>
     </Card>
@@ -138,123 +142,129 @@ export const ChatWindow = ({
   const error = (
     <p className='text-red-500 absolute top-[-10px]'>{errorMessage}</p>
   )
-const connectedStatus = localStorage.getItem('connected')
-return (
-  <>
-    <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-2 md:px-3 no-scrollbar'>
-      {conversation.map(
-        ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
-          if (type === 'userMessage') {
-            if (fileData?.name) {
-              return <ChatBubble key={index} type={type} fileData={fileData} />
-            } else if (voiceFileId) {
-              return (
-                <ChatBubble key={index} type={type} voiceFileId={voiceFileId} />
-              )
-            } else {
-              return <ChatBubble key={index} type={type} message={message} />
-            }
-          } else if (type === 'apiMessage' || type === 'caMessage') {
-            if (fileData?.name) {
-              return (
-                <ResponseBubble key={index} type={type} fileData={fileData} />
-              )
-            } else if (voiceFileUrl) {
-              return (
-                <ResponseBubble
-                  key={index}
-                  type={type}
-                  audioFileUrl={voiceFileUrl}
-                />
-              )
-            } else {
-              return (
-                <ResponseBubble key={index} type={type} message={message} />
-              )
+  const connectedStatus = localStorage.getItem('connected')
+  return (
+    <>
+      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-2 no-scrollbar'>
+        {conversation.map(
+          ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
+            if (type === 'userMessage') {
+              if (fileData?.name) {
+                return (
+                  <ChatBubble key={index} type={type} fileData={fileData} />
+                )
+              } else if (voiceFileId) {
+                return (
+                  <ChatBubble
+                    key={index}
+                    type={type}
+                    voiceFileId={voiceFileId}
+                  />
+                )
+              } else {
+                return <ChatBubble key={index} type={type} message={message} />
+              }
+            } else if (type === 'apiMessage' || type === 'caMessage') {
+              if (fileData?.name) {
+                return (
+                  <ResponseBubble key={index} type={type} fileData={fileData} />
+                )
+              } else if (voiceFileUrl) {
+                return (
+                  <ResponseBubble
+                    key={index}
+                    type={type}
+                    audioFileUrl={voiceFileUrl}
+                  />
+                )
+              } else {
+                return (
+                  <ResponseBubble key={index} type={type} message={message} />
+                )
+              }
             }
           }
-        }
-      )}
-      {sending && (
-        <div className='text-end text-xs mt-[-20px] mr-2 text-slate-500'>
-          Sending...
-        </div>
-      )}
-
-      {audioSend && (
-        <Card className='p-3 max-w-[15%] ml-auto'>
-          <div className='text-xs mr-2 text-slate-500 text-center'>
-            Sending Audio...
+        )}
+        {sending && (
+          <div className='text-end text-xs mt-[-10px] md:mt-[-20px] mr-2 text-slate-500'>
+            Sending...
           </div>
-        </Card>
-      )}
+        )}
 
-      {!tokens &&
-        conversation[conversation.length - 1].type !== 'apiMessage' &&
-        chatType === 'ai' && <LoaderBubble />}
-      {tokens && tokens !== conversation[conversation.length - 1].message && (
-        <ResponseBubble type='apiMessage' message={tokens} />
-      )}
-      <div ref={chatEndRef} />
-    </div>
-    {chatType === 'ai' || (chatType === 'ca' && connectedStatus) ? (
-      <footer className='w-full flex justify-between px-4 py-4 md:px-5 md:py-5 gap-2 md:gap-3 fixed bottom-0 left-0 '>
-        {fileData.name && fileCard}
-        {close && (
-          <Recording
-            recording={recording}
-            pausePlay={handlePauseResumeRecording}
-            stop={handleStopRecording}
-            paused={paused}
-            elapsedTime={elapsedTime}
-            deleteAudio={deleteHandler}
-            audioBlob={audioBlob}
-            audioUrl={audioUrl}
-            send={sendAudio}
+        {audioSend && (
+          <Card className='p-3 max-w-fit md:max-w-[15%] ml-auto'>
+            <div className='text-xs mr-2 text-slate-500 text-center'>
+              Sending Audio...
+            </div>
+          </Card>
+        )}
+
+        {!tokens &&
+          conversation[conversation.length - 1].type !== 'apiMessage' &&
+          chatType === 'ai' && <LoaderBubble />}
+        {tokens && tokens !== conversation[conversation.length - 1].message && (
+          <ResponseBubble type='apiMessage' message={tokens} />
+        )}
+        <div ref={chatEndRef} />
+      </div>
+      {chatType === 'ai' || (chatType === 'ca' && connectedStatus) ? (
+        <footer className='w-full flex justify-between px-4 py-4 md:px-5 md:py-5 gap-2 md:gap-3 fixed bottom-0 left-0 '>
+          {fileData.name && fileCard}
+          {close && (
+            <Recording
+              recording={recording}
+              pausePlay={handlePauseResumeRecording}
+              stop={handleStopRecording}
+              paused={paused}
+              elapsedTime={elapsedTime}
+              deleteAudio={deleteHandler}
+              audioBlob={audioBlob}
+              audioUrl={audioUrl}
+              send={sendAudio}
+            />
+          )}
+          {errorMessage && error}
+          {chatType !== 'ai' && (
+            <>
+              <Button
+                className='relative overflow-hidden !cursor-pointer p-3 md:p-5'
+                disabled={close}
+              >
+                <span>
+                  <ImAttachment size={16} />
+                </span>
+                <Input
+                  id='file'
+                  type='file'
+                  className='absolute top-0 left-0 opacity-0 w-full'
+                  onChange={handleChange}
+                  onClick={(e) => (e.target.value = null)}
+                />
+              </Button>
+              <Button
+                onClick={handleStartRecording}
+                disabled={close}
+                className='p-3 md:p-5'
+              >
+                <FaMicrophone size={16} />
+              </Button>
+            </>
+          )}
+          <Input
+            placeholder='Type a message...'
+            type='text'
+            ref={messageRef}
+            onKeyPress={onEnter}
           />
-        )}
-        {errorMessage && error}
-        {chatType !== 'ai' && (
-          <>
-            <Button
-              className='relative overflow-hidden !cursor-pointer p-3 md:p-5'
-              disabled={close}
-            >
-              <span>
-                <ImAttachment size={16} />
-              </span>
-              <Input
-                id='file'
-                type='file'
-                className='absolute top-0 left-0 opacity-0 w-full'
-                onChange={handleChange}
-                onClick={(e) => (e.target.value = null)}
-              />
-            </Button>
-            <Button
-              onClick={handleStartRecording}
-              disabled={close}
-              className='p-3 md:p-5'
-            >
-              <FaMicrophone size={16} />
-            </Button>
-          </>
-        )}
-        <Input
-          placeholder='Type a message...'
-          type='text'
-          ref={messageRef}
-          onKeyPress={onEnter}
-        />
-        <Button
-          className='p-3 md:p-5 text-xs md:text-sm'
-          type='submit'
-          onClick={sendMessageHandler}
-        >
-          Send
-        </Button>
-      </footer>
-    ) : null}
-  </>
-)
+          <Button
+            className='p-3 md:p-5 text-xs md:text-sm'
+            type='submit'
+            onClick={sendMessageHandler}
+          >
+            Send
+          </Button>
+        </footer>
+      ) : null}
+    </>
+  )
 }

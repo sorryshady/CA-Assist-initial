@@ -48,7 +48,9 @@ export const ResponseBubble = ({ type, message, fileData, audioFileUrl }) => {
                   'w-fit',
                   'max-w-full',
                   'py-2 px-4',
-                  'flex-start'
+                  'flex-start',
+                  'text-sm',
+                  'md:text-base'
                 )}
                 variant='outline'
                 dangerouslySetInnerHTML={{ __html: Marked.parse(message) }}
