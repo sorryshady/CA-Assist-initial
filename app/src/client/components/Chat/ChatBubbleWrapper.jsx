@@ -8,7 +8,7 @@ export const ChatBubbleWrapper = ({ type, children }) => {
         { 'flex-row-reverse': type !== 'userMessage' },
         'justify-end',
         'gap-2',
-        'mb-3',
+        'mb-5',
         'md:mb-6',
         'relative'
       )}

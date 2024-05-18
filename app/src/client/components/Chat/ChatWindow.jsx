@@ -145,7 +145,7 @@ export const ChatWindow = ({
   const connectedStatus = localStorage.getItem('connected')
   return (
     <>
-      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-2 no-scrollbar'>
+      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-210px)] flex flex-col mt-5 px-2 no-scrollbar'>
         {conversation.map(
           ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
             if (type === 'userMessage') {
