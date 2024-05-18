@@ -24,14 +24,21 @@ const App = ({ children }) => {
       let data = await details.json()
       const record = await getUserLoginRecord()
       if (record?.userAgent === userString && record?.ip === data?.ip) {
-        return
-      } else {
-        data = {
-          ...data,
-          userAgent: userString,
+        const timeDiffHours =
+          (new Date() - new Date(record?.createdAt)) / (1000 * 60 * 60)
+        if (timeDiffHours < 1) {
+          // If time difference is less than 1 hour, do nothing
+          return
         }
-        if (loginData.length <= 3) {
-          await updateUserLoginInfo(data)
+      } else {
+        if (!data.error) {
+          data = {
+            ...data,
+            userAgent: userString,
+          }
+          if (loginData.length <= 3) {
+            await updateUserLoginInfo(data)
+          }
         }
       }
     }
