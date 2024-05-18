@@ -138,71 +138,66 @@ export const ChatWindow = ({
   const error = (
     <p className='text-red-500 absolute top-[-10px]'>{errorMessage}</p>
   )
-
-  return (
-    <>
-      <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3 no-scrollbar'>
-        {conversation.map(
-          ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
-            if (type === 'userMessage') {
-              if (fileData?.name) {
-                return (
-                  <ChatBubble key={index} type={type} fileData={fileData} />
-                )
-              } else if (voiceFileId) {
-                return (
-                  <ChatBubble
-                    key={index}
-                    type={type}
-                    voiceFileId={voiceFileId}
-                  />
-                )
-              } else {
-                return <ChatBubble key={index} type={type} message={message} />
-              }
-            } else if (type === 'apiMessage' || type === 'caMessage') {
-              if (fileData?.name) {
-                return (
-                  <ResponseBubble key={index} type={type} fileData={fileData} />
-                )
-              } else if (voiceFileUrl) {
-                return (
-                  <ResponseBubble
-                    key={index}
-                    type={type}
-                    audioFileUrl={voiceFileUrl}
-                  />
-                )
-              } else {
-                return (
-                  <ResponseBubble key={index} type={type} message={message} />
-                )
-              }
+const connectedStatus = localStorage.getItem('connected')
+return (
+  <>
+    <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3 no-scrollbar'>
+      {conversation.map(
+        ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
+          if (type === 'userMessage') {
+            if (fileData?.name) {
+              return <ChatBubble key={index} type={type} fileData={fileData} />
+            } else if (voiceFileId) {
+              return (
+                <ChatBubble key={index} type={type} voiceFileId={voiceFileId} />
+              )
+            } else {
+              return <ChatBubble key={index} type={type} message={message} />
+            }
+          } else if (type === 'apiMessage' || type === 'caMessage') {
+            if (fileData?.name) {
+              return (
+                <ResponseBubble key={index} type={type} fileData={fileData} />
+              )
+            } else if (voiceFileUrl) {
+              return (
+                <ResponseBubble
+                  key={index}
+                  type={type}
+                  audioFileUrl={voiceFileUrl}
+                />
+              )
+            } else {
+              return (
+                <ResponseBubble key={index} type={type} message={message} />
+              )
             }
           }
-        )}
-        {sending && (
-          <div className='text-end text-xs mt-[-20px] mr-2 text-slate-500'>
-            Sending...
+        }
+      )}
+      {sending && (
+        <div className='text-end text-xs mt-[-20px] mr-2 text-slate-500'>
+          Sending...
+        </div>
+      )}
+
+      {audioSend && (
+        <Card className='p-3 max-w-[15%] ml-auto'>
+          <div className='text-xs mr-2 text-slate-500 text-center'>
+            Sending Audio...
           </div>
-        )}
+        </Card>
+      )}
 
-        {audioSend && (
-          <Card className='p-3 max-w-[15%] ml-auto'>
-            <div className='text-xs mr-2 text-slate-500 text-center'>
-              Sending Audio...
-            </div>
-          </Card>
-        )}
-
-        {!tokens &&
-          conversation[conversation.length - 1].type !== 'apiMessage' &&
-          chatType === 'ai' && <LoaderBubble />}
-        {tokens && tokens !== conversation[conversation.length - 1].message && (
-          <ResponseBubble type='apiMessage' message={tokens} />
-        )}
-        <div ref={chatEndRef} />
-      </div>
+      {!tokens &&
+        conversation[conversation.length - 1].type !== 'apiMessage' &&
+        chatType === 'ai' && <LoaderBubble />}
+      {tokens && tokens !== conversation[conversation.length - 1].message && (
+        <ResponseBubble type='apiMessage' message={tokens} />
+      )}
+      <div ref={chatEndRef} />
+    </div>
+    {connectedStatus && (
       <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
         {fileData.name && fileCard}
         {close && (
@@ -251,6 +246,7 @@ export const ChatWindow = ({
           Send
         </Button>
       </footer>
-    </>
-  )
+    )}
+  </>
+)
 }

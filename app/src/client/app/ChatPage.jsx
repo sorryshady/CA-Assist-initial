@@ -14,6 +14,7 @@ export const ChatPage = ({ user }) => {
   const { conversations, sendMessage, tokens } = useChatApi()
   const { caConversations, sendCaMessage } = useTelegramApi()
   const [chatType, setChatType] = useState(type)
+
   const purchaseRedirect = () => {
     history.push('/purchase')
   }
