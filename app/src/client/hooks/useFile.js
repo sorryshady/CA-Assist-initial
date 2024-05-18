@@ -2,7 +2,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useState } from 'react'
 import { setIcon } from '../utils/iconMap'
 
-const URL = 'http://localhost:3000/api/'
+const ENDPOINT = import.meta.env.REACT_APP_BACKENDPOINT
 
 export const useFile = () => {
   const initialFileData = {
@@ -57,7 +57,7 @@ export const useFile = () => {
       return
     }
 
-    const url = URL + 'chat'
+    const url = ENDPOINT + 'chat'
     const formData = new FormData()
     formData.append('file', file)
     formData.append('type', 'file')

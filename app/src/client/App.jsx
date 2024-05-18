@@ -13,11 +13,12 @@ import AppNavBar from './components/AppNavBar'
 import { Toaster } from '@/components/ui/toaster'
 import { fetchUserAgent } from './utils/userAgent'
 
+const ENDPOINT = import.meta.env.REACT_APP_BACKENDPOINT
 const App = ({ children }) => {
   const fetchUserLoginDetails = async (userString) => {
     if (user) {
       const loginData = await getUserLoginHistory({ id: user.id })
-      const details = await fetch('http://localhost:3000/api/ip-stats', {
+      const details = await fetch(ENDPOINT + 'ip-stats', {
         method: 'GET',
       })
       let data = await details.json()

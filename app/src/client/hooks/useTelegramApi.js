@@ -3,7 +3,7 @@ import { setWithExpiry, getWithExpiry } from '../utils/localstorage-expiry'
 import { useAuth } from 'wasp/client/auth'
 import { useCaChat } from './useCaChat'
 import { toast } from '@/components/ui/use-toast'
-const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
+const ENDPOINT = import.meta.env.REACT_APP_BACKENDPOINT
 export const useTelegramApi = () => {
   const { data } = useAuth()
   const { message } = useCaChat()
@@ -50,7 +50,7 @@ export const useTelegramApi = () => {
     if (chatType === 'ca' && !chat) fetchData()
   }, [chatType])
 
-  const CONNECT_URL = `http://localhost:${PORT}/api/connect`
+  const CONNECT_URL = ENDPOINT + 'connect'
   const fetchData = async () => {
     try {
       const response = await fetch(CONNECT_URL, {
@@ -87,7 +87,7 @@ export const useTelegramApi = () => {
         type: 'message',
         message: message.message,
       }
-      const URL = `http://localhost:${PORT}/api/chat`
+      const URL = ENDPOINT + 'chat'
       try {
         const response = await fetch(URL, {
           method: 'POST',

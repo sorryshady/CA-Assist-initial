@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { db } from '../db/db'
-const ENDPOINT = 'http://localhost:3000/api/'
+const ENDPOINT = import.meta.env.REACT_APP_BACKENDPOINT
 export const useRecording = () => {
   const [recording, setRecording] = useState(false)
   const [audioBlob, setAudioBlob] = useState(null)

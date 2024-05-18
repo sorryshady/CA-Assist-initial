@@ -14,11 +14,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { db } from '../db/db'
 const PORT = import.meta.env.REACT_APP_CA_CHAT_PORT
+const ENDPOINT = import.meta.env.REACT_APP_BACKENDPOINT
 const LogoutModal = ({ user, children }) => {
   const logoutHandler = async () => {
     const chatId = localStorage.getItem('caChatId')
     if (chatId) {
-      const URL = `http://localhost:${PORT}/api/disconnect`
+      const URL = ENDPOINT + 'disconnect'
       const body = {
         chat_id: chatId,
       }
