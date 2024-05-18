@@ -215,21 +215,21 @@ const AudioPlayer = ({
   }
 
   return (
-    <div className='flex gap-3 items-center min-h-[5svh] min-w-[10vw] w-fit'>
+    <div className='flex gap-2 md:gap-3 items-center min-h-[5svh] min-w-[10vw] w-fit'>
       {(audioFile || url) && (
         <>
           <Button onClick={handlePlay} className='p-3'>
             {playing ? <FaPause /> : <FaPlay />}
           </Button>
 
-          <div>{formatTime(currentTime)}</div>
+          <div className='text-xs md:text-base'>{formatTime(currentTime)}</div>
           <div
             id='waveform'
             ref={waveformRef}
             className='w-full flex flex-col'
             style={{ zIndex: 0 }}
           ></div>
-          <div>{formatTime(duration)}</div>
+          <div className='text-xs md:text-base'>{formatTime(duration)}</div>
         </>
       )}
       {fallbackContent}

@@ -23,7 +23,7 @@ const Recording = ({
   // }
   const { formatTime } = useRecording()
   return (
-    <Card className='w-fit absolute top-[-60px] md:top-[-65px] lg:top-[-65px] left-4 md:left-5 p-3 md:p-4 flex justify-between items-center z-[1000] max-w-[95vw]'>
+    <Card className='w-fit absolute top-[-110px] md:top-[-65px] lg:top-[-65px] left-4 md:left-5 p-3 md:p-4 flex justify-between items-center z-[1000] max-w-[95vw]'>
       {(recording || paused) && (
         <div className='flex gap-2 md:gap-3'>
           {(recording || paused) && (
@@ -39,10 +39,12 @@ const Recording = ({
         </div>
       )}
       {recording && (
-        <p className='text-lg ml-[5vw]'>{formatTime(elapsedTime)}</p>
+        <p className='text-xs md:text-base ml-[5vw]'>
+          {formatTime(elapsedTime)}
+        </p>
       )}
       {(audioBlob || audioUrl) && (
-        <div className='flex gap-2 md:justify-between items-center'>
+        <div className='flex gap-3 flex-col md:flex-row md:justify-between items-center'>
           <AudioPlayer audioFile={url || audioUrl} />
           <div className='flex gap-3 md:ml-10'>
             {audioUrl && (
