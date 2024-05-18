@@ -197,7 +197,7 @@ return (
       )}
       <div ref={chatEndRef} />
     </div>
-    {connectedStatus && (
+    {chatType === 'ai' || (chatType === 'ca' && connectedStatus) ? (
       <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
         {fileData.name && fileCard}
         {close && (
@@ -226,7 +226,7 @@ return (
               <Input
                 id='file'
                 type='file'
-                className='absolute top-0 left-0 opacity-0 w-full '
+                className='absolute top-0 left-0 opacity-0 w-full'
                 onChange={handleChange}
                 onClick={(e) => (e.target.value = null)}
               />
@@ -246,7 +246,7 @@ return (
           Send
         </Button>
       </footer>
-    )}
+    ) : null}
   </>
 )
 }
