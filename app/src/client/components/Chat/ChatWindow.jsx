@@ -124,7 +124,7 @@ export const ChatWindow = ({
   }, [conversation, tokens, audioSend])
 
   const fileCard = (
-    <Card className='flex flex-col gap-5 px-10 py-5 w-fit items-start justify-between absolute top-[-170px] left-5 '>
+    <Card className='flex flex-col gap-5 px-5 py-3 md:px-10 md:py-5 w-fit items-start justify-between absolute  top-[-160px] md:top-[-170px] left-4 md:left-5 '>
       <div className='w-10 text-center m-auto'>{fileData.icon}</div>
       <div className='flex gap-3'>
         <div>File: {fileData.name}</div>
