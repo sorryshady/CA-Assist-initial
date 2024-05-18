@@ -141,7 +141,7 @@ export const ChatWindow = ({
 const connectedStatus = localStorage.getItem('connected')
 return (
   <>
-    <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-3 no-scrollbar'>
+    <div className='w-full flex-1 overflow-y-auto max-h-[calc(100vh-250px)] flex flex-col mt-5 px-2 md:px-3 no-scrollbar'>
       {conversation.map(
         ({ type, message, fileData, voiceFileId, voiceFileUrl }, index) => {
           if (type === 'userMessage') {
@@ -198,7 +198,7 @@ return (
       <div ref={chatEndRef} />
     </div>
     {chatType === 'ai' || (chatType === 'ca' && connectedStatus) ? (
-      <footer className='w-full flex justify-between px-5 py-5 gap-5 fixed bottom-0 left-0 my-5'>
+      <footer className='w-full flex justify-between px-4 py-4 md:px-5 md:py-5 gap-2 md:gap-3 lg:gap-5 fixed bottom-0 left-0 '>
         {fileData.name && fileCard}
         {close && (
           <Recording
@@ -217,7 +217,7 @@ return (
         {chatType !== 'ai' && (
           <>
             <Button
-              className='relative overflow-hidden !cursor-pointer'
+              className='relative overflow-hidden !cursor-pointer p-3 md:p-5'
               disabled={close}
             >
               <span>
@@ -231,7 +231,11 @@ return (
                 onClick={(e) => (e.target.value = null)}
               />
             </Button>
-            <Button onClick={handleStartRecording} disabled={close}>
+            <Button
+              onClick={handleStartRecording}
+              disabled={close}
+              className='p-3 md:p-5'
+            >
               <FaMicrophone size={16} />
             </Button>
           </>
@@ -242,7 +246,11 @@ return (
           ref={messageRef}
           onKeyPress={onEnter}
         />
-        <Button type='submit' onClick={sendMessageHandler}>
+        <Button
+          className='p-3 md:p-5 text-xs md:text-sm'
+          type='submit'
+          onClick={sendMessageHandler}
+        >
           Send
         </Button>
       </footer>

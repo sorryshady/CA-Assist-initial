@@ -19,7 +19,59 @@ export const ChatPage = ({ user }) => {
     history.push('/purchase')
   }
   return (
-    <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
+    // <section className='w-full h-[90svh] m-auto flex flex-col items-center'>
+    //   <div className='w-full flex-1 overflow-y-auto h-full'>
+    //     <Tabs
+    //       defaultValue={chatType}
+    //       className='w-full'
+    //       onValueChange={(value) => {
+    //         setChatType(value)
+    //         if (value === 'ca' && subscribed) {
+    //           localStorage.setItem('chatType', value)
+    //         } else {
+    //           localStorage.setItem('chatType', 'ai')
+    //         }
+    //       }}
+    //     >
+    //       <TabsList className='grid w-full grid-cols-2'>
+    //         <TabsTrigger value='ai'>AI Chat</TabsTrigger>
+    //         <TabsTrigger value='ca'>CA Chat</TabsTrigger>
+    //       </TabsList>
+    //       <TabsContent value='ai'>
+    //         <ChatWindow
+    //           chatType={chatType}
+    //           conversation={conversations}
+    //           sendMessage={sendMessage}
+    //           credits={credits}
+    //           complete={complete}
+    //           tokens={tokens}
+    //         />
+    //       </TabsContent>
+    //       <TabsContent value='ca'>
+    //         {!subscribed ? (
+    //           <>
+    //             <div className='w-full h-[60svh] text-center flex flex-col items-center justify-center gap-5 mt-[10svh]'>
+    //               <p>You should be a premium user to access this feature.</p>
+    //               {complete && (
+    //                 <Button onClick={purchaseRedirect}>Purchase Premium</Button>
+    //               )}
+    //             </div>
+    //           </>
+    //         ) : (
+    //           <ChatWindow
+    //             chatType={chatType}
+    //             conversation={caConversations}
+    //             sendMessage={sendCaMessage}
+    //             credits={credits}
+    //             complete={complete}
+    //             tokens={tokens}
+    //           />
+    //         )}
+    //       </TabsContent>
+    //     </Tabs>
+    //   </div>
+    // </section>
+    <section className='w-full h-[90svh] m-auto flex flex-col items-center px-0 md:px-8'>
       <div className='w-full flex-1 overflow-y-auto h-full'>
         <Tabs
           defaultValue={chatType}
@@ -49,14 +101,14 @@ export const ChatPage = ({ user }) => {
           </TabsContent>
           <TabsContent value='ca'>
             {!subscribed ? (
-              <>
-                <div className='w-full h-[60svh] text-center flex flex-col items-center justify-center gap-5 mt-[10svh]'>
-                  <p>You should be a premium user to access this feature.</p>
-                  {complete && (
-                    <Button onClick={purchaseRedirect}>Purchase Premium</Button>
-                  )}
-                </div>
-              </>
+              <div className='w-full h-[60svh] text-center flex flex-col items-center justify-center gap-5 mt-[10svh] px-4'>
+                <p className='text-sm sm:text-base md:text-lg'>
+                  You should be a premium user to access this feature.
+                </p>
+                {complete && (
+                  <Button onClick={purchaseRedirect}>Purchase Premium</Button>
+                )}
+              </div>
             ) : (
               <ChatWindow
                 chatType={chatType}
