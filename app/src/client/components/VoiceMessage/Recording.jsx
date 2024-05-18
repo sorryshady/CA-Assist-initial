@@ -23,16 +23,16 @@ const Recording = ({
   // }
   const { formatTime } = useRecording()
   return (
-    <Card className='w-fit absolute top-[-60px] md:top-[-65px] lg:top-[-65px] left-4 md:left-5 p-3 md:p-4 flex justify-between items-center z-[1000]'>
+    <Card className='w-fit absolute top-[-60px] md:top-[-65px] lg:top-[-65px] left-4 md:left-5 p-3 md:p-4 flex justify-between items-center z-[1000] max-w-[95vw]'>
       {(recording || paused) && (
         <div className='flex gap-2 md:gap-3'>
           {(recording || paused) && (
-            <Button onClick={pausePlay}>
+            <Button onClick={pausePlay} className='p-3'>
               {paused ? <FaPlay /> : <FaPause />}
             </Button>
           )}
           {recording && (
-            <Button onClick={stop}>
+            <Button onClick={stop} className='p-3'>
               <FaStop />
             </Button>
           )}
@@ -42,16 +42,20 @@ const Recording = ({
         <p className='text-lg ml-[5vw]'>{formatTime(elapsedTime)}</p>
       )}
       {(audioBlob || audioUrl) && (
-        <div className='flex justify-between items-center'>
+        <div className='flex gap-2 md:justify-between items-center'>
           <AudioPlayer audioFile={url || audioUrl} />
-          <div className='flex gap-3 ml-10'>
+          <div className='flex gap-3 md:ml-10'>
             {audioUrl && (
-              <Button onClick={send}>
+              <Button onClick={send} className='p-3'>
                 <MdSend size={18} />
               </Button>
             )}
             {audioBlob && (
-              <Button variant='destructive' onClick={deleteAudio}>
+              <Button
+                variant='destructive'
+                onClick={deleteAudio}
+                className='p-3'
+              >
                 <MdDelete size={20} />
               </Button>
             )}

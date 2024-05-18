@@ -215,10 +215,10 @@ const AudioPlayer = ({
   }
 
   return (
-    <div className='flex gap-3 items-center min-h-[5svh] min-w-[10vw]'>
+    <div className='flex gap-3 items-center min-h-[5svh] min-w-[10vw] w-fit'>
       {(audioFile || url) && (
         <>
-          <Button onClick={handlePlay}>
+          <Button onClick={handlePlay} className='p-3'>
             {playing ? <FaPause /> : <FaPlay />}
           </Button>
 
