@@ -30,20 +30,20 @@ export const CheckoutPage = () => {
     }
   }, [location])
   return (
-    <div className='flex min-h-full flex-col justify-center mt-10 sm:px-6 lg:px-8'>
-      <div className='sm:mx-auto sm:w-full sm:max-w-md'>
-        <div className='py-8 px-4 shadow-xl ring-1 ring-gray-900/10 dark:ring-gray-100/10 sm:rounded-lg sm:px-10'>
-          <h1>
+    <div className='flex min-h-full items-center justify-center'>
+      <div className='w-full max-w-md mx-auto'>
+        <div className='bg-white dark:bg-gray-800 shadow-md rounded-md p-6'>
+          <h1 className='text-3xl font-bold text-center mb-6'>
             {paymentStatus === 'paid'
               ? '🥳 Payment Successful!'
               : paymentStatus === 'canceled'
               ? '😢 Payment Canceled'
-              : paymentStatus === 'error' && '🙄 Payment Error'}
+              : '🙄 Payment Error'}
           </h1>
           {paymentStatus !== 'loading' && (
-            <span className='text-center'>
-              You are being redirected to your account page... <br />
-            </span>
+            <p className='text-center'>
+              You are being redirected to your account page...
+            </p>
           )}
         </div>
       </div>

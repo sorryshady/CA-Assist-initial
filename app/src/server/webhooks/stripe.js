@@ -49,7 +49,9 @@ export const stripeWebhook = async (request, response, context) => {
             stripeId: userStripeId,
           },
           data: {
-            credits: 20,
+            credits: {
+              increment: 20,
+            },
           },
           // data: {
           //   hasPaid: true,
