@@ -159,7 +159,7 @@ export const PurchasePage = ({ user }) => {
         ))}
       </div>
       <Button
-        className='mt-[10svh] mx-auto'
+        className='mt-[8svh] mx-auto '
         onClick={() => window.history.back()}
       >
         Back

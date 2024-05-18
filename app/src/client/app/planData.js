@@ -16,7 +16,7 @@ export const tiers = [
     name: 'Premium',
     tier: 'SUBSCRIPTION',
     price: '₹ 499',
-    description: 'All rounder plan',
+    description: 'Your Dedicated Financial Partner',
     features: [
       'Your Dedicated Language-matched CA',
       'Personalized Assistance',
@@ -24,7 +24,7 @@ export const tiers = [
       'Secure Voice Messaging',
       'Tax Filing made easy',
       'GST Compliance Management',
-      'Company Incorporation & Beyond.'
+      'Company Incorporation & Beyond.',
     ],
   },
 ]
